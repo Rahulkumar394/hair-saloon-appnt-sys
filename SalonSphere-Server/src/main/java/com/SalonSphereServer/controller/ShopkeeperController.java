@@ -298,10 +298,8 @@ public class ShopkeeperController {
 
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER showAllEmpByShopId METHOD=======" + shopId);
 		List<ShopEmployees> listOfEmps = shopEmployeeService.showAllEmpByShopId(shopId);
-		if (!listOfEmps.isEmpty())
 			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
-		else
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(listOfEmps);
+		
 	}
 
 	// Showing all employee in a perticular shop and find all employee by shopId

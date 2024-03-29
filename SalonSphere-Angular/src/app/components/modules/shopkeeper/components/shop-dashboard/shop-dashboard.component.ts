@@ -78,16 +78,6 @@ export class ShopDashboardComponent implements OnInit {
   }
 
   // Inside your component class
-getServicesString(services: any[]): string {
-  if (services && services.length > 0) {
-    return services.map(service => service.serviceName).join(', ');
-  } else {
-    return '';
-  }
-}
-
-
-  // Inside your component class
   toggleLike(review: any): void {
     // Update UI instantly
     review.liked = !review.liked;
@@ -123,16 +113,6 @@ getServicesString(services: any[]): string {
     localStorage.setItem('employeeId', employeeId);
   }
 
-  // getAllEmployee(){
-  //   this.fetchShopEmployees
-  //   .fetchAllEmployee(localStorage.getItem('shopId'))
-  //   .subscribe((empData:any)=>{
-  //     this.empData = empData;
-  //     console.log("Hello this is Shop Employees by shopId ",empData);
-  //   })
-  // }
-    
-  
   saveId(serviceId: any) {
     console.log(serviceId);
     localStorage.setItem('serviceId', serviceId);
