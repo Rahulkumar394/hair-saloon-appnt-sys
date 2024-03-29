@@ -1,11 +1,11 @@
 <div class="container" *ngIf="shopData">
-  <mat-card class="header" 
+  <mat-card
+    class="header"
     style="background-image: url(assets/images/{{shopData.coverImage}}); 
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 20px;"
-   >
-
+  >
     <div class="btnclass">
       <button
         class="edit"
@@ -22,9 +22,11 @@
         <mat-icon>add</mat-icon> Add Emp
       </button>
     </div>
-    <h1 style="margin-left: 10vw;">{{ shopData.shopName }}</h1>
-    <p style="margin-left: 10vw;">{{ shopData.address }}</p>
-    <p style="margin-left: 10vw;">{{ shopData.shopCity }}, {{ shopData.district }}</p>
+    <h1 style="margin-left: 10vw">{{ shopData.shopName }}</h1>
+    <p style="margin-left: 10vw">{{ shopData.address }}</p>
+    <p style="margin-left: 10vw">
+      {{ shopData.shopCity }} {{ shopData.district }}
+    </p>
   </mat-card>
   <mat-tab-group>
 
@@ -126,24 +128,18 @@
           </h3>
 
           <div class="likes">
-            <button mat-icon-button (click)="toggleLike(review)" >
-              <mat-icon >{{ review.liked ? 'thumb_up' : 'thumb_up_off_alt' }}</mat-icon>
+            <button mat-icon-button (click)="toggleLike(review)">
+              <mat-icon>{{
+                review.liked ? "thumb_up" : "thumb_up_off_alt"
+              }}</mat-icon>
             </button>
             <span>{{ review.likes }}</span>
           </div>
         </mat-card-content>
       </mat-card>
     </mat-tab>
-    
-    
-    
-    
+
     <mat-tab label="Employees">
-
-
-
-
-
       <div class="cards">
         <table class="table" *ngIf="employeeInfo && employeeInfo.length">
           <thead>
@@ -155,18 +151,22 @@
               <th scope="col">Gender</th>
               <th scope="col">Services</th>
               <th scope="col">Address</th>
-              <th scope="col">   Edit</th>
-              <th scope="col"> Delete</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let Emp of employeeInfo">
               <td scope="row">{{ Emp.employeeName }}</td>
-              <td scope="row">{{ Emp.email}}</td>
+              <td scope="row">{{ Emp.email }}</td>
               <td scope="row">{{ Emp.contactNumber }}</td>
-              <td scope="row">{{ Emp.salary }}</td>
+              <td scope="row">{{ Emp.salary | currency : "INR" }}</td>
               <td scope="row">{{ Emp.gender }}</td>
-              <td scope="row">{{ Emp.services }}</td>
+              <td scope="row" style="padding-left: 0;">
+                <ol style="list-style-type: circle; padding-left: 1.5rem;">
+                  <li  *ngFor="let service of Emp.services">{{ service.serviceName }}</li>
+                </ol>
+              </td>
               <td scope="row">{{ Emp.address }}</td>
 
               <td>
@@ -208,19 +208,8 @@
           <span>Add Employee</span>
         </button>
       </div>
-
-
-
-
-
     </mat-tab>
-    
-    
-    
-    
-    
-    
-    
+
     <mat-tab label="Stats"></mat-tab>
 
     <!-- Add more mat-tabs if needed -->
