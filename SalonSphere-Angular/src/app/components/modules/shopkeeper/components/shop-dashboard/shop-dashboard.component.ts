@@ -77,6 +77,17 @@ export class ShopDashboardComponent implements OnInit {
         }
       );
   }
+
+  // Inside your component class
+getServicesString(services: any[]): string {
+  if (services && services.length > 0) {
+    return services.map(service => service.serviceName).join(', ');
+  } else {
+    return '';
+  }
+}
+
+
   // Inside your component class
   toggleLike(review: any): void {
     // Update UI instantly
