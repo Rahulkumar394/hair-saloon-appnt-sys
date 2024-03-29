@@ -316,4 +316,18 @@ public class ShopkeeperController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(emp);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/updateEmployee")
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> updateShop(@RequestBody ShopEmployees employee) {
+
+		// Call service method to add shop
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  UPDATESHOP METHOD=======");
+		boolean isUpdate = shopkeeperService.updateEmployeeService(employee);
+		if (isUpdate)
+			return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Successfully Updated Employee"));
+		else
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new Response("Error while Updating Employee"));
+	}
 }

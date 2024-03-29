@@ -18,13 +18,18 @@ import com.SalonSphereServer.dto.PendingShopsDetailsDTO;
 import com.SalonSphereServer.dto.ShopOwnerDTO;
 import com.SalonSphereServer.dto.ShopReviewDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
+import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.entity.Users;
+import com.SalonSphereServer.repository.ShopEmployeeRepository;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.UserRepository;
 
 @Service
 public class ShopkeeperService {
+
+	@Autowired
+	private ShopEmployeeRepository shopEmployeeRepository;
 
 	@Autowired
 	private ShopkeeperRepository shopkeeperRepository;
@@ -327,5 +332,36 @@ public class ShopkeeperService {
     //     Date month = new Date(System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000));
     //     shopkeeperRepository.deleteByIsDeleteAndCreateDateBefore(true, month);
     // }
+
+	// Through this method we upadte shopInformation to the database
+	public boolean updateEmployeeService(ShopEmployees shopEmployees) {
+
+		@SuppressWarnings("null")
+		Optional<ShopEmployees> existingEmpOptional = shopEmployeeRepository.findById(shopEmployees.getEmployeeId());
+		// Validation
+		if (existingEmpOptional.isPresent() && (Validation.emailValidation(shopEmployees.getEmail())
+				&& Validation.contactNumberValidation(shopEmployees.getContactNumber())
+				&& Validation.firstNameValidation(shopEmployees.getEmployeeName())
+				&& Validation.addressValidation(shopEmployees.getAddress()) )){
+
+			System.out.println("This is shop keeper service inside update service after validation");
+
+			ShopEmployees existingEmp = existingEmpOptional.get();
+			// Update the properties of the existing shop with the new values
+			existingEmp.setEmployeeName(shopEmployees.getEmployeeName());
+			existingEmp.setEmail(shopEmployees.getEmail());
+			existingEmp.setContactNumber(shopEmployees.getContactNumber());
+			existingEmp.setAddress(shopEmployees.getAddress());
+			existingEmp.setGender(shopEmployees.getGender());
+			existingEmp.setSalary(shopEmployees.getSalary());
+			existingEmp.setServices(shopEmployees.getServices());
+
+			ShopEmployees shopEmployees2 = shopEmployeeRepository.save(shopEmployees);
+			// shopInformation equal to null that means shop not add successfull if it is
+			// not null then shop added successfully
+			return shopEmployees2 != null;
+		}
+		return false;
+	}
 
 }

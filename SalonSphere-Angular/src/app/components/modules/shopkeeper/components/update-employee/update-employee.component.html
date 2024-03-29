@@ -1,1 +1,110 @@
-<p>update-employee works!</p>
+<div class="shop-container">
+    <section class="container">
+      <button mat-button (click)="goBack()">
+        <mat-icon>keyboard_backspace</mat-icon> Back
+      </button>
+      <h1>Update Employee Details</h1>
+      <form [formGroup]="EmpRegister" class="form">
+        <div class="input-box">
+          <label>Employee Name</label>
+          <input
+            type="text"
+            formControlName="employeeName"
+            value="{{ employeeName }}"
+            required
+          />
+        </div>
+        <!-- ------------------------------------------------------------------- -->
+        <div class="input-box">
+          <label>Email Address</label>
+          <input
+            type="text"
+            value="{{ email }}"
+            formControlName="email"
+          />
+        </div>
+        <!-- ------------------------------------------------------------------- -->
+        <div class="column">
+          <div class="input-box">
+            <label>Contact Number</label>
+            <input
+              type="text"
+              value="{{ contactNumber }}"
+              formControlName="contactNumber"
+            />
+          </div>
+        </div>
+        <!-- ------------------------------------------------------------------- -->
+        <div class="column">
+          <div class="input-box">
+            <label>Salary</label>
+            <input type="text" value="{{ salary }}" formControlName="salary" />
+          </div>
+        </div>
+        <!-- ------------------------------------------------------------------- -->
+        <div class="gender-box">
+            <h3>Gender</h3>
+            <div class="gender-option">
+              <div class="gender">
+                <input
+                  type="radio"
+                  id="check-male"
+                  name="gender"
+                  value="male"
+                  checked
+                  formControlName="gender"
+                />
+                <label for="check-male">male</label>
+              </div>
+              <div class="gender">
+                <input
+                  type="radio"
+                  id="check-female"
+                  name="gender"
+                  value="female"
+                  formControlName="gender"
+                />
+                <label for="check-female">Female</label>
+              </div>
+            </div>
+          </div>
+        <!-- ------------------------------------------------------------------- -->
+        <div class="column">
+          <div class="input-box">
+            <label>Services</label>
+              <ng-multiselect-dropdown
+              [placeholder]="'Select items'"
+              [data]="dropdownList"
+              formControlName="selectedItems"
+              [settings]="dropdownSettings"
+              (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              >
+              </ng-multiselect-dropdown>
+          </div>
+        </div>
+        <!-- ------------------------------------------------------------------- -->
+        <div class="column">
+            <div class="input-box">
+              <label>Address</label>
+              <input type="text" value="{{ address }}" formControlName="address" />
+            </div>
+          </div>
+        <!-- ------------------------------------------------------------------- -->
+    
+        <div class="actions">
+          <button
+            mat-raised-button
+            style="background-color: red"
+            (click)="deleteShop()"
+          >
+            Delete
+          </button>
+          <button style="background-color: green" (click)="updateEmployeeDetails()">
+            Update
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+  
