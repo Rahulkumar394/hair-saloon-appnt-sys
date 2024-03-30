@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RegisterService } from '../../../../services/register/register.service';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ interface shopData {
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css',
 })
-export class AddEmployeeComponent {
+export class AddEmployeeComponent implements OnInit {
   selectedServices: string[] = [];
   ServiceList: string[] = ['Service 1', 'Service 2', 'Service 3'];
   data!: FormArray<any>;

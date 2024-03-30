@@ -54,6 +54,8 @@ import { TimeSincePipe } from '../shopkeeper/pipe/time-since.pipe';
 
 
 import { RequestAgainComponent } from './components/request-again/request-again.component';
+import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
+import { TimeFormatPipe } from './pipe/time-format.pipe';
 
 
 
@@ -74,7 +76,10 @@ import { RequestAgainComponent } from './components/request-again/request-again.
     AddEmployeeComponent,
     ShopkeeperDurationPipe,
     TimeSincePipe,
-    RequestAgainComponent
+    RequestAgainComponent,
+    ViewBookingsComponent,
+    TimeFormatPipe,
+    TimeFormatPipe
 
   ],
   imports: [

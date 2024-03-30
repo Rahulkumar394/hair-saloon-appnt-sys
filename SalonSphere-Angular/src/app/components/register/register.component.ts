@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+} from '@angular/forms';
 import Swal from 'sweetalert2';
 import { RegisterService } from '../services/register/register.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-register',
@@ -11,7 +15,6 @@ import { Router } from '@angular/router';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-
   register = new FormGroup({
     firstName: new FormControl(''),
     lastName: new FormControl(''),
@@ -23,9 +26,11 @@ export class RegisterComponent {
     confirmPassword: new FormControl(''),
   });
 
- 
-
-  constructor(private formBuilder: FormBuilder, private registerService:RegisterService, private router:Router) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private registerService: RegisterService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.register = this.formBuilder.group({
@@ -36,7 +41,7 @@ export class RegisterComponent {
       gender: ['male'], // Set the default value for gender
       role: ['customer'], // Set the default value for role
       password: [''],
-      confirmPassword: ['']
+      confirmPassword: [''],
     });
   }
 
@@ -99,25 +104,27 @@ export class RegisterComponent {
     }
 
     //if everything is okey then call the service method
-    this.registerService.registerUser(this.register.value).subscribe((response) => {
-      console.log('Response from server : ', response);
-      Swal.fire({
-        title: "Register Successfully!!",
-        text: "You can login now",
-        icon: "success"
-      });
+    this.registerService.registerUser(this.register.value).subscribe(
+      (response) => {
+        console.log('Response from server : ', response);
+        Swal.fire({
+          title: 'Register Successfully!!',
+          text: 'You can login now',
+          icon: 'success',
+        });
 
-      //and Navigate to the login page
-      this.router.navigate(["/login"]);
-    },
-    // if any  error occured while registering user 
-    error=> {
-      Swal.fire({
-        title: "Server Error",
-        text: "There is something wrong please try again",
-        icon: "success"
-      });
-    })
+        //and Navigate to the login page
+        this.router.navigate(['/login']);
+      },
+      // if any  error occured while registering user
+      (error) => {
+        Swal.fire({
+          title: 'Server Error',
+          text: 'There is something wrong please try again',
+          icon: 'success',
+        });
+      }
+    );
   }
 
   //Validate the name fields
@@ -159,7 +166,7 @@ export class RegisterComponent {
     }
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z]+\.[a-z]{2,3}$/;
-       {
+    if(!emailRegex.test(email)){
       message = 'Please enter a valid email address.';
       return message;
     }
@@ -198,8 +205,8 @@ export class RegisterComponent {
     let message = '';
 
     //check the password empty or not
-    if(!password || !confirmPassword){
-      message = "Both fields are required.";
+    if (!password || !confirmPassword) {
+      message = 'Both fields are required.';
       return message;
     }
 

@@ -15,7 +15,7 @@ interface employee {
   gender: any;
   services: any;
   address: any;
-  employeeId:any;
+  employeeId: any;
 }
 @Component({
   selector: 'app-shop-dashboard',
@@ -70,23 +70,13 @@ export class ShopDashboardComponent implements OnInit {
       .subscribe(
         (data: any) => {
           this.employeeInfo = data;
-          console.log("This is emp",data);
+          console.log('This is emp', data);
         },
         (error: any) => {
           console.log('This is error message', error);
         }
       );
   }
-
-  // Inside your component class
-getServicesString(services: any[]): string {
-  if (services && services.length > 0) {
-    return services.map(service => service.serviceName).join(', ');
-  } else {
-    return '';
-  }
-}
-
 
   // Inside your component class
   toggleLike(review: any): void {

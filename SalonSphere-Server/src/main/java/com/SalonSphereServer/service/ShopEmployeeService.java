@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.SalonSphereServer.common.Validation;
 import com.SalonSphereServer.entity.EmployeeService;
 import com.SalonSphereServer.entity.ShopEmployees;
+import com.SalonSphereServer.entity.Slots;
 import com.SalonSphereServer.repository.EmployeeServiceRepository;
 import com.SalonSphereServer.repository.ShopEmployeeRepository;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
@@ -67,4 +68,8 @@ public class ShopEmployeeService {
        ShopEmployees emps=optional.get() ;
        return  emps;
     }
+
+    // public Slots showSlotsByShopId(String ShopId){
+        
+    // }
 }

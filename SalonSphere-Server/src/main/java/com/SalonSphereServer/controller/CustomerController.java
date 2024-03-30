@@ -144,6 +144,7 @@ public class CustomerController {
 	@PostMapping("/book-slot")
 	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
 
+		
 		return new ResponseEntity<>(true, HttpStatus.OK);
 
 	}
