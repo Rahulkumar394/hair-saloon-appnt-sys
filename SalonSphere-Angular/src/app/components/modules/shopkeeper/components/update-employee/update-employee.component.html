@@ -75,7 +75,7 @@
               <ng-multiselect-dropdown
               [placeholder]="'Select items'"
               [data]="dropdownList"
-              formControlName="selectedItems"
+              formControlName="services"
               [settings]="dropdownSettings"
               (onSelect)="onItemSelect($event)"
               (onSelectAll)="onSelectAll($event)"
@@ -96,7 +96,7 @@
           <button
             mat-raised-button
             style="background-color: red"
-            (click)="deleteShop()"
+            (click)="deleteEmployee()"
           >
             Delete
           </button>

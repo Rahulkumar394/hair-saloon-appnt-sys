@@ -276,7 +276,7 @@ public class ShopkeeperService {
 		return;
 	}
 
-
+	//this method used for request again to admin from shopkeeper
 	@SuppressWarnings("null")
 	public boolean requestAgain(ShopInformation shopInformation) {
 
@@ -333,7 +333,7 @@ public class ShopkeeperService {
     //     shopkeeperRepository.deleteByIsDeleteAndCreateDateBefore(true, month);
     // }
 
-	// Through this method we upadte shopInformation to the database
+	// Through this method we upadte shopEmployee to the database
 	public boolean updateEmployeeService(ShopEmployees shopEmployees) {
 
 		@SuppressWarnings("null")
@@ -362,6 +362,12 @@ public class ShopkeeperService {
 			return shopEmployees2 != null;
 		}
 		return false;
+	}
+
+	@Transactional
+	public void deleteEmployee(String id) {
+		shopEmployeeRepository.DeleteByEmployeeId(id);
+		return;
 	}
 
 }

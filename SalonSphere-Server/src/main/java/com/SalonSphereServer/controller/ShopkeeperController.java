@@ -330,4 +330,18 @@ public class ShopkeeperController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new Response("Error while Updating Employee"));
 	}
+
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/deleteEmployee/{employeeId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> deleteEmployeeService(@PathVariable String employeeId) {
+
+		// Call service method to add shop
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  DELETESHOP SERVICE METHOD=======");
+		shopkeeperService.deleteEmployee(employeeId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfull Deletion of Employee"));
+
+	}
+
 }

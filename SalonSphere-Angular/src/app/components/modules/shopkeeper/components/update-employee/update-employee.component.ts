@@ -9,6 +9,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { UpdateEmployeeService } from '../../../../services/updateEmployee/update-employee.service';
 import { FetchEmpInfoService } from '../../../../services/fetchEmployeeInfo/fetch-emp-info.service';
 import { GetServiceInfoService } from '../../../../services/fetchShopServices/get-service-info.service';
+import { DeleteEmployeeService } from '../../../../services/deleteEmployee/delete-employee.service';
 
 interface Location {
   city: string;
@@ -28,7 +29,7 @@ export class UpdateEmployeeComponent implements OnInit {
     private fetchEmpInfo: FetchEmpInfoService,
     private router: Router,
     private updateemployee: UpdateEmployeeService,
-    private deleteShopService: DeleteShopService
+    private deleteEmployeeService: DeleteEmployeeService
   ) {}
 
   // --------------------------------------------------------------------------------------
@@ -52,8 +53,9 @@ export class UpdateEmployeeComponent implements OnInit {
     contactNumber: new FormControl(''),
     salary: new FormControl(''),
     gender: new FormControl(''),
-    services: new FormControl(),
+    services: new FormControl(this.selectedList),
     address: new FormControl(''),
+    employeeId:new FormControl(localStorage.getItem('employeeId'))
   });
 
   onItemSelect(item: any) {
@@ -125,9 +127,10 @@ export class UpdateEmployeeComponent implements OnInit {
         console.log('Response from server : ', response);
 
         //and Navigate to the login page
-        this.router.navigate(['/shopkeeper/view-shop']);
+        this.router.navigate(['/shopkeeper/shopDashboard']);
       },
       (error: any) => {
+        console.log(error)
         Swal.fire({
           title: 'Oops',
           text: 'Caught an Error',
@@ -137,28 +140,29 @@ export class UpdateEmployeeComponent implements OnInit {
     );
   }
 
-  deleteShop() {
+  deleteEmployee() {
     Swal.fire({
-      title: 'Are you sure you want to delete this shop?',
+      title: 'Are you sure you want to delete this employee?',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it',
       cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.confirmDeleteShop();
+        this.confirmDeleteEmployee();
       }
     });
   }
 
-  confirmDeleteShop() {
-    this.deleteShopService.deleteShop(localStorage.getItem('shopId')).subscribe(
+  confirmDeleteEmployee() {
+    this.deleteEmployeeService.deleteEmployee(localStorage.getItem('employeeId')).subscribe(
       (data: any) => {
         // Handle successful deletion
-        Swal.fire('Shop deleted!', '', 'success');
+        Swal.fire('Employee deleted!', '', 'success');
+        this.router.navigate(['/shopkeeper/shopDashboard']);
       },
       (error) => {
         // Handle error
-        Swal.fire('Error', 'Failed to delete the shop', 'error');
+        Swal.fire('Error', 'Failed to delete the employee', 'error');
       }
     );
   }
@@ -274,7 +278,11 @@ export class UpdateEmployeeComponent implements OnInit {
           serviceName: data[key] // Assuming data[key] holds the service name
         })); 
   
-      })
+      });this.dropdownSettings = {
+        idField: 'serviceId',
+        textField: 'serviceName',
+      };
+  
       
     this.fetchEmpInfo
       .fetchEmpInfo(localStorage.getItem('employeeId'))
