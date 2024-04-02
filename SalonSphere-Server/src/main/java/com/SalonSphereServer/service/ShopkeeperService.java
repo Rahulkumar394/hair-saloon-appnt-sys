@@ -187,7 +187,9 @@ public class ShopkeeperService {
 			// Convert java.util.Date to java.sql.Date
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			shopInformation.setModifyDate(sqlDate);
-
+			shopInformation.setCreateDate(existingShop.getCreateDate());
+			shopInformation.setStatus(existingShop.getStatus());
+			shopInformation.setShopTiming(existingShop.getShopTiming());
 			// Cheking cover image and licence document name is null or not if null then set
 			// default name
 			if (shopInformation.getCoverImage() == null && shopInformation.getLicenseDocument() == null) {
@@ -310,7 +312,7 @@ public class ShopkeeperService {
 			// Convert java.util.Date to java.sql.Date
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			shopInformation.setModifyDate(sqlDate);
-			shopInformation.setCreateDate(sqlDate);
+			shopInformation.setCreateDate(existingShop.getCreateDate());
 
 			// Cheking licence document name is null or not if null then set
 			 if (shopInformation.getLicenseDocument() == null) {
@@ -318,7 +320,7 @@ public class ShopkeeperService {
 			}
 
 			shopInformation.setStatus("Pending");
-			shopInformation.setShopTiming("10:00-22:00");
+			shopInformation.setShopTiming(existingShop.getShopTiming());
 			ShopInformation shopInformation2 = shopkeeperRepository.save(shopInformation);
 			// shopInformation equal to null that means shop not add successfull if it is
 			// not null then shop added successfully
