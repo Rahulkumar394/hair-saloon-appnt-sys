@@ -13,14 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.entity.Feedback;
 import com.SalonSphereServer.repository.FeedbackRepository;
 import com.SalonSphereServer.request.FilterRequest;
+import com.SalonSphereServer.response.BookingDetailsResponse;
 import com.SalonSphereServer.response.FilterResponse;
 import com.SalonSphereServer.response.FilterResponseByCity;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.FeedbackService;
+import com.SalonSphereServer.service.ShopServices;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -33,6 +36,8 @@ public class CustomerController {
 	private FeedbackService feedbackService;
 	@Autowired
 	private FeedbackRepository feedbackRepository;
+	@Autowired
+	private ShopServices shopServices;
 
 	// ========================================CODE FOR FILLTER===========================================
 	
@@ -135,4 +140,23 @@ public class CustomerController {
 	}
 
 	// ================END FOR FEEDBACK/REVIEW/RATING===========================
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/booking-details/{userId}")
+	public ResponseEntity<List<BookingDetailsResponse>> getBookingDetails(@PathVariable String userId){
+		System.out.println("user id is this ---------------------------------------------------"+userId);
+		List<BookingDetailsResponse> bookingDetails =  customerService.getAllBookingDetails(userId);
+		return new ResponseEntity<>(bookingDetails, HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/show-services/{shopId}")
+	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
+		System.out.println(
+				"===========================inside shop keeper controllere show services =====================");
+		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
+		if (serviceslist != null) {
+			return new ResponseEntity<>(serviceslist, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(serviceslist, HttpStatus.NOT_FOUND);
+	}
 }

@@ -29,6 +29,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import { DurationPipe } from '../shopkeeper/pipe/duration.pipe';
+import { PaymentMethodComponent } from './components/payment-method/payment-method.component';
+import { BookingDetailsComponent } from './components/booking-details/booking-details.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { DurationPipe } from '../shopkeeper/pipe/duration.pipe';
     ViewShopsComponent,
     AddServiceToCardComponent,
     ViewSlotsComponent,
-    DurationPipe
+    DurationPipe,
+    PaymentMethodComponent,
+    BookingDetailsComponent
 
   ],
   imports: [

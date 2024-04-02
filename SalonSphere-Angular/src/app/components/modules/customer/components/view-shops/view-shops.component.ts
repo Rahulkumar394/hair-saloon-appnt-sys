@@ -33,8 +33,14 @@ export class ViewShopsComponent implements OnInit {
 
   //show the list of the shop on besis of the city when ever the page will load
   ngOnInit(): void {
-    this.city = localStorage.getItem('location');
 
+    //first check if the customer inforamation already  present or not 
+    // if(localStorage.getItem("shopId") !=null && localStorage.getItem('shopTiming') !=null && localStorage.getItem('shopName') !=null && localStorage.getItem('shopAddress') !=null ){
+    //     this.router.navigate(['/customer/add-service-to-card']);
+    // }
+
+
+    this.city = localStorage.getItem('location');
     this.showShopByCity(this.city);
   }
 

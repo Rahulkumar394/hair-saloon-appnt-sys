@@ -18,11 +18,15 @@ import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.FeedbackRepository;
 import com.SalonSphereServer.repository.ShopEmployeeRepository;
 import com.SalonSphereServer.repository.SlotRepository;
+import com.SalonSphereServer.repository.TransactionRepository;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.request.FilterRequest;
+import com.SalonSphereServer.response.BookingDetailsResponse;
 import com.SalonSphereServer.response.FilterResponse;
 import com.SalonSphereServer.response.FilterResponseByCity;
+
+import lombok.Getter;
 
 @Service
 public class CustomerService {
@@ -37,6 +41,9 @@ public class CustomerService {
 	private ShopkeeperRepository shopKeeperRepository;
 	@Autowired
 	private FeedbackRepository feedbackRepository;
+	
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	// call the userRepository method and fetch all the customer data from database
 	public List<CustomerDTO> getAllCustomers() {
@@ -70,7 +77,7 @@ public class CustomerService {
 			employeeInfo.add(employeeId);
 			employeeInfo.add(employeeName);
 
-			List<String> bookedSlots = slotRepository.findAllSlotTimeByEmployeeId(employeeId);
+			List<String> bookedSlots = slotRepository.findAllSlotTimeByEmployeeIdAndDate(employeeId, date);
 
 			List<String> list = geeAllAbilableSlots(serviceTime, bookedSlots, shopTiming, date);
 			avilableSlots.put(employeeInfo, list);
@@ -92,7 +99,7 @@ public class CustomerService {
 		int closingTime = Integer.parseInt("" + shopTiming.charAt(6) + shopTiming.charAt(7));
 
 		LocalDate today = LocalDate.now();
-		String todayDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		String todayDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		
 		System.out.println("Come inside this method------------------------------------------------------ aaya hai");
 		
@@ -271,4 +278,30 @@ public class CustomerService {
 		}		
 		return responseList;
 	}
+	
+	public List<BookingDetailsResponse> getAllBookingDetails(String userId){
+		
+		List<BookingDetailsResponse> bookingDetails = new ArrayList<BookingDetailsResponse>();
+		
+		List<Object[]> objectList = transactionRepository.findBookingDetailsByUserId(userId);
+		
+		for(Object[] result :objectList) {
+			
+			BookingDetailsResponse bookingDetailsResponse = new BookingDetailsResponse();
+			bookingDetailsResponse.setShopName((String)result[0]);
+			bookingDetailsResponse.setShopAddress((String)result[1]);
+			bookingDetailsResponse.setTime((String)result[2]);
+			bookingDetailsResponse.setDate((String)result[3]);
+			bookingDetailsResponse.setServiceName((String)result[4]);
+			bookingDetailsResponse.setAmount((Integer)result[5]);
+			bookingDetailsResponse.setOrderId((String)result[6]);
+			
+			bookingDetails.add(bookingDetailsResponse);
+			
+		} 
+		
+		return bookingDetails;
+		
+	}
+
 }

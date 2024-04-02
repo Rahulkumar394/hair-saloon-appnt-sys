@@ -1,8 +1,5 @@
 package com.SalonSphereServer.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,29 +15,23 @@ public class SlotBookingService {
 	@Autowired
 	private SlotRepository slotRepository;
 	
-	public boolean bookSlot(SlotBookingRequest request) {
+	public String bookSlot(SlotBookingRequest request) {
 		
 		Slots slot = new Slots();
 		slot.setBookingId(UUID.randomUUID().toString());
-		String dateString = request.getDate();
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		
-		//convert the date into the Java util date
-		
-		try {
-			Date date = simpleDateFormat.parse(dateString);
-			slot.setBookingDate(date);
-		} catch (ParseException ex) {
-			ex.printStackTrace();
-		}
-		
-	
+		slot.setBookingDate(request.getDate());
 		slot.setEmployeeId(request.getEmpId());
 		slot.setServiceName(request.getServiceName());
 		slot.setSlotDuration(request.getServiceTime());
 		slot.setSlotTime(request.getSlotTime());
 		
-		return slotRepository.save(slot)!=null;
+		System.out.println("/////////////////////////////////////////////////////"+slot);
+		Slots slots = slotRepository.save(slot);
+		if(slots != null) {
+			return slots.getBookingId();
+		}
+		
+		return null;
 	}
 
 }

@@ -12,8 +12,9 @@ import com.SalonSphereServer.entity.Slots;
 @Repository
 public interface SlotRepository extends JpaRepository<Slots, String> {
 	
-	@Query(value = "select s.slot_time from slots s where employee_id = :employeeId", nativeQuery = true)
-	List<String> findAllSlotTimeByEmployeeId(@Param("employeeId") String employeeId);
+	@Query(value = "SELECT s.slot_time FROM slots s WHERE s.employee_id = :employeeId AND s.booking_date = :date", nativeQuery = true)
+	List<String> findAllSlotTimeByEmployeeIdAndDate(@Param("employeeId") String employeeId, @Param("date") String date);
+
 	
 
 }

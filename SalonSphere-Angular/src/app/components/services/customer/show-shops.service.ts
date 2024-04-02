@@ -22,10 +22,10 @@ export class ShowShopsService {
 
     console.log(token);
 
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
-    console.log(this.baseURL+'/'+city);
+    // const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    // console.log(this.baseURL+'/'+city);
 
-    return this.httpClient.get(this.baseURL+'/'+city, {headers});
+    return this.httpClient.get(this.baseURL+'/'+city);
   }
 
   
@@ -38,7 +38,7 @@ export class ShowShopsService {
     //set the token in header
     const token = Cookie.get('token');
     console.log(token);
-    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
+    // const headers = new HttpHeaders().set('Authorization', 'Bearer ' + token);
 
     //creat interface for the filtering
     interface filter{
@@ -57,6 +57,6 @@ export class ShowShopsService {
     };
 
 
-    return this.httpClient.post(`${this.filterURL}`, obj ,{headers});
+    return this.httpClient.post(`${this.filterURL}`, obj);
   }
 }
