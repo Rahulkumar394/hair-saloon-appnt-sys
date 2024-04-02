@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchBookedSlotsService } from '../../../../services/fetchBookedSlots/fetch-booked-slots.service';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 @Component({
   selector: 'app-view-bookings',

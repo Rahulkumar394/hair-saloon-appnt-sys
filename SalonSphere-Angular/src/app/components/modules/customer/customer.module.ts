@@ -13,6 +13,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { ViewShopsComponent } from './components/view-shops/view-shops.component';
 import { ViewSlotsComponent } from './components/view-slots/view-slots.component';
 import { CustomerRoutingModule } from './customer-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -55,6 +56,7 @@ import { TimeSincePipe } from './components/pipe/time-since.pipe';
 
   ],
   imports: [
+    ReactiveFormsModule,
     MatSelectModule,
     MatTabsModule,
     MatOption,

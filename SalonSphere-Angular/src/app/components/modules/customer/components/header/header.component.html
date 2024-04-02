@@ -1,28 +1,38 @@
-<header> 
+<header>
+  <div class="logosec">
+    <div class="logo">SalonSphere</div>
+  </div>
+
+  <div class="searchbar">
+    <select class="dropdown">
+      <option>Your Location</option>
+    </select>
+  </div>
+
+  <form [formGroup]="searchForm" class="searchForm">
+    <div class="searchbar">
+        <input
+            type="text"
+            formControlName="keyword"
+            placeholder="Search"
+            (input)="searchFilter($event.target)"
+        />
+        <button type="submit" class="searchbtn">
+            <mat-icon>search</mat-icon>
+        </button>
+    </div>
+    <!-- Only show search results if textSearch is true -->
+    <mat-card class="shopContainer" *ngIf="textSearch && shops.length > 0">
+        <div class="showShops" *ngFor="let shop of shops">
+            <span>{{ shop.shopName }}, {{ shop.shopCity }}</span>
+        </div>
+    </mat-card>
+</form>
+
   
-    <div class="logosec"> 
-        <div class="logo">SalonSphere</div> 
-    </div> 
 
-    <div class="searchbar"> 
-        <select class="dropdown">
-            <option>Your Location</option>
-        </select>
-    </div> 
-
-    <div class="searchbar"> 
-        <input type="text" 
-               placeholder="Search"> 
-        <div class="searchbtn"> 
-          <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-                class="icn srchicn" 
-                alt="search-icon"> 
-          </div> 
-    </div> 
-
-    <div class="message"> 
-        <!-- <div class="circle"></div> 
+  <div class="message">
+    <!-- <div class="circle"></div> 
         <img src= 
 "https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" 
              class="icn" 
@@ -33,7 +43,6 @@
                 class="dpicn" 
                 alt="dp"> 
           </div>  -->
-          <button class="login">Login</button>
-    </div> 
-    
-</header> 
+    <button class="login">Login</button>
+  </div>
+</header>

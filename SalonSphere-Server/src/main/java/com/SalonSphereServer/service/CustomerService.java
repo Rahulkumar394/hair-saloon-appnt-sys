@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.SalonSphereServer.dto.CustomerDTO;
+import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.entity.Users;
@@ -295,4 +296,26 @@ public class CustomerService {
 		return responseList;
 
 	}
+
+
+    public List<ShowShopDto> searchShops(String keyword) {
+
+		List<ShowShopDto> list = new ArrayList<>();
+		List<ShopInformation> sList = userRepository.searchShopsByKeyword(keyword);
+		for (ShopInformation s : sList) {
+			ShowShopDto tem = new ShowShopDto();
+			tem.setShopName(s.getShopName());
+			tem.setShopAddress(s.getAddress());
+			tem.setShopEmail(s.getShopEmail());
+			tem.setShopContactNo(s.getShopContactNo());
+			tem.setShopCity(s.getShopCity());
+			tem.setStatus(s.getStatus());
+			tem.setShopId(s.getShopId());
+
+			list.add(tem);
+		}
+		return list;
+	}
+
 }
+

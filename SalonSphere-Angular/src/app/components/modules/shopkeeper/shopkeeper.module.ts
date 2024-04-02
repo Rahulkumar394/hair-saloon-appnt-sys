@@ -56,6 +56,9 @@ import { TimeSincePipe } from '../shopkeeper/pipe/time-since.pipe';
 import { RequestAgainComponent } from './components/request-again/request-again.component';
 import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
 import { TimeFormatPipe } from './pipe/time-format.pipe';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 
 
@@ -79,7 +82,8 @@ import { TimeFormatPipe } from './pipe/time-format.pipe';
     RequestAgainComponent,
     ViewBookingsComponent,
     TimeFormatPipe,
-    TimeFormatPipe
+    TimeFormatPipe,
+    
 
   ],
   imports: [
@@ -87,6 +91,8 @@ import { TimeFormatPipe } from './pipe/time-format.pipe';
     ShopkeeperRoutingModule,
     MatCardModule,
     ReactiveFormsModule,
+    FullCalendarModule,
+    MatDatepickerModule,
     
 
 

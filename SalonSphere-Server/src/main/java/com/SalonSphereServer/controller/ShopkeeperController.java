@@ -32,7 +32,6 @@ import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ServiceInformation;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
-import com.SalonSphereServer.entity.Slots;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.SlotRepository;
 import com.SalonSphereServer.response.Response;
@@ -56,8 +55,6 @@ public class ShopkeeperController {
 	@Autowired
 	private ShopEmployeeService shopEmployeeService;
 	@Autowired
-	private EmailService emailService;
-	@Autowired
 	private ShopkeeperRepository shopkeeperRepository;
 
 	// Through addshop API we can add new salons in the system
@@ -70,10 +67,11 @@ public class ShopkeeperController {
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDSHOP METHOD=======" + shop);
 		boolean isAdd = shopkeeperService.addShopInformation(shop);
 		System.out.println("===========================" + isAdd);
-		if (isAdd){
-			EmailContent.registerShop(shop.getShopEmail(), shop.getShopName(),shopkeeperRepository.getOwnerEmailByShopEmail(shop.getShopEmail()));
+		if (isAdd) {
+			EmailContent.registerShop(shop.getShopEmail(), shop.getShopName(),
+					shopkeeperRepository.getOwnerEmailByShopEmail(shop.getShopEmail()));
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully added Shop"));
-		}else
+		} else
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new Response("Error while adding Shop"));
 	}
@@ -328,7 +326,7 @@ public class ShopkeeperController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/fetchSlotsByShopId/{shopId}")
 	@Secured("shopkeeper")
-	public ResponseEntity<List<BookedSlot>> viewSlotsBooked(@PathVariable String shopId){
+	public ResponseEntity<List<BookedSlot>> viewSlotsBooked(@PathVariable String shopId) {
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER viewSlotsBooked METHOD=======" + shopId);
 		List<BookedSlot> slotsBookedList = slotRepository.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
 		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);

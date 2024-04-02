@@ -112,7 +112,8 @@ export class LoginComponent {
         this.router.navigate(['/shopkeeper']);
       }
       else{
-        this.router.navigate(['/customer']);
+        // Route the customers to view Shops near them
+        this.router.navigate(['/customer/view-shops']);
       }
   }
 }

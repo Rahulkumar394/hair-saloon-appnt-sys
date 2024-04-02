@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.Feedback;
 import com.SalonSphereServer.repository.FeedbackRepository;
 import com.SalonSphereServer.request.FilterRequest;
@@ -147,5 +148,18 @@ public class CustomerController {
 		
 		return new ResponseEntity<>(true, HttpStatus.OK);
 
+	}
+
+	// this api is for filter the shop
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/search/{keyword}")
+	public ResponseEntity<List<ShowShopDto>> searchShops(@PathVariable String keyword) {
+		System.out.println("====come inside the ShopKeeper controller search shop method =================");
+
+		List<ShowShopDto> filterShop = customerService.searchShops(keyword);
+		if (filterShop != null) {
+			return new ResponseEntity<>(filterShop, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(filterShop, HttpStatus.NOT_FOUND);
 	}
 }

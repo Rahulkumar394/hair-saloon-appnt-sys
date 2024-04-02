@@ -12,12 +12,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SalonSphereServer.common.Email;
 import com.SalonSphereServer.common.EmailContent;
+import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.jwtsecurity.JwtHelper;
 import com.SalonSphereServer.request.AppointmentRequest;
@@ -27,11 +30,15 @@ import com.SalonSphereServer.response.LoginResponse;
 import com.SalonSphereServer.response.RegisterResponse;
 import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.EmailService;
+import com.SalonSphereServer.service.ShopkeeperService;
 import com.SalonSphereServer.service.SlotBookingService;
 import com.SalonSphereServer.service.UserService;
 
 @RestController
 public class CommonControllers {
+
+	@Autowired
+	private ShopkeeperService shopkeeperService;
 
 	@Autowired
 	private CustomerService customerService;
@@ -129,4 +136,7 @@ public class CommonControllers {
 		return new ResponseEntity<>(true, HttpStatus.OK);
 
 	}
+
+
+		
 }

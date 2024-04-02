@@ -169,31 +169,35 @@ public class ShopkeeperService {
 			existingShop.setDistrict(shopInformation.getDistrict());
 			existingShop.setLandmark(shopInformation.getLandmark());
 			existingShop.setAddress(shopInformation.getAddress());
-			existingShop.setLicenceNo(shopInformation.getLicenceNo());
-			existingShop.setShopStatus(shopInformation.isShopStatus());
+			// existingShop.setLicenceNo(shopInformation.getLicenceNo());
+			// existingShop.setShopStatus(shopInformation.isShopStatus());
 			existingShop.setShopEmail(shopInformation.getShopEmail());
 			existingShop.setShopContactNo(shopInformation.getShopContactNo());
 			existingShop.setShopCity(shopInformation.getShopCity().trim());
+
+		
+			
+
 
 			// Create a java.util.Date object
 			java.util.Date utilDate = new java.util.Date();
 
 			// Convert java.util.Date to java.sql.Date
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-			shopInformation.setModifyDate(sqlDate);
+			existingShop.setModifyDate(sqlDate);
 
 			// Cheking cover image and licence document name is null or not if null then set
 			// default name
-			if (shopInformation.getCoverImage() == null && shopInformation.getLicenseDocument() == null) {
-				shopInformation.setCoverImage(shopInformation.getShopId() + shopInformation.getCoverImage());
-				shopInformation.setLicenseDocument(shopInformation.getShopId() + shopInformation.getLicenseDocument());
-			} else if (shopInformation.getCoverImage() == null) {
-				shopInformation.setCoverImage(shopInformation.getShopId() + shopInformation.getCoverImage());
-			} else if (shopInformation.getLicenseDocument() == null) {
-				shopInformation.setLicenseDocument(shopInformation.getShopId() + shopInformation.getLicenseDocument());
+			if (existingShop.getCoverImage() == null && existingShop.getLicenseDocument() == null) {
+				existingShop.setCoverImage(existingShop.getShopId() + existingShop.getCoverImage());
+				existingShop.setLicenseDocument(existingShop.getShopId() + existingShop.getLicenseDocument());
+			} else if (existingShop.getCoverImage() == null) {
+				existingShop.setCoverImage(existingShop.getShopId() + existingShop.getCoverImage());
+			} else if (existingShop.getLicenseDocument() == null) {
+				existingShop.setLicenseDocument(existingShop.getShopId() + existingShop.getLicenseDocument());
 			}
 
-			ShopInformation shopInformation2 = shopkeeperRepository.save(shopInformation);
+			ShopInformation shopInformation2 = shopkeeperRepository.save(existingShop);
 			// shopInformation equal to null that means shop not add successfull if it is
 			// not null then shop added successfully
 			return shopInformation2 != null;
