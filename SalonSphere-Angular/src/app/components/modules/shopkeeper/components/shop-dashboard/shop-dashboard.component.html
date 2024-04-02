@@ -63,7 +63,7 @@
                 >
               </td>
               <td>
-                <a mat-button color="warn" (click)="deleteService()"
+                <a mat-button color="warn"  (click)="saveId(shop.serviceId)" (click)="deleteService()"
                   ><mat-icon>delete</mat-icon></a
                 >
               </td>
@@ -179,7 +179,7 @@
                 >
               </td>
               <td>
-                <a mat-button color="warn" (click)="deleteService()"
+                <a mat-button color="warn" (click)="saveEmpId(Emp.employeeId)" (click)="deleteEmployee()"
                   ><mat-icon>delete</mat-icon></a
                 >
               </td>
@@ -191,8 +191,8 @@
           <div class="noshopCard">
             <h2>No Services Added</h2>
             <br />
-            <button class="button" routerLink="/shopkeeper/addservice">
-              <span class="button-content">Add Service</span>
+            <button class="button" routerLink="/shopkeeper/addEmployee">
+              <span class="button-content">Add Employee </span>
             </button>
           </div>
         </ng-template>

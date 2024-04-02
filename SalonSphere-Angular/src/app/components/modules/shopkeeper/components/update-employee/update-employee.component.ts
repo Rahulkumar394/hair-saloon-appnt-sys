@@ -254,7 +254,7 @@ export class UpdateEmployeeComponent implements OnInit {
       }));
 
     })
-    this.dropdownSettings = {
+      this.dropdownSettings = {
       idField: 'serviceId',
       textField: 'serviceName',
     };
@@ -278,13 +278,13 @@ export class UpdateEmployeeComponent implements OnInit {
           serviceName: data[key] // Assuming data[key] holds the service name
         })); 
   
-      });this.dropdownSettings = {
+      });
+        this.dropdownSettings = {
         idField: 'serviceId',
         textField: 'serviceName',
       };
-  
       
-    this.fetchEmpInfo
+      this.fetchEmpInfo
       .fetchEmpInfo(localStorage.getItem('employeeId'))
       .subscribe((data: any) => {
         this.EmpRegister.patchValue(data); // Patch form values with fetched data
