@@ -29,10 +29,10 @@ public class Users implements UserDetails {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "contact_number")
+	@Column(name = "contact_number",unique = true,nullable = false)
 	private String contactNumber;
 
-	@Column(name = "email")
+	@Column(name = "email",unique = true,nullable = false)
 	private String email;
 
 	@Column(name = "user_role")

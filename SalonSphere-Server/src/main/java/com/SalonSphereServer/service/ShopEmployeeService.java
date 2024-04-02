@@ -64,4 +64,8 @@ public class ShopEmployeeService {
        ShopEmployees emps=optional.get() ;
        return  emps;
     }
+
+    // public Slots showSlotsByShopId(String ShopId){
+        
+    // }
 }

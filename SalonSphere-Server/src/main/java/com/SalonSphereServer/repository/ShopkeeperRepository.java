@@ -80,4 +80,7 @@ public interface ShopkeeperRepository extends JpaRepository<ShopInformation, Str
 	// if you delete then talk to me (Rahul Kumar)
 	// void deleteByIsDeleteAndCreateDateBefore(boolean isDelete, Date date);
 
+	
+
+
 }

@@ -10,7 +10,42 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+.searchForm{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
 
+/*  */
+.searchForm {
+  position: relative; /* Ensure relative positioning for the form */
+}
+
+.searchbar {
+  position: relative; /* Ensure relative positioning for the search bar container */
+}
+
+.shopContainer {
+  position: absolute;
+  top: 100%; /* Position the shop container just below the search bar */
+  left: 0;
+  width: 100%;
+  z-index: 999; /* Ensure the shop container is above other content */
+  background-color: #fff; /* Add any desired styling */
+  border: 1px solid #ccc; /* Add any desired styling */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add any desired styling */
+  padding: 10px; /* Add any desired styling */
+}
+
+.showShops {
+  /* Add any desired styling for the individual shop items */
+}
+
+.showShops span {
+  display: block; /* Ensure each shop item is displayed on a new line */
+}
+
+/*  */
 .logo {
   font-size: 27px;
   font-weight: 600;
@@ -57,7 +92,7 @@ header {
   align-items: center;
   justify-content: center;
   border-radius: 0px 50px 50px 0px;
-  background-color: #0c007d;
+  /* background-color: #0c007d; */
   cursor: pointer;
 }
 

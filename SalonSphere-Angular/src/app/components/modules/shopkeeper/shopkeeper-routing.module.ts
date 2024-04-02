@@ -14,6 +14,7 @@ import { ShopDashboardComponent } from './components/shop-dashboard/shop-dashboa
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
 import { RequestAgainComponent } from './components/request-again/request-again.component';
 import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
+import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
 
 const routes: Routes = [
   {
@@ -31,7 +32,8 @@ const routes: Routes = [
       { path: 'shopDashboard', component: ShopDashboardComponent },
       { path: 'addEmployee', component:AddEmployeeComponent },
       { path: 'updateEmployee' , component:UpdateEmployeeComponent },
-      { path: 'requestAgain', component:RequestAgainComponent }
+      { path: 'requestAgain', component:RequestAgainComponent },
+      { path: 'viewBookings', component: ViewBookingsComponent },
     ],
   },
 ];

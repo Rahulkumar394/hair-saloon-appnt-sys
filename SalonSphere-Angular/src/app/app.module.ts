@@ -32,6 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatRippleModule} from '@angular/material/core';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatSliderModule} from '@angular/material/slider';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 
@@ -81,7 +82,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     MatRippleModule,
     MatTabsModule,
     MatSliderModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    FullCalendarModule,
   ],
   providers: [
     provideClientHydration(),

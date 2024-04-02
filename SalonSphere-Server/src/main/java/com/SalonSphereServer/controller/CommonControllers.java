@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SalonSphereServer.common.EmailContent;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.jwtsecurity.JwtHelper;
 import com.SalonSphereServer.request.AppointmentRequest;
@@ -29,7 +30,7 @@ import com.SalonSphereServer.service.UserService;
 
 @RestController
 public class CommonControllers {
-	
+
 	@Autowired
 	private CustomerService customerService;
 
@@ -44,11 +45,11 @@ public class CommonControllers {
 
 	@Autowired
 	private AuthenticationManager manager;
-	
+
 	@Autowired
 	private SlotBookingService slotBookingService;
 
-	//this API for registration with validation
+	// this API for registration with validation
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/register")
 	public ResponseEntity<RegisterResponse> register(@RequestBody Users user) {
@@ -58,6 +59,7 @@ public class CommonControllers {
 
 		if (isRegister == true) {
 			registerResponse.setResponse("User Register Successful");
+			EmailContent.registerMail(user.getEmail(), user.getFirstName() + " " + user.getLastName());
 			return new ResponseEntity<>(registerResponse, HttpStatus.OK);
 		} else {
 			registerResponse.setResponse("User Already Register");
@@ -65,14 +67,14 @@ public class CommonControllers {
 		}
 	}
 
-	//this api for login with jwt token
+	// this api for login with jwt token
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
 
 		this.doAuthenticate(loginRequest.getEmail(), loginRequest.getPassword());
 		LoginResponse loginResponse = userService.loginUser(loginRequest);
-		System.out.println("This============================="+loginResponse);
+		System.out.println("This=============================" + loginResponse);
 		if (loginResponse != null) {
 
 			UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
@@ -96,26 +98,36 @@ public class CommonControllers {
 			throw new BadCredentialsException("invalid user and password");
 		}
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/view-slots")
-	public ResponseEntity<Map<List<String>, List<String>>> getAllAvilableSlots(@RequestBody AppointmentRequest appointmentRequest) {
-		
-		System.out.println("============================================"+appointmentRequest);
-		
-		Map<List<String>, List<String>> avilableSlots = customerService.getAllSlots(appointmentRequest.getShopId(),appointmentRequest.getShopTiming(),appointmentRequest.getServiceDuration(), appointmentRequest.getDate());
-		
+	public ResponseEntity<Map<List<String>, List<String>>> getAllAvilableSlots(
+			@RequestBody AppointmentRequest appointmentRequest) {
+
+		System.out.println("============================================" + appointmentRequest);
+
+		Map<List<String>, List<String>> avilableSlots = customerService.getAllSlots(appointmentRequest.getShopId(),
+				appointmentRequest.getShopTiming(), appointmentRequest.getServiceDuration(),
+				appointmentRequest.getDate());
+
 		return new ResponseEntity<>(avilableSlots, HttpStatus.OK);
-		
+
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/book-slots")
-	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest){
-		
+	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
+
 		System.out.println("++++++++++++++++++++++++++++++++++++hello aman");
-	    slotBookingService.bookSlot(slotBookingRequest);
+		Boolean slotBooked = slotBookingService.bookSlot(slotBookingRequest);
+		if (!slotBooked) {
+			return new ResponseEntity<>(true, HttpStatus.OK);
+
+		}
 		return new ResponseEntity<>(true, HttpStatus.OK);
-		 
+
 	}
+
+
+		
 }

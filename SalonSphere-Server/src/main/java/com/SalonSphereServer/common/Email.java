@@ -19,4 +19,5 @@ public class Email {
     private String cc;
 	private String subject;
     private String message;
+    private String content;
 }

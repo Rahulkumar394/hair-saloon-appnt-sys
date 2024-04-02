@@ -25,13 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SalonSphereServer.common.EmailContent;
+import com.SalonSphereServer.dto.BookedSlot;
 import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ServiceInformation;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
+import com.SalonSphereServer.repository.ShopkeeperRepository;
+import com.SalonSphereServer.repository.SlotRepository;
 import com.SalonSphereServer.response.Response;
-import com.SalonSphereServer.service.EmailService;
 import com.SalonSphereServer.service.ShopEmployeeService;
 import com.SalonSphereServer.service.ShopServices;
 import com.SalonSphereServer.service.ShopkeeperService;
@@ -46,13 +49,12 @@ public class ShopkeeperController {
 	private ShopkeeperService shopkeeperService;
 	@Autowired
 	private ShopServices shopServices;
-
+	@Autowired
+	private SlotRepository slotRepository;
 	@Autowired
 	private ShopEmployeeService shopEmployeeService;
-
-	@SuppressWarnings("unused")
 	@Autowired
-	private EmailService emailService;
+	private ShopkeeperRepository shopkeeperRepository;
 
 	// Through addshop API we can add new salons in the system
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -63,10 +65,12 @@ public class ShopkeeperController {
 		// Call service method to add shop
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDSHOP METHOD=======" + shop);
 		boolean isAdd = shopkeeperService.addShopInformation(shop);
-		System.out.println("==========================="+isAdd);
-		if (isAdd)
+		System.out.println("===========================" + isAdd);
+		if (isAdd) {
+			EmailContent.registerShop(shop.getShopEmail(), shop.getShopName(),
+					shopkeeperRepository.getOwnerEmailByShopEmail(shop.getShopEmail()));
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully added Shop"));
-		else
+		} else
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new Response("Error while adding Shop"));
 	}
@@ -272,24 +276,24 @@ public class ShopkeeperController {
 					.body(new Response("Error while adding employee"));
 	}
 
-
-	//this API for change the status through ShopEmail for Re-apply request when requst rejected
+	// this API for change the status through ShopEmail for Re-apply request when
+	// requst rejected
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping(value = "/requestAgain", produces = MediaType.APPLICATION_JSON_VALUE)
 	@Secured("shopkeeper")
 	public ResponseEntity<Response> requestAgain(@RequestBody ShopInformation shop) {
 
-		// Call service method to requst again 
+		// Call service method to requst again
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDSHOP METHOD=======" + shop);
 		boolean isAdd = shopkeeperService.requestAgain(shop);
-		if (isAdd){
+		if (isAdd) {
 			System.out.println("This is refactor service************************************************");
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully sent request for apply"));
-		}
-		else
+		} else
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new Response("Error while sending requestAgain requst"));
 	}
+
 	// Showing all employee in a perticular shop and find all employee by shopId
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/show-all-emp/{shopId}")
@@ -342,6 +346,16 @@ public class ShopkeeperController {
 		shopkeeperService.deleteEmployee(employeeId);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfull Deletion of Employee"));
 
+	}
+
+	// Fetching All the slots for a shop using the shop's Id
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/fetchSlotsByShopId/{shopId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<List<BookedSlot>> viewSlotsBooked(@PathVariable String shopId) {
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER viewSlotsBooked METHOD=======" + shopId);
+		List<BookedSlot> slotsBookedList = slotRepository.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
+		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
 	}
 
 }

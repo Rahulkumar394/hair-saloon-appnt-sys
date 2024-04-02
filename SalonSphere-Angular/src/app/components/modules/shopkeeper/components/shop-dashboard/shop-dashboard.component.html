@@ -83,7 +83,7 @@
       </div>
 
       <div class="add-shop">
-        <h2 *ngIf="!data || !data.length">No Shops Added</h2>
+        <h2 *ngIf="!data || !data.length">No Services Found</h2>
         <button
           mat-raised-button
           class="button"
@@ -137,6 +137,19 @@
           </div>
         </mat-card-content>
       </mat-card>
+
+
+      <div class="add-shop">
+        <h2 *ngIf="!reviews || !reviews.length">No Reviews Found <mat-icon>sentiment_content</mat-icon></h2>
+        <button
+          mat-raised-button
+          class="button"
+          routerLink="/shopkeeper/addservice"
+        >
+          <span>Add Service</span>
+        </button>
+      </div>
+
     </mat-tab>
 
     <mat-tab label="Employees">
@@ -151,8 +164,8 @@
               <th scope="col">Gender</th>
               <th scope="col">Services</th>
               <th scope="col">Address</th>
-              <th scope="col">Edit</th>
-              <th scope="col">Delete</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
@@ -162,9 +175,11 @@
               <td scope="row">{{ Emp.contactNumber }}</td>
               <td scope="row">{{ Emp.salary | currency : "INR" }}</td>
               <td scope="row">{{ Emp.gender }}</td>
-              <td scope="row" style="padding-left: 0;">
-                <ol style="list-style-type: circle; padding-left: 1.5rem;">
-                  <li  *ngFor="let service of Emp.services">{{ service.serviceName }}</li>
+              <td scope="row" style="padding-left: 0">
+                <ol style="list-style-type: circle; padding-left: 1.5rem">
+                  <li *ngFor="let service of Emp.services">
+                    {{ service.serviceName }}
+                  </li>
                 </ol>
               </td>
               <td scope="row">{{ Emp.address }}</td>
@@ -199,7 +214,7 @@
       </div>
 
       <div class="add-shop">
-        <h2 *ngIf="!data || !data.length">No Shops Added</h2>
+        <h2 *ngIf="!data || !data.length">No Employees Found</h2>
         <button
           mat-raised-button
           class="button"
@@ -210,7 +225,10 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Stats"></mat-tab>
+    <mat-tab label="Booking">
+        <app-view-bookings class="bookings"></app-view-bookings>
+      
+    </mat-tab>
 
     <!-- Add more mat-tabs if needed -->
   </mat-tab-group>

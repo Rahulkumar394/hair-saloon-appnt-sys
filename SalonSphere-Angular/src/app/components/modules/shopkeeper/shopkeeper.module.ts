@@ -55,6 +55,10 @@ import { TimeSincePipe } from '../shopkeeper/pipe/time-since.pipe';
 
 import { RequestAgainComponent } from './components/request-again/request-again.component';
 import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
+import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
+import { TimeFormatPipe } from './pipe/time-format.pipe';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+
 
 
 
@@ -76,7 +80,11 @@ import { UpdateEmployeeComponent } from './components/update-employee/update-emp
     ShopkeeperDurationPipe,
     TimeSincePipe,
     RequestAgainComponent,
-    UpdateEmployeeComponent
+    UpdateEmployeeComponent,
+    ViewBookingsComponent,
+    TimeFormatPipe,
+    TimeFormatPipe,
+    
 
   ],
   imports: [
@@ -84,6 +92,7 @@ import { UpdateEmployeeComponent } from './components/update-employee/update-emp
     ShopkeeperRoutingModule,
     MatCardModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
     
 
 

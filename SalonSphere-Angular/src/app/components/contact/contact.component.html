@@ -1,62 +1,25 @@
-<div class="container">
-  <button mat-button (click)="goBack()">
-    <mat-icon>keyboard_backspace</mat-icon> Back
-  </button>
-  <h1 style="font-weight: bold">Add Services</h1>
-  <form [formGroup]="addServiceForm" (ngSubmit)="getFormData()" class="form">
-    <div formArrayName="serviceList">
-      <div *ngFor="let student of serviceListArray().controls; let i = index">
-        <div [formGroupName]="i" class="input">
-          <mat-form-field>
-            <br />
-            <mat-select
-              formControlName="serviceName"
-              (click)="addService()"
-              required
-            >
-              <mat-option value="">Select a service</mat-option>
-              <mat-option value="Haircut">Haircut</mat-option>
-              <mat-option value="Hair Coloring">Hair Coloring</mat-option>
-              <mat-option value="Manicure">Manicure</mat-option>
-              <mat-option value="Pedicure">Pedicure</mat-option>
-              <mat-option value="Facial">Facial</mat-option>
-              <mat-option value="Massage">Massage</mat-option>
-              <mat-option value="Waxing">Waxing</mat-option>
-              <mat-option value="Threading">Threading</mat-option>
-              <mat-option value="Makeup">Makeup</mat-option>
-              <mat-option value="Hair Styling">Hair Styling</mat-option>
-              <mat-option value="Eyebrow Shaping">Eyebrow Shaping</mat-option>
-              <mat-option value="Eyelash Extensions"
-                >Eyelash Extensions</mat-option
-              >
-              <mat-option value="Nail Extensions">Nail Extensions</mat-option>
-              <mat-option value="Hair Extensions">Hair Extensions</mat-option>
-              <mat-option value="Body Waxing">Body Waxing</mat-option>
-              <mat-option value="Bridal Makeup">Bridal Makeup</mat-option>
-              <mat-option value="Facial Cleansing">Facial Cleansing</mat-option>
-              <mat-option value="Permanent Makeup">Permanent Makeup</mat-option>
-              <mat-option value="Henna Tattoo">Henna Tattoo</mat-option>
-              <mat-option value="Hot Stone Massage"
-                >Hot Stone Massage</mat-option
-              >
-              <mat-option value="Deep Tissue Massage"
-                >Deep Tissue Massage</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-          <mat-icon
-            class="delete_icon"
-            *ngIf="serviceListArray().length > 1"
-            (click)="removeService(i)"
-            >delete</mat-icon
-          >
-        </div>
-      </div>
-    </div>
-    <div class="buttons">
-      <button mat-raised-button type="submit" class="submit_button">
-        Submit
+<div class="shopContainer">
+  <div class="main">
+    <mat-card
+      style="
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding: 10px;
+      "
+    >
+      <h1><b>View Bookings</b></h1>
+    </mat-card>
+
+    <full-calendar
+      [options]="calendarOptions"
+    ></full-calendar>
+
+    <div class="add-shop" *ngIf="!slots || !slots.length">
+      <h2>No Slots Booked</h2>
+      <button class="button" routerLink="/shopkeeper/add-shop">
+        <span class="button-content">Add Shop</span>
       </button>
     </div>
-  </form>
+  </div>
 </div>

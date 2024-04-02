@@ -35,7 +35,9 @@ public class EmailService {
 
 			@Override
 			protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-				return new javax.mail.PasswordAuthentication("salonsphere.woss@gmail.com", "ukzh wxow wocl aaiv");
+				return new javax.mail.PasswordAuthentication
+					("woss.salonsphere@gmail.com", "fmsu miyv olue iipp");
+
 			}
 
 		});
@@ -51,19 +53,28 @@ public class EmailService {
 
 			// Adding Recipients
 			mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
-			mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(email.getCc()));
+
+			// CC Works only if any cc recipient is provided else skip
+			if (email.getCc() != null)
+				mimeMessage.setRecipient(Message.RecipientType.CC, new InternetAddress(email.getCc()));
 
 			// Adding subject to message
 			mimeMessage.setSubject(email.getSubject());
 
 			// Adding Message Text
-			mimeMessage.setText(email.getMessage());
+			// mimeMessage.setText(email.getMessage());
+
+			// ***************************************************
+			// // Set the content type to HTML
+			mimeMessage.setContent(email.getContent(), "text/html");
+			// ***************************************************
 
 			Transport.send(mimeMessage);
 			System.out.println("Sent Email Successfully...");
 
 			flag = true;
 		} catch (Exception e) {
+			System.out.println("Email Service ======================================= ");
 			e.printStackTrace();
 			return false;
 		}

@@ -127,6 +127,7 @@ export class UpdateShopComponent implements OnInit {
         this.router.navigate(['/shopkeeper/view-shop']);
       },
       (error: any) => {
+        
         Swal.fire({
           title: 'Oops',
           text: 'Caught an Error',
