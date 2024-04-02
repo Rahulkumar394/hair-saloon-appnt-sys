@@ -78,6 +78,21 @@ public class ShopkeeperService {
 		return shopkeepers;
 	}
 
+	// call the userRepository method and fetch the Shopkeeper data from
+	public ShopOwnerDTO getShopKeeper(String userId) {
+
+		System.out.println("come inside the services  getAllShopKeepers() method");
+		Users user = userRepository.findByUserId(userId);
+
+		ShopOwnerDTO shopkeeper = new ShopOwnerDTO();
+
+		shopkeeper.setFullName(user.getFirstName()+" "+user.getLastName());
+		shopkeeper.setEmail(user.getEmail());
+		shopkeeper.setContactNumber(user.getContactNumber());
+		
+		return shopkeeper;
+	}
+
 	// Through this method we add shopInformation to the database
 	public boolean addShopInformation(ShopInformation shopInformation) {
 

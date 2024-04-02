@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.SalonSphereServer.common.EmailContent;
 import com.SalonSphereServer.dto.BookedSlot;
+import com.SalonSphereServer.dto.ShopOwnerDTO;
 import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ServiceInformation;
@@ -356,6 +357,15 @@ public class ShopkeeperController {
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER viewSlotsBooked METHOD=======" + shopId);
 		List<BookedSlot> slotsBookedList = slotRepository.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
 		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/get-shopkeeper/{userId}")
+	public ResponseEntity<ShopOwnerDTO> getShopkeeper(@PathVariable String userId) {
+
+		System.out.println("come inside the Shopkeeper contoller shopKeeper");
+		ShopOwnerDTO shopOwner = shopkeeperService.getShopKeeper(userId);
+		return new ResponseEntity<>(shopOwner, HttpStatus.OK);
 	}
 
 }

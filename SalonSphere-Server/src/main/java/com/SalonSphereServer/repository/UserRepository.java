@@ -13,6 +13,8 @@ import com.SalonSphereServer.entity.Users;
 @Repository
 public interface UserRepository extends JpaRepository<Users, String> {
 
+    public Users findByUserId(String userId);
+
     public Users findByEmail(String email);
 
     public List<Users> findByRole(String role);
