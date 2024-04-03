@@ -59,6 +59,7 @@ import { ViewBookingsComponent } from './components/view-bookings/view-bookings.
 import { TimeFormatPipe } from './pipe/time-format.pipe';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ShopkeeperProfileComponent } from './components/shopkeeper-profile/shopkeeper-profile.component';
+import { UpdateShopkeeperProfileComponent } from './components/update-shopkeeper-profile/update-shopkeeper-profile/update-shopkeeper-profile.component';
 
 
 
@@ -85,7 +86,8 @@ import { ShopkeeperProfileComponent } from './components/shopkeeper-profile/shop
     ViewBookingsComponent,
     TimeFormatPipe,
     TimeFormatPipe,
-    ShopkeeperProfileComponent
+    ShopkeeperProfileComponent,
+    UpdateShopkeeperProfileComponent
 
 
 

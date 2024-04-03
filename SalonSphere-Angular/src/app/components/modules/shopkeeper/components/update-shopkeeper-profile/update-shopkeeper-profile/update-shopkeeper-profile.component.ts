@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
 import Swal from 'sweetalert2';
-import { UpdateUserProfileService } from '../../../../services/updateUserProfile/update-user-profile.service';
-import { ImageService } from '../../../../services/common/image.service';
-import { ShowShopOwnerService } from '../../../../services/show-shop-owner/show-shop-owner.service';
-import { GetCustomerInfoService } from '../../../../services/get-customer-info.service';
+import { ShowShopOwnerService } from '../../../../../services/show-shop-owner/show-shop-owner.service';
+import { ImageService } from '../../../../../services/common/image.service';
+import { FormControl, FormGroup } from '@angular/forms';
+import { UpdateUserProfileService } from '../../../../../services/updateUserProfile/update-user-profile.service';
+import { Router } from '@angular/router';
 
 interface shopOwner{
   firstName:string ;
@@ -17,11 +16,11 @@ interface shopOwner{
 }
 
 @Component({
-  selector: 'app-update-user-profile',
-  templateUrl: './update-user-profile.component.html',
-  styleUrl: './update-user-profile.component.css'
+  selector: 'app-update-shopkeeper-profile',
+  templateUrl: './update-shopkeeper-profile.component.html',
+  styleUrl: './update-shopkeeper-profile.component.css'
 })
-export class UpdateUserProfileComponent {
+export class UpdateShopkeeperProfileComponent {
   // data:any [] = [];
   owner!:shopOwner;
   
@@ -34,7 +33,7 @@ export class UpdateUserProfileComponent {
   contactNumber: string | null = '';
 
   constructor(
-    private getUserService:GetCustomerInfoService,
+    private showShopOwnerService:ShowShopOwnerService,
     private upload: ImageService,
     private updateUserProfile: UpdateUserProfileService,
     private router:Router,
@@ -50,7 +49,7 @@ export class UpdateUserProfileComponent {
 
 
   ngOnInit(): void {
-    this.getUserService.getUserInfo(Cookie.get('userId')).subscribe((data:any)=>{
+    this.showShopOwnerService.getShopkeeper().subscribe((data:any)=>{
       this.owner=data;
       this.firstName=data.firstName;
       this.lastName=data.lastName;
@@ -62,8 +61,8 @@ export class UpdateUserProfileComponent {
       console.log("this is getShopkeeper Error: ",error)
     };
 
-    this.getUserService
-      .getUserInfo(Cookie.get('userId'))
+    this.showShopOwnerService
+      .getShopkeeper()
       .subscribe((data: any) => {
         this.userProfile.patchValue(data); // Patch form values with fetched data
         console.log('From Init', this.userProfile.value);

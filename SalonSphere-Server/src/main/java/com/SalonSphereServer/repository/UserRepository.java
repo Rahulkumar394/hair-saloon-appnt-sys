@@ -17,7 +17,8 @@ public interface UserRepository extends JpaRepository<Users, String> {
 
     public Users findByUserId(String userId);
 
-    public Users findByEmail(String email);
+    @Query("SELECT u FROM Users u WHERE u.email = :email AND u.isDeleted = false")
+    Users findByEmail(@Param("email") String email);
 
     public List<Users> findByRole(String role);
 
@@ -38,5 +39,10 @@ public interface UserRepository extends JpaRepository<Users, String> {
     @Query(value = "UPDATE Users u SET u.profile = :profileName WHERE u.userId = :userId")
     void updateProfileByUserId(@Param("userId") String userId, @Param("profileName") String profileName);
 
+    // Marking the user as deleted as soft delete
+    @Transactional
+    @Modifying
+    @Query("UPDATE Users u SET u.isDeleted = :isDelete WHERE u.userId = :userId")
+    Integer updateIsDeleteById(@Param("userId") String userId, @Param("isDelete") boolean isDelete);
 
 }

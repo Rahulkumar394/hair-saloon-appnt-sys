@@ -23,5 +23,15 @@
     "name": "spring.datasource.hibernate.dialect",
     "type": "java.lang.String",
     "description": "A description for 'spring.datasource.hibernate.dialect'"
+  },
+  {
+    "name": "Increases",
+    "type": "java.lang.String",
+    "description": "A description for 'Increases'"
+  },
+  {
+    "name": "Gives",
+    "type": "java.lang.String",
+    "description": "A description for 'Gives'"
   }
 ]}

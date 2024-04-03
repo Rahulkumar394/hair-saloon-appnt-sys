@@ -81,7 +81,6 @@ export class LoginComponent {
   //validate the email
   validateEmail(email: any): string {
     let message = '';
-
     if (!email) {
       message = 'Please Enter the email';
       return message;

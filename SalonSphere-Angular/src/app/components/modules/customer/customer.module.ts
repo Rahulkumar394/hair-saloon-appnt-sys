@@ -59,7 +59,7 @@ import { UpdateUserProfileComponent } from './components/update-user-profile/upd
     CustomerProfileComponent,
     SidebarComponent,
     DashboardComponent,
-    UpdateUserProfileComponent
+    UpdateUserProfileComponent,
     // ShopkeeperDurationPipe
 
   ],

@@ -64,6 +64,7 @@ uploadProfile(event: any){
 
     this.upload.uploadProfile(formData).subscribe((data: any) => {
       console.log(data);
+      window.location.reload();
     },
     error=>{
       Swal.fire({

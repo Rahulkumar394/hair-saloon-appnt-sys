@@ -26,7 +26,6 @@ import com.SalonSphereServer.response.FilterResponseByCity;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.FeedbackService;
-import com.SalonSphereServer.service.UserService;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -42,8 +41,6 @@ public class CustomerController {
 	private FeedbackRepository feedbackRepository;
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private UserService userService;
 
 	// =============CODE FOR FILLTER==============
 
@@ -174,33 +171,5 @@ public class CustomerController {
 		Users userInfo = userRepository.getUserInfo(userId);
 		return new ResponseEntity<>(userInfo, HttpStatus.OK);
 	}
-
-	@CrossOrigin(origins = "http://localhost:4200")
-	@PostMapping("/updateUser")
-	public ResponseEntity<Response> editUserInfo(@RequestBody Users userInfo) {
-
-		System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n"+userInfo);
-		boolean isUpdated = userService.updateUser(userInfo);
-		System.out.println(isUpdated+"888888888888888888888888888888888888888");
-		if (isUpdated)
-			return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
-		else
-			return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	// @CrossOrigin(origins = "http://localhost:4200")
-	// @PostMapping("/updateUser")
-	// public ResponseEntity<Response> deleteUserAccount(@RequestBody Users userInfo) {
-
-	// 	System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n"+userInfo);
-	// 	boolean isUpdated = userService.updateUser(userInfo);
-	// 	System.out.println(isUpdated+"888888888888888888888888888888888888888");
-	// 	if (isUpdated)
-	// 		return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
-	// 	else
-	// 		return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
-	// }
-
-
 
 }
