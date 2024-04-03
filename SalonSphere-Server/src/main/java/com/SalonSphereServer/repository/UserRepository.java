@@ -2,11 +2,12 @@ package com.SalonSphereServer.repository;
 
 import java.util.List;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.entity.Users;
@@ -32,7 +33,10 @@ public interface UserRepository extends JpaRepository<Users, String> {
     @Query("SELECT u FROM Users u WHERE u.userId = ?1")
     Users getUserInfo(String userId);
 
-
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Users u SET u.profile = :profileName WHERE u.userId = :userId")
+    void updateProfileByUserId(@Param("userId") String userId, @Param("profileName") String profileName);
 
 
 }

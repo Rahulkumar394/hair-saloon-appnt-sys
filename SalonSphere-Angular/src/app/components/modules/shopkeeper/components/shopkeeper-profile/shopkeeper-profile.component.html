@@ -1,13 +1,16 @@
 <div class="container">
   <div class="profile-header">
-    <img src="assets\images\licence_7418529631.jpg" alt="Profile Picture"><br>
-    <label>Change Profile image <mat-icon class="edit">edit</mat-icon><input type="file" name="profile" style="display: none;"></label>
-    <h1>{{owner.fullName}}</h1>
+    <img src="assets\images\{{owner.profile}}" alt="Profile Picture"><br>
+    <label>Change Profile image
+      <mat-icon class="edit">edit</mat-icon>
+      <input type="file" name="profile" style="display: none;" (change)="uploadProfile($event)">
+    </label>
+    <h1>{{owner.firstName}} {{owner.lastName}}</h1>
   </div>
   <div class="profile-info">
     <p><strong>Email :</strong> {{owner.email}}</p>
     <p><strong>Contact Number :</strong> {{owner.contactNumber}}</p>
-    
+
   </div>
   <div class="profile-actions">
     <button class="btn">Edit Profile</button>

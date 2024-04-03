@@ -27,14 +27,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.SalonSphereServer.common.EmailContent;
 import com.SalonSphereServer.dto.BookedSlot;
-import com.SalonSphereServer.dto.ShopOwnerDTO;
 import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ServiceInformation;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
+import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.SlotRepository;
+import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.ShopEmployeeService;
 import com.SalonSphereServer.service.ShopServices;
@@ -56,6 +57,8 @@ public class ShopkeeperController {
 	private ShopEmployeeService shopEmployeeService;
 	@Autowired
 	private ShopkeeperRepository shopkeeperRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	// Through addshop API we can add new salons in the system
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -359,13 +362,23 @@ public class ShopkeeperController {
 		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
 	}
 
+	// @CrossOrigin(origins = "http://localhost:4200")
+	// @GetMapping("/get-shopkeeper/{userId}")
+	// public ResponseEntity<ShopOwnerDTO> getShopkeeper(@PathVariable String userId) {
+
+	// 	System.out.println("come inside the Shopkeeper contoller shopKeeper");
+	// 	ShopOwnerDTO shopOwner = shopkeeperService.getShopKeeper(userId);
+	// 	return new ResponseEntity<>(shopOwner, HttpStatus.OK);
+	// }
+
+	//this api for get user by userId
 	@CrossOrigin(origins = "http://localhost:4200")
-	@GetMapping("/get-shopkeeper/{userId}")
-	public ResponseEntity<ShopOwnerDTO> getShopkeeper(@PathVariable String userId) {
+	@GetMapping("/userInfo/{userId}")
+	public ResponseEntity<Users> fetchUserInfo(@PathVariable String userId) {
 
 		System.out.println("come inside the Shopkeeper contoller shopKeeper");
-		ShopOwnerDTO shopOwner = shopkeeperService.getShopKeeper(userId);
-		return new ResponseEntity<>(shopOwner, HttpStatus.OK);
+		Users userInfo = userRepository.getUserInfo(userId);
+		return new ResponseEntity<>(userInfo, HttpStatus.OK);
 	}
 
 }
