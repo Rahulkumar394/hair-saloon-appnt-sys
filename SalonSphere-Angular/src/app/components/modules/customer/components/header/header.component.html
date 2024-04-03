@@ -11,38 +11,45 @@
 
   <form [formGroup]="searchForm" class="searchForm">
     <div class="searchbar">
-        <input
-            type="text"
-            formControlName="keyword"
-            placeholder="Search"
-            (input)="searchFilter($event.target)"
-        />
-        <button type="submit" class="searchbtn">
-            <mat-icon>search</mat-icon>
-        </button>
+      <input
+        type="text"
+        formControlName="keyword"
+        placeholder="Search"
+        (input)="searchFilter($event.target)"
+      />
+      <button type="submit" class="searchbtn">
+        <mat-icon>search</mat-icon>
+      </button>
     </div>
     <!-- Only show search results if textSearch is true -->
     <mat-card class="shopContainer" *ngIf="textSearch && shops.length > 0">
-        <div class="showShops" *ngFor="let shop of shops">
-            <span>{{ shop.shopName }}, {{ shop.shopCity }}</span>
-        </div>
+      <div class="showShops" *ngFor="let shop of shops">
+        <span
+          (click)="
+            shopInfo(
+              shop.shopId,
+              shop.shopName,
+              shop.shopTiming,
+              shop.shopEmail
+            )
+          "
+          >{{ shop.shopName }}, {{ shop.shopCity }}</span
+        >
+      </div>
     </mat-card>
-</form>
+  </form>
 
-  
+  <div class="profile" mat-button [matMenuTriggerFor]="menu">
+    <mat-icon>account_circle</mat-icon>
+    <mat-menu #menu="matMenu">
+      <button mat-flat-button style="width: 100%;" routerLink="/customer/dashboard">My Account</button>
+      <div class="message" *ngIf="isLogin">
+        <button mat-flat-button (click)="navigateLogout()">Logout</button>
+      </div>
+      <div class="message" *ngIf="!isLogin">
+        <button mat-flat-button routerLink="/login">Login</button>
+      </div>
+    </mat-menu>
 
-  <div class="message">
-    <!-- <div class="circle"></div> 
-        <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" 
-             class="icn" 
-             alt=""> 
-        <div class="dp"> 
-          <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
-                class="dpicn" 
-                alt="dp"> 
-          </div>  -->
-    <button class="login">Login</button>
   </div>
 </header>

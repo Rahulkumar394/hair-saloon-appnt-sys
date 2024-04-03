@@ -1,16 +1,38 @@
 <app-navbar></app-navbar>
- <section class="container">
-      <header>Login Form</header>
-      <form [formGroup]="loginData" (ngSubmit)="doSubmit()" class="form">
-        <div class="input-box">
-          <label>Username or Email</label>
-          <input type="text" placeholder="Enter full name" formControlName="email" required />
-        </div>
-        <div class="input-box">
-          <label>Password</label>
-          <input type="password" placeholder="Enter your password"  formControlName="password" required />
-        </div>
-        <button>Submit</button>
-      </form>
-      <p>Don't have an Account ?<a routerLink="/register">Get Started for Free</a></p>
-  </section>
+<section class="container">
+  <header>Login Form</header>
+  <form [formGroup]="loginData" (ngSubmit)="doSubmit()" class="form">
+    <div class="input-box">
+      <label>Username or Email</label>
+      <input
+        type="text"
+        placeholder="Enter full name"
+        formControlName="email"
+        required
+      />
+    </div>
+    <div class="input-box">
+      <label>Password</label>
+
+      <!-- <div class="password"> -->
+      <input
+        type="password"
+        id="passwordInput"
+        placeholder="Enter your password"
+        formControlName="password"
+        required
+      />
+      <mat-icon
+        style="position: absolute; top: 40px; right: 15px"
+        (click)="togglePasswordVisibility()"
+        [attr.aria-label]="passwordHidden ? 'Show password' : 'Hide password'"
+        >{{ passwordHidden ? "visibility_off" : "visibility" }}</mat-icon
+      >
+      <!-- </div> -->
+    </div>
+    <button>Submit</button>
+  </form>
+  <p>
+    Don't have an Account? <a routerLink="/register"> Get Started for Free</a>
+  </p>
+</section>

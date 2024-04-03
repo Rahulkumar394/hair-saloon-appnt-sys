@@ -4,6 +4,10 @@ import { response } from 'express';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SearchFilterService } from '../../../../services/common/search-filter.service';
 import { error } from 'console';
+import { Cookie } from 'ng2-cookies';
+import Swal from 'sweetalert2';
+import { LogoutService } from '../../../../services/logout/logout.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,20 +16,29 @@ import { error } from 'console';
 })
 export class HeaderComponent implements OnInit {
   searchForm!: FormGroup;
+  isLogin!: boolean;
+  profilePicture!:boolean;
   constructor(
     private locationService: LocationService,
     private formBuilder: FormBuilder,
-    private searchShopService:SearchFilterService
+    private searchShopService: SearchFilterService,
+    private logoutService:LogoutService,
+    private router:Router
   ) {}
 
   private customerCity: string = '';
   private customerCountry: string = '';
-  shops:any[]=[];
+  shops: any[] = [];
 
-  textSearch:boolean=false;
+  textSearch: boolean = false;
 
   ngOnInit(): void {
-    this.searchForm = this.formBuilder.group({
+    
+    if (!Cookie.get('role')) 
+      this.isLogin = false;
+    else 
+      this.isLogin = true
+      this.searchForm = this.formBuilder.group({
       keyword: [''], // Set initial value for keyword
     });
 
@@ -71,12 +84,29 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  shopInfo(shopId: any, shopName: any, shopTiming: any, shopEmail: any) {}
 
-  showShops(){
-    if(this.textSearch){
-      this.textSearch = false;
-    }else{
-      this.textSearch = true;
-    }
+
+  navigateLogout(){
+    Swal.fire({
+      title: 'Are you sure?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Logout !',
+    }).then((result) => {
+      //if confirmation is done then call the logout service
+      if (result.isConfirmed) {
+        this.logoutService.logout();
+        this.router.navigate(['/login']);
+      }
+
+      //else do nothing
+      else {
+        return;
+      }
+    });
   }
 }
+

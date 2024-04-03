@@ -35,6 +35,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 
 import { MatSelectModule } from '@angular/material/select';
 import { TimeSincePipe } from './components/pipe/time-since.pipe';
+import { CustomerProfileComponent } from './components/customer-profile/customer-profile.component';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UpdateUserProfileComponent } from './components/update-user-profile/update-user-profile.component';
 // import { ShopkeeperDurationPipe } from '../shopkeeper/pipe/shopkeeper-duration.pipe';
 
 
@@ -51,7 +55,11 @@ import { TimeSincePipe } from './components/pipe/time-since.pipe';
     ViewSlotsComponent,
     DurationPipe,
     ShopInfoComponent,
-    TimeSincePipe
+    TimeSincePipe,
+    CustomerProfileComponent,
+    SidebarComponent,
+    DashboardComponent,
+    UpdateUserProfileComponent
     // ShopkeeperDurationPipe
 
   ],

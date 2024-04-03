@@ -1,5 +1,6 @@
 package com.SalonSphereServer.service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,26 @@ public class UserService {
 			// password not match this else run
 		}
 		return null;
+	}
+
+	// Updating User
+
+	public Boolean updateUser(Users userInfo) {
+
+		Optional<Users> existingUserOptional = userRepository.findById(userInfo.getUserId());
+		if (existingUserOptional.isPresent()) {
+			Users existingUser = existingUserOptional.get();
+			
+			existingUser.setFirstName(userInfo.getFirstName());
+			existingUser.setLastName(userInfo.getLastName());
+			existingUser.setContactNumber(userInfo.getContactNumber());
+			existingUser.setEmail(userInfo.getEmail());
+			existingUser.setModifyDate(new java.sql.Date(new java.util.Date().getTime()));
+
+			existingUser = userRepository.save(existingUser);
+
+			return existingUser != null;
+		}
+		return false;
 	}
 }
