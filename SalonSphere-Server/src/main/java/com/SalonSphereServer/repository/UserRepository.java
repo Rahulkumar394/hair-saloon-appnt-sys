@@ -2,6 +2,7 @@ package com.SalonSphereServer.repository;
 
 import java.util.List;
 
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,5 +28,11 @@ public interface UserRepository extends JpaRepository<Users, String> {
             "OR LOWER(s.address) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(s.shopCity) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<ShopInformation> searchShopsByKeyword(@Param("keyword") String keyword);
+
+    @Query("SELECT u FROM Users u WHERE u.userId = ?1")
+    Users getUserInfo(String userId);
+
+
+
 
 }

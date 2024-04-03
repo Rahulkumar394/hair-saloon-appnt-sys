@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="profile-header">
+    <img src="assets\images\{{user.profile}}" alt="Profile Picture">
+    <br>
+    <label for="profile" >Update Profile Picture <mat-icon class="edit">edit</mat-icon><input type="file" name="profile" id="profile"  style="display: none;"></label>
+    <h1>{{user.firstName}} {{user.lastName}}</h1>
+    <p>Shop Owner </p>
+  </div>
+  <div class="profile-info">
+    <p><strong>Email :</strong> {{user.email}}</p>
+    <p><strong>Contact Number :</strong> {{user.contactNumber}}</p>
+    
+  </div>
+  <div class="profile-actions">
+    <button class="btn" routerLink="/customer/dashboard/edit-profile">Edit Profile</button>
+    <button class="btn">Change Password</button>
+  </div>
+</div>

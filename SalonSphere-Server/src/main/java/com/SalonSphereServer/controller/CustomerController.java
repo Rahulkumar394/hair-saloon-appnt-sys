@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.SalonSphereServer.dto.ShopOwnerDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.Feedback;
+import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.FeedbackRepository;
+import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.request.FilterRequest;
 import com.SalonSphereServer.request.SlotBookingRequest;
 import com.SalonSphereServer.response.FilterResponse;
@@ -24,6 +27,7 @@ import com.SalonSphereServer.response.FilterResponseByCity;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.FeedbackService;
+import com.SalonSphereServer.service.UserService;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -37,18 +41,19 @@ public class CustomerController {
 	private FeedbackService feedbackService;
 	@Autowired
 	private FeedbackRepository feedbackRepository;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private UserService userService;
 
-	// ========================================CODE FOR
-	// FILLTER===========================================
+	// =============CODE FOR FILLTER==============
 
 	// Filter shops by given city
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/filter-by-city/{city}")
 	public ResponseEntity<List<FilterResponseByCity>> filterByCity(@PathVariable String city) {
 
-		System.out.println(
-				"====Inside the customer Controller in filterByCity===++++++++++++++++++++++++++++++++++++++++++++++++++\n"
-						+ city);
+		System.out.println("====Inside the customer Controller in filterByCity===++++++++\n" + city);
 
 		// wriet code for fiter according to city
 		List<FilterResponseByCity> filterResponse = customerService.filterByCity(city);
@@ -145,7 +150,6 @@ public class CustomerController {
 	@PostMapping("/book-slot")
 	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
 
-		
 		return new ResponseEntity<>(true, HttpStatus.OK);
 
 	}
@@ -162,4 +166,42 @@ public class CustomerController {
 		}
 		return new ResponseEntity<>(filterShop, HttpStatus.NOT_FOUND);
 	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/userInfo/{userId}")
+	public ResponseEntity<Users> fetchUserInfo(@PathVariable String userId) {
+
+		System.out.println("come inside the Shopkeeper contoller shopKeeper");
+		Users userInfo = userRepository.getUserInfo(userId);
+		return new ResponseEntity<>(userInfo, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/updateUser")
+	public ResponseEntity<Response> editUserInfo(@RequestBody Users userInfo) {
+
+		System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n"+userInfo);
+		boolean isUpdated = userService.updateUser(userInfo);
+		System.out.println(isUpdated+"888888888888888888888888888888888888888");
+		if (isUpdated)
+			return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	// @CrossOrigin(origins = "http://localhost:4200")
+	// @PostMapping("/updateUser")
+	// public ResponseEntity<Response> deleteUserAccount(@RequestBody Users userInfo) {
+
+	// 	System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n"+userInfo);
+	// 	boolean isUpdated = userService.updateUser(userInfo);
+	// 	System.out.println(isUpdated+"888888888888888888888888888888888888888");
+	// 	if (isUpdated)
+	// 		return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
+	// 	else
+	// 		return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
+	// }
+
+
+
 }
