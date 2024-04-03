@@ -35,7 +35,6 @@ import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.SlotRepository;
 import com.SalonSphereServer.response.Response;
-import com.SalonSphereServer.service.EmailService;
 import com.SalonSphereServer.service.ShopEmployeeService;
 import com.SalonSphereServer.service.ShopServices;
 import com.SalonSphereServer.service.ShopkeeperService;

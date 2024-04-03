@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.SalonSphereServer.dto.ShopOwnerDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.Feedback;
 import com.SalonSphereServer.entity.Users;
@@ -180,28 +179,22 @@ public class CustomerController {
 	@PostMapping("/updateUser")
 	public ResponseEntity<Response> editUserInfo(@RequestBody Users userInfo) {
 
-		System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n"+userInfo);
+		System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n" + userInfo);
 		boolean isUpdated = userService.updateUser(userInfo);
-		System.out.println(isUpdated+"888888888888888888888888888888888888888");
+		System.out.println(isUpdated + "888888888888888888888888888888888888888");
 		if (isUpdated)
 			return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
 		else
 			return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	// @CrossOrigin(origins = "http://localhost:4200")
-	// @PostMapping("/updateUser")
-	// public ResponseEntity<Response> deleteUserAccount(@RequestBody Users userInfo) {
-
-	// 	System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n"+userInfo);
-	// 	boolean isUpdated = userService.updateUser(userInfo);
-	// 	System.out.println(isUpdated+"888888888888888888888888888888888888888");
-	// 	if (isUpdated)
-	// 		return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
-	// 	else
-	// 		return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
-	// }
-
-
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/delete-user/{userId}")
+	public ResponseEntity<Response> deleteUserAccount(@PathVariable String userId) {
+		Boolean isDelete = userService.deleteUser(userId);
+		if (isDelete)
+			return new ResponseEntity<>(new Response("User Deleted Successfully"), HttpStatus.OK);
+		return new ResponseEntity<>(new Response("Unable to delete User"), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 }

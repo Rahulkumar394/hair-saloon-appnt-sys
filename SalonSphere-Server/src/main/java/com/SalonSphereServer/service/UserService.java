@@ -95,4 +95,12 @@ public class UserService {
 		}
 		return false;
 	}
+
+	// Deleting user by his userId
+	@org.springframework.transaction.annotation.Transactional
+	public Boolean deleteUser(String userId) {
+		Integer delete = userRepository.updateIsDeleteById(userId,true);
+		return delete==1;
+	}
+
 }
