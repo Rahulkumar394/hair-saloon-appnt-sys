@@ -3,6 +3,7 @@ import { GetCustomerInfoService } from '../../../../services/get-customer-info.s
 import { Cookie } from 'ng2-cookies';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ImageService } from '../../../../services/common/image.service';
+import Swal from 'sweetalert2';
 interface userInfo{
   firstName:string,
   lastName:string,
@@ -20,7 +21,8 @@ export class CustomerProfileComponent implements OnInit{
   user!:userInfo;
   selectedFile: File | null = null; // Variable to store selected file
   profileImage:any;
-  constructor(private getUserService:GetCustomerInfoService, private uploadProfileService:ImageService){}
+  constructor(private getUserService:GetCustomerInfoService, private uploadProfileService:ImageService,
+    private upload: ImageService){}
 
   ngOnInit(): void {
     this.getUserService.getUserInfo(Cookie.get('userId')).subscribe((data:any)=>{
@@ -63,6 +65,17 @@ export class CustomerProfileComponent implements OnInit{
         console.log(error)
       }
     );
+    this.upload.changeProfilename('profile_'+Cookie.get('userId')+'.jpg').subscribe((data: any) => {
+      console.log(data);
+    },
+    error=>{
+      console.log(error)
+      Swal.fire({
+        title: 'Error!',
+        text: 'error occured while changing the image name',
+        icon: 'error',
+      });
+  });
   }
   
 }
