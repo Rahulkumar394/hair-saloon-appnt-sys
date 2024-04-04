@@ -1,0 +1,12 @@
+
+<div class="cards">
+    <div *ngFor="let booking of bookings" class="card">
+        <h2>{{ booking.shopName }} </h2>
+        <p><span>Address -</span> {{ booking.shopAddress }}</p>
+        <p class="amount"><span>Amount:</span> {{ booking.amount | currency:'INR' }}</p>
+        <p class="order-id"><span>Order Id:</span> {{ booking.orderId }}</p>
+        <p class="service-name"><span>Service:</span> {{ booking.serviceName }}</p>
+        <p class="slot-time"><span>Slot Time:</span> {{ booking.time }}</p>
+        <p class="slot-date"><span>Slot Date:</span> {{ booking.date | date:'dd-MM-yyyy' }}</p>
+    </div>
+</div>

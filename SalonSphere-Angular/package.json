@@ -27,6 +27,7 @@
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/interaction": "^6.1.11",
+    "@fortawesome/angular-fontawesome": "^0.14.1",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@popperjs/core": "^2.11.8",
     "@tomtom-international/web-sdk-maps": "^6.25.0",

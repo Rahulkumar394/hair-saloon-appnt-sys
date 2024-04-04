@@ -23,8 +23,10 @@ import com.SalonSphereServer.repository.FeedbackRepository;
 import com.SalonSphereServer.repository.ShopEmployeeRepository;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.SlotRepository;
+import com.SalonSphereServer.repository.TransactionRepository;
 import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.request.FilterRequest;
+import com.SalonSphereServer.response.BookingDetailsResponse;
 import com.SalonSphereServer.response.FilterResponse;
 import com.SalonSphereServer.response.FilterResponseByCity;
 
@@ -41,6 +43,9 @@ public class CustomerService {
 	private ShopkeeperRepository shopKeeperRepository;
 	@Autowired
 	private FeedbackRepository feedbackRepository;
+
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	// call the userRepository method and fetch all the customer data from database
 	public List<CustomerDTO> getAllCustomers() {
@@ -59,22 +64,21 @@ public class CustomerService {
 		return cutomers;
 	}
 
-
-	public Map<List<String>, List<String>> getAllSlots(String shopId, String shopTiming, int serviceTime,String date) {
+	public Map<List<String>, List<String>> getAllSlots(String shopId, String shopTiming, int serviceTime, String date) {
 
 		List<ShopEmployees> shopEmployees = shopEmployeeRepository.findShopEmployeesByShopId(shopId);
 		Map<List<String>, List<String>> avilableSlots = new HashMap<List<String>, List<String>>();
 
 		for (ShopEmployees employeeData : shopEmployees) {
 
-			String employeeName =  employeeData.getEmployeeName() ;
-			String employeeId = employeeData.getEmployeeId() ;
+			String employeeName = employeeData.getEmployeeName();
+			String employeeId = employeeData.getEmployeeId();
 
 			List<String> employeeInfo = new ArrayList<String>();
 			employeeInfo.add(employeeId);
 			employeeInfo.add(employeeName);
 
-			List<String> bookedSlots = slotRepository.findAllSlotTimeByEmployeeId(employeeId);
+			List<String> bookedSlots = slotRepository.findAllSlotTimeByEmployeeIdAndDate(employeeId, date);
 
 			List<String> list = getAvailableSlots(serviceTime, bookedSlots, shopTiming, date);
 			avilableSlots.put(employeeInfo, list);
@@ -94,29 +98,29 @@ public class CustomerService {
 		int closingTime = Integer.parseInt("" + shopTiming.charAt(6) + shopTiming.charAt(7));
 
 		LocalDate today = LocalDate.now();
-		String todayDate = today.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		
+		String todayDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
 		System.out.println("Come inside this method------------------------------------------------------ aaya hai");
-		
-		//if the date is todays date then give the slot which greater then then current time
-		if(todayDate.equals(date)) {
-			
+
+		// if the date is todays date then give the slot which greater then then current
+		// time
+		if (todayDate.equals(date)) {
+
 			System.out.println("Come inside this method------------------------------------------------------");
-		
+
 			// Set the time zone to Indian Standard Time (IST)
-	        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
+			LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
 
-	        // Add 5 minutes to the current time
-	        LocalDateTime futureTime = now.plusMinutes(5);
+			// Add 5 minutes to the current time
+			LocalDateTime futureTime = now.plusMinutes(5);
 
-	        // Format the future time
-	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-	        String currentTime = dtf.format(futureTime);
-	        openingTime = Integer.parseInt("" + currentTime.charAt(0) + currentTime.charAt(1));
-			startMinute = Integer.parseInt("" + currentTime.charAt(3) + currentTime.charAt(4)); 
+			// Format the future time
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+			String currentTime = dtf.format(futureTime);
+			openingTime = Integer.parseInt("" + currentTime.charAt(0) + currentTime.charAt(1));
+			startMinute = Integer.parseInt("" + currentTime.charAt(3) + currentTime.charAt(4));
 		}
-		
-		
+
 		// Convert opening time to total minutes
 		int totalMinutes = openingTime * 60 + startMinute;
 
@@ -153,8 +157,8 @@ public class CustomerService {
 
 	// Helper method to check if two time slots overlap
 	public static boolean isOverlap(String slot1, String slot2) {
-		
-		System.out.println(slot1 +"-------------------------------------"+ slot2);
+
+		System.out.println(slot1 + "-------------------------------------" + slot2);
 		String[] parts1 = slot1.split("-");
 		String[] parts2 = slot2.split("-");
 
@@ -213,9 +217,10 @@ public class CustomerService {
 				fResponse.setShopId(s.getShopId());
 				fResponse.setShopTiming(s.getShopTiming());
 				fResponse.setShopEmail(s.getShopEmail());
-				Double rating=feedbackRepository.getAverageRatingByShopId(s.getShopId());
-				if(rating!=null)	fResponse.setRating(rating);
-				else	fResponse.setRating(0);
+				if (feedbackRepository.getAverageRatingByShopId(s.getShopId()) != null)
+					fResponse.setRating(feedbackRepository.getAverageRatingByShopId(s.getShopId()));
+				else
+					fResponse.setRating(0);
 				filterResponse.add(fResponse);
 
 			}
@@ -233,7 +238,7 @@ public class CustomerService {
 		// Initialize variables for price and distance ranges
 		int minPrice, maxPrice;
 		int minDistance, maxDistance;
-		
+
 		if (request.getPrice() == null) {
 
 			minPrice = 0;
@@ -248,7 +253,7 @@ public class CustomerService {
 		}
 		if (request.getDistance() == null) {
 			minDistance = 0;
-			maxDistance = 10000000;// // Maximum distance range (10,000,000 meters)	        
+			maxDistance = 10000000;// // Maximum distance range (10,000,000 meters)
 		} else {
 			// Split and parse distance range from request
 			String distanceRange[] = request.getDistance().split("-");
@@ -259,6 +264,7 @@ public class CustomerService {
 		// Fetch shops based on filters
 		List<Object[]> shops = shopKeeperRepository.findShopByCityAndServiceNameAndServicePriceAndDistance(
 				request.getCity(), request.getServiceName(), minPrice, maxPrice, minDistance, maxDistance);
+		System.out.println("Loop ke andar aa gya****************" + shops.isEmpty());
 
 		// Set to store unique shop IDs
 		Set<String> uniqueShopIds = new HashSet<>();
@@ -285,7 +291,11 @@ public class CustomerService {
 				filterResponse.setServiceDuration((int) obj[9]);
 
 				// Get the average rating for the shop ID from the feedback repository
-				filterResponse.setRating(feedbackRepository.getAverageRatingByShopId(shopId));
+
+				if (feedbackRepository.getAverageRatingByShopId(shopId) != null)
+					filterResponse.setRating(feedbackRepository.getAverageRatingByShopId(shopId));
+				else
+					filterResponse.setRating(0);
 
 				// Add the FilterResponse to the responseList
 				responseList.add(filterResponse);
@@ -297,8 +307,7 @@ public class CustomerService {
 
 	}
 
-
-    public List<ShowShopDto> searchShops(String keyword) {
+	public List<ShowShopDto> searchShops(String keyword) {
 
 		List<ShowShopDto> list = new ArrayList<>();
 		List<ShopInformation> sList = userRepository.searchShopsByKeyword(keyword);
@@ -317,5 +326,29 @@ public class CustomerService {
 		return list;
 	}
 
-}
+	public List<BookingDetailsResponse> getAllBookingDetails(String userId) {
 
+		List<BookingDetailsResponse> bookingDetails = new ArrayList<BookingDetailsResponse>();
+
+		List<Object[]> objectList = transactionRepository.findBookingDetailsByUserId(userId);
+
+		for (Object[] result : objectList) {
+
+			BookingDetailsResponse bookingDetailsResponse = new BookingDetailsResponse();
+			bookingDetailsResponse.setShopName((String) result[0]);
+			bookingDetailsResponse.setShopAddress((String) result[1]);
+			bookingDetailsResponse.setTime((String) result[2]);
+			bookingDetailsResponse.setDate((String) result[3]);
+			bookingDetailsResponse.setServiceName((String) result[4]);
+			bookingDetailsResponse.setAmount((Integer) result[5]);
+			bookingDetailsResponse.setOrderId((String) result[6]);
+
+			bookingDetails.add(bookingDetailsResponse);
+
+		}
+
+		return bookingDetails;
+
+	}
+
+}

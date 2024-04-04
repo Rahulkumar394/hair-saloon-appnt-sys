@@ -1,17 +1,17 @@
 <div class="container" *ngIf="shopData">
   <mat-card
     class="header"
-    style="background-image: url(assets/images/{{shopData.coverImage}}); 
+    style="background-image: url(assets/userUploadedImages/{{shopData.coverImage}}); 
     background-size: contain;
     background-repeat: no-repeat;
-    margin-right: 20px;"
+    margin-right: 50px;"
   >
     <div class="shopInfo">
       <h1>
         <strong>{{ shopData.shopName }}</strong>
       </h1>
-      <p>{{ shopData.address }}</p>
-      <p>{{ shopData.district }}</p>
+      <p>&nbsp;&nbsp;{{ shopData.address }}</p>
+      <p>&nbsp;&nbsp;{{ shopData.district }}</p>
     </div>
   </mat-card>
   <mat-tab-group>

@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthserviceService } from '../../services/common/authservice.service';
+import Swal from 'sweetalert2';
 
 export const customerGuardGuard: CanActivateFn = (route, state) => {
 
@@ -11,6 +12,12 @@ export const customerGuardGuard: CanActivateFn = (route, state) => {
   if( authService.isLogin() && authService.getRole() == 'customer'){
     return true;
   }
+
+  Swal.fire({
+    title: "You are not allowed!",
+    text: "Please Login as Customer to access this feature.",
+    icon: "warning",
+  })
   
   //otherwise  redirect to login page and return false
   router.navigate(['/login']);

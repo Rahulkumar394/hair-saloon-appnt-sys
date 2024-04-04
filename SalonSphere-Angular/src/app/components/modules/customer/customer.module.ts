@@ -43,6 +43,8 @@ import { UpdateUserProfileComponent } from './components/update-user-profile/upd
 
 
 
+import { PaymentMethodComponent } from './components/payment-method/payment-method.component';
+import { BookingDetailsComponent } from './components/booking-details/booking-details.component';
 
 @NgModule({
   declarations: [
@@ -52,15 +54,17 @@ import { UpdateUserProfileComponent } from './components/update-user-profile/upd
     HeaderComponent,
     ViewShopsComponent,
     AddServiceToCardComponent,
-    ViewSlotsComponent,
     DurationPipe,
     ShopInfoComponent,
     TimeSincePipe,
     CustomerProfileComponent,
     SidebarComponent,
     DashboardComponent,
-    UpdateUserProfileComponent
+    UpdateUserProfileComponent,
     // ShopkeeperDurationPipe
+    PaymentMethodComponent,
+    BookingDetailsComponent,
+    ViewSlotsComponent
 
   ],
   imports: [

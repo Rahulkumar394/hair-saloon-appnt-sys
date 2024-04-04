@@ -39,7 +39,7 @@
   .add-btn{
     width: 120px;
     position: absolute;
-    /* bottom: -3%; */
+    bottom: -3%;
     background-color: blue;
     color: white;
     padding: 10px 20px;
@@ -49,8 +49,6 @@
     cursor: pointer;
     border-radius: 20px;
     border: none;
-
-    margin-right: 80px;
   
   }
   .add-btn:hover{

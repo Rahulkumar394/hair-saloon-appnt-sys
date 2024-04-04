@@ -17,6 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SalonSphereServer.common.EmailContent;
+import com.SalonSphereServer.entity.Transactions;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.jwtsecurity.JwtHelper;
 import com.SalonSphereServer.request.AppointmentRequest;
@@ -33,6 +36,7 @@ import com.SalonSphereServer.response.LoginResponse;
 import com.SalonSphereServer.response.RegisterResponse;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.CustomerService;
+import com.SalonSphereServer.service.PaymentIntegrationService;
 import com.SalonSphereServer.service.SlotBookingService;
 import com.SalonSphereServer.service.UserService;
 
@@ -56,6 +60,9 @@ public class CommonControllers {
 
 	@Autowired
 	private SlotBookingService slotBookingService;
+
+	@Autowired
+	private PaymentIntegrationService paymentIntegrationService;
 
 	// this API for registration with validation
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -122,20 +129,6 @@ public class CommonControllers {
 
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")
-	@PostMapping("/book-slots")
-	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
-
-		System.out.println("++++++++++++++++++++++++++++++++++++hello aman");
-		Boolean slotBooked = slotBookingService.bookSlot(slotBookingRequest);
-		if (!slotBooked) {
-			return new ResponseEntity<>(true, HttpStatus.OK);
-
-		}
-		return new ResponseEntity<>(true, HttpStatus.OK);
-
-	}
-
 	// Taking Image as multipart input and uploading in the below destination
 	public static String uploadDirectory = "D:\\SalonSphere\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\profileImage";
 
@@ -150,6 +143,37 @@ public class CommonControllers {
 
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Profile Image Uploaded Successfully"));
 	}
-	
+
+	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
+
+		System.out.println("++++++++++++++++++++++++++++++++++++hello aman" + slotBookingRequest);
+		String bookingId = slotBookingService.bookSlot(slotBookingRequest);
+
+		if (bookingId != null)
+			return new ResponseEntity<>(new Response(bookingId), HttpStatus.OK);
+
+		return new ResponseEntity<>(new Response("not fount"), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/create-order/{value}")
+	public ResponseEntity<String> createOrder(@PathVariable int value) throws Exception {
+
+		System.out.println("777777777777777777777777777777777777777777777" + value);
+		String order = paymentIntegrationService.createNewOrder(value);
+		return new ResponseEntity<>(order, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/save-transaction")
+	public ResponseEntity<String> saveTransactionalDetails(@RequestBody Transactions transactions) {
+
+		System.out.println("5555555555555555555555555555555555555555555" + transactions);
+		if (paymentIntegrationService.saveTransaction(transactions)) {
+			return new ResponseEntity<>("success", HttpStatus.OK);
+		}
+
+		return new ResponseEntity<>("Failure", HttpStatus.OK);
+	}
 
 }

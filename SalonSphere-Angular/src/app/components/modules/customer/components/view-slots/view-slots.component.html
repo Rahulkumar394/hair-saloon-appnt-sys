@@ -7,7 +7,7 @@
     <div class="date">
 
       <form >
-            <input type="date" id="date" name="date" [min]="minDate" [max]="maxDate" [(ngModel)]="selectedDate">
+            <input type="date" id="date" name="date" [min]="minDate" [max]="maxDate" [(ngModel)]="selectedDate" (ngModelChange)="onDateSelected()">
         </form>
 
     </div>
@@ -20,89 +20,8 @@
         <div class="right">
           <button class="button-37" *ngFor="let time of key[1]" id="btn" role="button" (click)="bookSlot(time, getEmpId(key[0]))">{{ time }}</button>
         </div>
+        <div class="right message" *ngIf="!key[1].length">There is No any slot avilable in this date</div>
     </div>
 
 </div>
 </div>
-
-<!-- <div class="slots">
-      <div class="left">
-        <h2>Eqwal Khan</h2>
-      </div>
-      <div class="right">
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-      </div>
-    </div>
-    <div class="slots">
-      <div class="left">
-        <h2>Eqwal Khan</h2>
-      </div>
-      <div class="right">
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-      </div>
-    </div>
-    <div class="slots">
-      <div class="left">
-        <h2>Eqwal Khan</h2>
-      </div>
-      <div class="right">
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-        <button class="button-37" role="button">10:00-10:30</button>
-      </div>
-    </div> -->

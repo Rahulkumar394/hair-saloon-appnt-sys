@@ -1,6 +1,5 @@
 package com.SalonSphereServer.entity;
 
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,6 +38,6 @@ public class Slots {
 	private String slotTime;
 	
 	@Column(name = "booking_date")
-	private Date bookingDate;
+	private String bookingDate;
 
 }

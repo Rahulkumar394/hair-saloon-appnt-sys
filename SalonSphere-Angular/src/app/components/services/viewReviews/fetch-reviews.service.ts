@@ -10,10 +10,7 @@ export class FetchReviewsService {
 
 constructor(private http:HttpClient) { }
 getReviews(shopId:any){
-  const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
-
-  console.log("FeedBack Header",headers)
   console.log("FeedBack value",shopId)
-  return this.http.get(`${this.baseURL}/${shopId}`,{ headers});
+  return this.http.get(`${this.baseURL}/${shopId}`);
 }
 }

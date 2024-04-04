@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 // import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.SalonSphereServer.dto.ShowShopDto;
+import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.entity.Feedback;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.FeedbackRepository;
 import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.request.FilterRequest;
 import com.SalonSphereServer.request.SlotBookingRequest;
+import com.SalonSphereServer.response.BookingDetailsResponse;
 import com.SalonSphereServer.response.FilterResponse;
 import com.SalonSphereServer.response.FilterResponseByCity;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.FeedbackService;
 import com.SalonSphereServer.service.UserService;
+import com.SalonSphereServer.service.ShopServices;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -46,6 +50,7 @@ public class CustomerController {
 	private UserService userService;
 
 	// =============CODE FOR FILLTER==============
+	private ShopServices shopServices;
 
 	// Filter shops by given city
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -82,6 +87,7 @@ public class CustomerController {
 	// Through this method the user can give feedback to the provider
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/add-feedback")
+	@Secured("customer")
 	public ResponseEntity<Response> addFeedBack(@RequestBody Feedback feedback) {
 
 		System.out.println("=====INSIDE THE COUSTOMERCONTROLLER ADDFEEDBACK======\n" + feedback);
@@ -114,6 +120,7 @@ public class CustomerController {
 	// This API's is used for updating likes value by 1 with the help of review_id
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/like/{reviewId}/{like}")
+	@Secured("customer")
 	public ResponseEntity<Response> incrementLikeByReviewId(@PathVariable int reviewId, @PathVariable int like) {
 		System.out.println(
 				"=====INSIDE THE COUSTOMERCONTROLLER  incrementLikeByReviewId======\n" + reviewId + "," + like);
@@ -124,6 +131,7 @@ public class CustomerController {
 	// This API's is used for updating likes value by -1 with the help of review_id
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/unlike/{reviewId}/{like}")
+	@Secured("customer")
 	public ResponseEntity<Response> decrementLikeByReviewId(@PathVariable int reviewId, @PathVariable int like) {
 		System.out.println(
 				"=====INSIDE THE COUSTOMERCONTROLLER  incrementLikeByReviewId======\n" + reviewId + "," + like);
@@ -134,6 +142,7 @@ public class CustomerController {
 	// This API's is used for updating likes value by -1 with the help of review_id
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/delete-review/{reviewId}")
+	@Secured("customer")
 	public ResponseEntity<Response> deleteReviewId(@PathVariable int reviewId) {
 		System.out.println("=====INSIDE THE COUSTOMERCONTROLLER  deleteReviewId======\n" + reviewId);
 		feedbackRepository.deleteById(reviewId);
@@ -147,10 +156,9 @@ public class CustomerController {
 	// =================================================================================================================
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/book-slot")
+	@Secured("customer")
 	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
-
 		return new ResponseEntity<>(true, HttpStatus.OK);
-
 	}
 
 	// this api is for filter the shop
@@ -168,6 +176,7 @@ public class CustomerController {
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/userInfo/{userId}")
+	@Secured("customer")
 	public ResponseEntity<Users> fetchUserInfo(@PathVariable String userId) {
 
 		System.out.println("come inside the Shopkeeper contoller shopKeeper");
@@ -190,6 +199,7 @@ public class CustomerController {
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/delete-user/{userId}")
+	@Secured("customer")
 	public ResponseEntity<Response> deleteUserAccount(@PathVariable String userId) {
 		Boolean isDelete = userService.deleteUser(userId);
 		if (isDelete)
@@ -197,4 +207,22 @@ public class CustomerController {
 		return new ResponseEntity<>(new Response("Unable to delete User"), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/booking-details/{userId}")
+	@Secured("customer")
+	public ResponseEntity<List<BookingDetailsResponse>> getBookingDetails(@PathVariable String userId) {
+		System.out.println("user id is this ---------------------------------------------------" + userId);
+		List<BookingDetailsResponse> bookingDetails = customerService.getAllBookingDetails(userId);
+		return new ResponseEntity<>(bookingDetails, HttpStatus.OK);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/show-services/{shopId}")
+	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
+		System.out.println(
+				"===========================inside shop keeper controllere show services =====================");
+		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
+
+		return new ResponseEntity<>(serviceslist, HttpStatus.OK);
+	}
 }

@@ -59,19 +59,18 @@ public interface ShopkeeperRepository extends JpaRepository<ShopInformation, Str
 	List<ShopInformation> findShopByCity(@Param("shopDistrict") String shopDistrict);
 
 	// Through this methode we get all shops details like
-	// (shopname,serviceName,servicePrice and serviceDuration) by shop_city,
-	// serviceName,servicePriceRange like (100-200) and distance like(100m-200m)
-	@Query(value = "SELECT sh.shop_name, sh.shop_id, sh.shop_timing,sh.shop_city, sh.district, sh.state, sh.shop_cover_image, si.service_name, si.service_price, si.service_duration "
-			+
-			"FROM shop_information sh " +
-			"INNER JOIN service_information si ON sh.shop_id = si.shop_id " +
-			"WHERE sh.shop_city = :city AND (:serviceName IS NULL OR si.service_name = :serviceName) " +
-			"AND si.service_price BETWEEN :minPrice AND :maxPrice " +
-			"AND si.service_duration BETWEEN :minDistance AND :maxDistance ORDER BY si.service_price ASC", nativeQuery = true)
-	List<Object[]> findShopByCityAndServiceNameAndServicePriceAndDistance(@Param("city") String city,
-			@Param("serviceName") String serviceName, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice,
-			@Param("minDistance") int minDistance, @Param("maxDistance") int maxDistance);
-
+    // (shopname,serviceName,servicePrice and serviceDuration) by shop_city,
+    // serviceName,servicePriceRange like (100-200) and distance like(100m-200m)
+    @Query(value = "SELECT sh.shop_name, sh.shop_id, sh.shop_timing,sh.shop_city, sh.district, sh.state, sh.shop_cover_image, si.service_name, si.service_price, si.service_duration "
+            +
+            "FROM shop_information sh " +
+            "INNER JOIN service_information si ON sh.shop_id = si.shop_id " +
+            "WHERE sh.district = :city AND (:serviceName IS NULL OR si.service_name = :serviceName) " +
+            "AND si.service_price BETWEEN :minPrice AND :maxPrice " +
+            "AND si.service_duration BETWEEN :minDistance AND :maxDistance ORDER BY si.service_price ASC", nativeQuery = true)
+    List<Object[]> findShopByCityAndServiceNameAndServicePriceAndDistance(@Param("city") String city,
+            @Param("serviceName") String serviceName, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice,
+            @Param("minDistance") int minDistance, @Param("maxDistance") int maxDistance);
 	// ************** FOR FILTERING ENDS HERE*********************************
 
 	// Custom query method to check if a shop exists based on shop ID
@@ -79,8 +78,5 @@ public interface ShopkeeperRepository extends JpaRepository<ShopInformation, Str
 
 	// if you delete then talk to me (Rahul Kumar)
 	// void deleteByIsDeleteAndCreateDateBefore(boolean isDelete, Date date);
-
-	
-
 
 }

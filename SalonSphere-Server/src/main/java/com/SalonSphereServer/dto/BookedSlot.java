@@ -29,6 +29,6 @@ public class BookedSlot {
 
     private String slotTime;
 
-    private Date bookingDate;
+    private String bookingDate;
 
 }

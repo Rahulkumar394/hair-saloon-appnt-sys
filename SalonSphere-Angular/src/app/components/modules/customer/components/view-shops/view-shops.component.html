@@ -240,11 +240,11 @@
           <div class="content">
             <div class="left">
               <div class="pera">
-                <p class="location">location : {{ shop.location }}</p>
-                <p *ngIf="shop.price != 0" class="price">
+                <p class="location">Address : {{ shop.location }}</p>
+                <p *ngIf="shop.price" class="price">
                   Price : {{ shop.price }} Rs
                 </p>
-                <p *ngIf="shop.timeDuration != ''" class="time">
+                <p *ngIf="shop.timeDuration" class="time">
                   Time-Duration: {{ shop.timeDuration }}
                 </p>
               </div>
@@ -270,9 +270,9 @@
               <div class="img-div">
                 <img 
                   id="img"
-                  [src]="'../../../../../../assets/images/' + shop.coverImage"
+                  [src]="'../../../../../../assets/userUploadedImages/' + shop.coverImage"
                   alt="img"
-                />
+                />   
               </div>
               <strong class="rating">Rating: <span>{{shop.rating | number: '1.1-1'}}</span></strong>
             </div>

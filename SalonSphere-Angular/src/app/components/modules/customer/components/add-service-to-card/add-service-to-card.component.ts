@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GetServiceInfoService } from '../../../../services/fetchShopServices/get-service-info.service';
+import { ViewShopServicesService } from '../../../../services/customer/view-shop-services.service';
 
 // Define the Service interface
 interface Service {
@@ -47,14 +48,26 @@ export class AddServiceToCardComponent implements OnInit {
   shopAddress: string|null = localStorage.getItem('shopAddress');
 
 
-  constructor(private router:Router, private getShopServices:GetServiceInfoService) {}
+  constructor(private router:Router, private getShopServices:ViewShopServicesService) {}
   ngOnInit(): void {
 
+    //first check the customer already choose the service then naviage to the view slots page
+    // if(localStorage.getItem('serviceTime') != null && localStorage.getItem('serviceName') != null && localStorage.getItem('serviceCharge')!=null && localStorage.getItem('shopName') != null){
+    //   this.router.navigate(['/customer/view-slots']);
+    // }
+
+    if(localStorage.getItem('shopId')==null){
+      this.router.navigate(['/customer/view-shops'])
+    }
     this.getShopServices.fetchAllServices(localStorage.getItem('shopId')).subscribe((response: any) => {
       
       this.services = response;
       console.log(response);
       
+    },
+    (error:any)=>{
+
+      console.log("Why this colaveri di ?",error)
     });
   }
 
@@ -108,7 +121,7 @@ export class AddServiceToCardComponent implements OnInit {
     this.totalDuration += product.serviceDuration;
   }
 
-  navigateLogin(){
+  viewSlots(){
     if(this.totalDuration == 0 || this.totalAmount == 0){
       Swal.fire({
         title: 'Sorry',
@@ -120,6 +133,7 @@ export class AddServiceToCardComponent implements OnInit {
     else{
       localStorage.setItem('serviceTime',''+this.totalDuration);
       localStorage.setItem('serviceName', this.serviceName);
+      localStorage.setItem('serviceCharge',''+this.totalAmount);
       this.router.navigate(['/customer/view-slots']);
     }
   }

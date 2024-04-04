@@ -33,11 +33,11 @@ import com.SalonSphereServer.entity.ServiceInformation;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
-import com.SalonSphereServer.repository.SlotRepository;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.ShopEmployeeService;
 import com.SalonSphereServer.service.ShopServices;
 import com.SalonSphereServer.service.ShopkeeperService;
+import com.SalonSphereServer.service.SlotBookingService;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -50,7 +50,7 @@ public class ShopkeeperController {
 	@Autowired
 	private ShopServices shopServices;
 	@Autowired
-	private SlotRepository slotRepository;
+	private SlotBookingService slotService;
 	@Autowired
 	private ShopEmployeeService shopEmployeeService;
 	@Autowired
@@ -125,7 +125,7 @@ public class ShopkeeperController {
 	}
 
 	// Taking Image as multipart input and uploading in the below destination
-	public static String uploadDirectory = "D:\\SalonSphere\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\images";
+	public static String uploadDirectory = "D:\\SalonSphere\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\userUploadedImages";
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping(value = "/uploadDocument", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -210,7 +210,7 @@ public class ShopkeeperController {
 	@GetMapping("/showservices/{shopId}")
 	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
 		System.out.println(
-				"===========================inside shop keeper controllere show services =====================");
+				"===========================inside shop keeper controllere show services ====================="+shopId);
 		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
 		if (serviceslist != null) {
 			return new ResponseEntity<>(serviceslist, HttpStatus.OK);
@@ -227,7 +227,7 @@ public class ShopkeeperController {
 		if (sDto != null) {
 			return new ResponseEntity<>(sDto, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(sDto, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -304,7 +304,7 @@ public class ShopkeeperController {
 		if (!listOfEmps.isEmpty())
 			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
 		else
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(listOfEmps);
+			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
 	}
 
 	// Showing all employee in a perticular shop and find all employee by shopId
@@ -327,7 +327,7 @@ public class ShopkeeperController {
 	@Secured("shopkeeper")
 	public ResponseEntity<List<BookedSlot>> viewSlotsBooked(@PathVariable String shopId) {
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER viewSlotsBooked METHOD=======" + shopId);
-		List<BookedSlot> slotsBookedList = slotRepository.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
+		List<BookedSlot> slotsBookedList = slotService.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
 		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
 	}
 

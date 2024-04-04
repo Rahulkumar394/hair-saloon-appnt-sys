@@ -5,9 +5,10 @@ import {
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { SlotService } from '../../../../services/slots/slot.service';
-import { response } from 'express';
+import { Router } from '@angular/router';
 import { BookSlotService } from '../../../../services/slot-booking/book-slot.service';
 import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-view-slots',
@@ -34,9 +35,17 @@ export class ViewSlotsComponent {
   constructor(
     private calendar: NgbCalendar,
     private slotService: SlotService,
-    private slotBooking: BookSlotService
+    private slotBooking: BookSlotService, private router: Router,
   ) {
+  
+    if(localStorage.getItem('date')!=null){
+      const date:any = localStorage.getItem('date')
+      this.selectedDate = date;
+      this.minDate = this.getTodayDate();
+    }
+    else{
     this.selectedDate = this.minDate = this.getTodayDate();
+    }
     console.log(this.selectedDate);
     this.maxDate = this.getMaxDate();
     this.info.date = this.dateFormate(this.selectedDate);
@@ -45,6 +54,9 @@ export class ViewSlotsComponent {
   }
 
   getSlots() {
+    //set the date which has choosen by the customer
+    this.info.date = this.selectedDate;
+
     // call the service which will give all the available slots
     this.slotService.getAllAvilableSlots(this.info).subscribe(
       (response: any) => {
@@ -62,10 +74,12 @@ export class ViewSlotsComponent {
 
   getTodayDate(): string {
     const today = this.calendar.getToday();
+    console.log('aya haia aya ahai');
     return this.formatDate(today);
   }
 
   formatDate(date: NgbDateStruct): string {
+    console.log('aya haia aya ahai333');
     return `${date.year}-${this.addLeadingZero(
       date.month
     )}-${this.addLeadingZero(date.day)}`;
@@ -99,33 +113,19 @@ export class ViewSlotsComponent {
     console.log(localStorage.getItem('serviceName'));
     console.log(localStorage.getItem('serviceTime'));
     console.log(this.selectedDate);
+    localStorage.setItem('slotTime', slotTime);
+    localStorage.setItem('empId',empId);
+    localStorage.setItem('date', this.selectedDate);
+    
+    //navigate user to the payment section
+    localStorage.setItem('date',this.selectedDate);
+    this.router.navigate(['/customer/payment-method']);
+    }
 
-    const slotInfo = {
-      // Correct declaration with object literal {}
-      slotTime: slotTime, // Use : for assignment
-      empId: empId, // Use : for assignment
-      serviceName: localStorage.getItem('serviceName'), // Get value from localStorage
-      serviceTime: localStorage.getItem('serviceTime'), // Get value from localStorage
-      date: this.selectedDate,
-    };
+    
+    
 
-    this.slotBooking.bookSlot(slotInfo).subscribe(
-      (response: any) => {
-        console.log(response);
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: 'Your slot has been booked.',
-        });
-        this.getSlots();
-      },
-      (error) => {
-        alert('error occurred');
-      }
-    );
-  }
-
-  dateFormate(dateString: string) {
+   dateFormate(dateString: string) {
     const parts = dateString.split('-');
     if (parts.length === 3) {
       const [year, month, day] = parts;
@@ -133,5 +133,10 @@ export class ViewSlotsComponent {
     } else {
       return 'Invalid date format';
     }
+  }
+
+  onDateSelected() {
+    console.log(this.selectedDate);
+    this.getSlots();
   }
 }

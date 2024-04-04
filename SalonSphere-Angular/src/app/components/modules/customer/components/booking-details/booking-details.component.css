@@ -1,0 +1,38 @@
+.cards{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: space-around;
+}
+
+.card{
+    width: 45%;
+    height: 300px;
+    background-color: #f8f9fa;
+    padding: 20px 40px;
+}
+
+h2{
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+p{
+    font-size: 15px;
+    letter-spacing: 1px;
+    color: #737679;
+}
+span{
+    font-weight: bold;
+}
+.card:hover {
+    background-color: rgb(205, 202, 202);
+    transition: all 0.8s linear;
+    cursor: pointer;
+  }
