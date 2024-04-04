@@ -32,8 +32,8 @@ export class ShopDashboardComponent implements OnInit {
     private reviewService: FetchReviewsService,
     private likeService: LikeService,
     private fetchEmployeeService: FetchEmployeeService,
-    private deleteEmployeeService:DeleteEmployeeService,
-    private router:Router,
+    private deleteEmployeeService: DeleteEmployeeService,
+    private router: Router
   ) {}
 
   data: any[] = [];
@@ -151,6 +151,10 @@ export class ShopDashboardComponent implements OnInit {
         (data: any) => {
           // Handle successful deletion
           Swal.fire('Service deleted!', '', 'success');
+          setTimeout(() => {
+            // Reload the page
+            window.location.reload();
+          }, 2000); // 2 seconds
         },
         (error) => {
           // Handle error
@@ -173,16 +177,18 @@ export class ShopDashboardComponent implements OnInit {
   }
 
   confirmDeleteEmployee() {
-    this.deleteEmployeeService.deleteEmployee(localStorage.getItem('employeeId')).subscribe(
-      (data: any) => {
-        // Handle successful deletion
-        Swal.fire('Employee deleted!', '', 'success');
-        this.router.navigate(['/shopkeeper/shopDashboard']);
-      },
-      (error) => {
-        // Handle error
-        Swal.fire('Error', 'Failed to delete the employee', 'error');
-      }
-    );
+    this.deleteEmployeeService
+      .deleteEmployee(localStorage.getItem('employeeId'))
+      .subscribe(
+        (data: any) => {
+          // Handle successful deletion
+          Swal.fire('Employee deleted!', '', 'success');
+          this.router.navigate(['/shopkeeper/shopDashboard']);
+        },
+        (error) => {
+          // Handle error
+          Swal.fire('Error', 'Failed to delete the employee', 'error');
+        }
+      );
   }
 }

@@ -34,7 +34,6 @@ import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
-import com.SalonSphereServer.repository.SlotRepository;
 import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.ShopEmployeeService;
