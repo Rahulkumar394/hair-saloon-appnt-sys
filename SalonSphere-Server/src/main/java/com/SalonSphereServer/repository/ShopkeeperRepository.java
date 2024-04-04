@@ -77,4 +77,7 @@ public interface ShopkeeperRepository extends JpaRepository<ShopInformation, Str
 	// Custom query method to check if a shop exists based on shop ID
 	boolean existsByShopId(String shopId);
 
+	// if you delete then talk to me (Rahul Kumar)
+	// void deleteByIsDeleteAndCreateDateBefore(boolean isDelete, Date date);
+
 }

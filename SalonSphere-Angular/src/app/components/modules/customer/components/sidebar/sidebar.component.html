@@ -1,0 +1,54 @@
+<div class="navcontainer">
+  <nav class="nav">
+    
+    <div class="nav-upper-options">
+        <div class="gradient-text nav-option">
+        <h1>Hello {{ customerName }} !!!</h1>
+      </div>
+      <div class="nav-option option1 active" routerLink="/customer/dashboard/profile">
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/7351/7351092.png"
+          class="nav-img"
+          alt="dashboard"
+        />
+        <h3>Profile</h3>
+      </div>
+
+      <div class="nav-option option3">
+        <img
+          src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/5.png"
+          class="nav-img"
+          alt="report"
+        />
+        <h3>Bookings</h3>
+      </div>
+
+      <div (click)="viewBookings()" class="nav-option option4">
+        <img
+          src="https://cdn-icons-png.flaticon.com/128/1436/1436756.png"
+          class="nav-img"
+          alt="institution"
+        />
+        <h3>View Requests</h3>
+      </div>
+
+      <div class="nav-option option6" (click)="deleteUser()">
+        <img
+          src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183320/4.png"
+          class="nav-img"
+          alt="settings"
+        />
+        <h3>Delete Account</h3>
+      </div>
+
+      <div (click)="navigateLogout()" class="nav-option option7 logout">
+        <img
+          src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
+          class="nav-img"
+          alt="logout"
+        />
+        <h3>Logout</h3>
+      </div>
+    </div>
+  </nav>
+</div>

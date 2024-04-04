@@ -30,7 +30,7 @@
         />
       </div>
       <!-- ------------------------------------------------------------------- -->
-      <div class="input-box">
+      <!-- <div class="input-box">
         <label>Licence Document</label>
         <input
           type="file"
@@ -38,17 +38,9 @@
           formControlName="licenseDocument"
           (change)="uploadLicence($event)"
         />
-      </div> -->
-      
-      <!-- <div class="input-box">
-        <label>Cover Picture</label>
-        <input
-          type="file"
-          placeholder="Upload Image"
-          formControlName="coverImage"
-          (change)="uploadFile($event)"
-        />
-      </div> -->
+      </div>  -->
+      <!-- ------------------------------------------------------------------- -->
+
       <!-- ------------------------------------------------------------------- -->
       <div class="input-box">
         <label>Email Address</label>
@@ -179,9 +171,8 @@
                   fill-rule="evenodd"
                 ></path>
               </g>
-              
             </svg>
-            <mat-icon *ngIf="licenceCNF" style="color: green;">done</mat-icon>
+            <mat-icon *ngIf="licenceCNF" style="color: green">done</mat-icon>
           </div>
           <div class="text">
             <span>Click to upload Licence </span>
@@ -193,8 +184,6 @@
             formControlName="licenseDocument"
             (change)="uploadLicence($event)"
           />
-
-          
         </label>
 
         <!-- ------------------------------------------------------------------- -->
@@ -218,8 +207,8 @@
                 ></path>
               </g>
             </svg>
-            <img src="" alt="">
-            <mat-icon *ngIf="coverCNF"  style="color: green;">done</mat-icon>
+            <img src="" alt="" />
+            <mat-icon *ngIf="coverCNF" style="color: green">done</mat-icon>
           </div>
           <div class="text">
             <span>Add a Cover image</span>

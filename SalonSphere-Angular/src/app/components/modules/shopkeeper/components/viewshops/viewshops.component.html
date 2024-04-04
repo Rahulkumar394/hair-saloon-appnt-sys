@@ -28,8 +28,11 @@
          <td>{{ shop.shopEmail }}</td>
          <td>{{ shop.shopContactNo | phoneNumber}}</td>
          <td>{{ shop.status }}</td>
-         <td><a mat-button color="primary" (click)="showinfo(shop.shopEmail, shop.shopId)"
+         <td *ngIf="shop.status=='accepted'||shop.status=='Pending'"><a mat-button color="primary" (click)="showinfo(shop.shopEmail, shop.shopId)"
           routerLink="/shopkeeper/shopDashboard"><mat-icon>visibility</mat-icon></a>
+         </td>
+         <td *ngIf="shop.status=='rejected'"><a mat-button color="primary" (click)="requestAgain(shop.shopEmail, shop.shopId)"
+          routerLink="/shopkeeper/requestAgain">Request Again</a>
          </td>
        </tr>
        

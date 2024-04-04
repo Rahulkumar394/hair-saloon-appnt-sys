@@ -14,4 +14,19 @@ export class ImageService {
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
     return this.http.post("http://localhost:8081/shopkeeper/uploadDocument",data, { headers });
   }
+
+  uploadProfile(data:any){
+
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
+    console.log("Service me aaya hai",data);
+    return this.http.post("http://localhost:8081/uploadImage",data, { headers });
+
+  }
+
+  changeProfilename(profileImage:string){
+    const userId=Cookie.get("userId");
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
+    return this.http.post("http://localhost:8081/changeProfileName/"+`${userId}`,profileImage, { headers });
+
+  }
 }

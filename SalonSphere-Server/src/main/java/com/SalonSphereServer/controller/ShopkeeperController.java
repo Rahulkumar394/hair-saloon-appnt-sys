@@ -25,16 +25,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SalonSphereServer.common.EmailContent;
+import com.SalonSphereServer.dto.BookedSlot;
 import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ServiceInformation;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
+import com.SalonSphereServer.entity.Users;
+import com.SalonSphereServer.repository.ShopkeeperRepository;
+import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.response.Response;
-import com.SalonSphereServer.service.EmailService;
 import com.SalonSphereServer.service.ShopEmployeeService;
 import com.SalonSphereServer.service.ShopServices;
 import com.SalonSphereServer.service.ShopkeeperService;
+import com.SalonSphereServer.service.SlotBookingService;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -46,13 +51,14 @@ public class ShopkeeperController {
 	private ShopkeeperService shopkeeperService;
 	@Autowired
 	private ShopServices shopServices;
-	
+	@Autowired
+	private SlotBookingService slotService;
 	@Autowired
 	private ShopEmployeeService shopEmployeeService;
-
-	@SuppressWarnings("unused")
 	@Autowired
-	private EmailService emailService;
+	private ShopkeeperRepository shopkeeperRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	// Through addshop API we can add new salons in the system
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -63,10 +69,12 @@ public class ShopkeeperController {
 		// Call service method to add shop
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDSHOP METHOD=======" + shop);
 		boolean isAdd = shopkeeperService.addShopInformation(shop);
-		System.out.println("==========================="+isAdd);
-		if (isAdd)
+		System.out.println("===========================" + isAdd);
+		if (isAdd) {
+			EmailContent.registerShop(shop.getShopEmail(), shop.getShopName(),
+					shopkeeperRepository.getOwnerEmailByShopEmail(shop.getShopEmail()));
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully added Shop"));
-		else
+		} else
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new Response("Error while adding Shop"));
 	}
@@ -120,6 +128,7 @@ public class ShopkeeperController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Shop Deleted Successfully"));
 	}
 
+	// Taking Image as multipart input and uploading in the below destination
 	public static String uploadDirectory = "E:\\SalonSphere Project\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\images";
 
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -205,7 +214,7 @@ public class ShopkeeperController {
 	@GetMapping("/showservices/{shopId}")
 	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
 		System.out.println(
-				"===========================inside shop keeper controllere show services =====================");
+				"===========================inside shop keeper controllere show services ====================="+shopId);
 		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
 		if (serviceslist != null) {
 			return new ResponseEntity<>(serviceslist, HttpStatus.OK);
@@ -214,16 +223,16 @@ public class ShopkeeperController {
 	}
 
 	// Through this api we will get shops information through shopEmail
-	@SuppressWarnings("null")
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/getshopbyemail")
 	public ResponseEntity<ShopInformation> getShopByEmail(@RequestBody String shopEmail) {
 		System.out.println("=======GetShopinformation by email=============>" + shopEmail);
+		@SuppressWarnings("null")
 		ShopInformation sDto = shopkeeperService.getShopDetailsByShopEmail2(shopEmail);
 		if (sDto != null) {
 			return new ResponseEntity<>(sDto, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(sDto, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -261,8 +270,8 @@ public class ShopkeeperController {
 	@Secured("shopkeeper")
 	public ResponseEntity<Response> addEmp(@RequestBody ShopEmployees shopEmployees) {
 
-		// Call service method to add shop
-		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDSHOP METHOD=======" + shopEmployees);
+		// Call service method to add employee
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDEmployee METHOD=======" + shopEmployees);
 		boolean isAdd = shopEmployeeService.addEmp(shopEmployees);
 		if (isAdd)
 			return ResponseEntity.status(HttpStatus.OK).body(new Response("Employee added Successfully"));
@@ -270,7 +279,106 @@ public class ShopkeeperController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body(new Response("Error while adding employee"));
 	}
-	
-	
+
+	// this API for change the status through ShopEmail for Re-apply request when
+	// requst rejected
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping(value = "/requestAgain", produces = MediaType.APPLICATION_JSON_VALUE)
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> requestAgain(@RequestBody ShopInformation shop) {
+
+		// Call service method to requst again
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  ADDSHOP METHOD=======" + shop);
+		boolean isAdd = shopkeeperService.requestAgain(shop);
+		if (isAdd) {
+			System.out.println("This is refactor service************************************************");
+			return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully sent request for apply"));
+		} else
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new Response("Error while sending requestAgain requst"));
+	}
+
+	// Showing all employee in a perticular shop and find all employee by shopId
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/show-all-emp/{shopId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<List<ShopEmployees>> showAllEmpByShopId(@PathVariable String shopId) {
+
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER showAllEmpByShopId METHOD=======" + shopId);
+		List<ShopEmployees> listOfEmps = shopEmployeeService.showAllEmpByShopId(shopId);
+			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
+		
+	}
+
+	// Showing all employee in a perticular shop and find all employee by shopId
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/show-emp/{empId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<ShopEmployees> showEmpByEmpId(@PathVariable String empId) {
+
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER showEmpByEmpId METHOD=======" + empId);
+		ShopEmployees emp = shopEmployeeService.showEmpByEmpId(empId);
+		if (emp != null)
+			return ResponseEntity.status(HttpStatus.OK).body(emp);
+		else
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(emp);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/updateEmployee")
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> updateShop(@RequestBody ShopEmployees employee) {
+
+		// Call service method to add shop
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  UPDATESHOP METHOD=======");
+		boolean isUpdate = shopkeeperService.updateEmployeeService(employee);
+		if (isUpdate)
+			return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Successfully Updated Employee"));
+		else
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new Response("Error while Updating Employee"));
+	}
+
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/deleteEmployee/{employeeId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> deleteEmployeeService(@PathVariable String employeeId) {
+
+		// Call service method to add shop
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  DELETESHOP SERVICE METHOD=======");
+		shopkeeperService.deleteEmployee(employeeId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfull Deletion of Employee"));
+
+	}
+
+	// Fetching All the slots for a shop using the shop's Id
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/fetchSlotsByShopId/{shopId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<List<BookedSlot>> viewSlotsBooked(@PathVariable String shopId) {
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER viewSlotsBooked METHOD=======" + shopId);
+		List<BookedSlot> slotsBookedList = slotService.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
+		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
+	}
+
+	// @CrossOrigin(origins = "http://localhost:4200")
+	// @GetMapping("/get-shopkeeper/{userId}")
+	// public ResponseEntity<ShopOwnerDTO> getShopkeeper(@PathVariable String userId) {
+
+	// 	System.out.println("come inside the Shopkeeper contoller shopKeeper");
+	// 	ShopOwnerDTO shopOwner = shopkeeperService.getShopKeeper(userId);
+	// 	return new ResponseEntity<>(shopOwner, HttpStatus.OK);
+	// }
+
+	//this api for get user by userId
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/userInfo/{userId}")
+	public ResponseEntity<Users> fetchUserInfo(@PathVariable String userId) {
+
+		System.out.println("come inside the Shopkeeper contoller shopKeeper");
+		Users userInfo = userRepository.getUserInfo(userId);
+		return new ResponseEntity<>(userInfo, HttpStatus.OK);
+	}
 
 }

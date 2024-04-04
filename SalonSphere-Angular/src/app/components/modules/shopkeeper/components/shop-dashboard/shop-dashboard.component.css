@@ -18,7 +18,7 @@ h1 {
   align-self: flex-end;
 }
 .header{
-  padding-left: 100px;
+  /* padding-left: 100px; */
   padding-top: 10px;
 }
 .container{
@@ -119,6 +119,7 @@ tr{
 }
 
 .noshopCard {
+  
   height: 200px;
   width: 20vw;
   margin: 50px;
@@ -129,6 +130,50 @@ tr{
   color: #000;
 }
 
+
+.reviewContainer container {
+  position: absolute;
+  margin-top: 6%;
+  margin-left: 7%;
+}
+
+.reviews {
+  background-color: rgba(66, 99, 116, 0.599);
+  margin: 10%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.header_review{
+  display: flex;
+  flex-direction: column;
+}
+.star{
+  color: gold;
+}
+
+.customer-name{
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  margin-top: 20px;
+}
+
+.review-date, .rating{
+  display: flex;
+  position: absolute;
+  justify-content: end;
+  align-self: flex-end;
+}
+
+.review-message{
+  margin-left: 30px;
+}
+
+.rating{
+  margin-top: 20px;
 @media screen and (max-width:850px) {
   .container{
     width: 100%;
@@ -137,3 +182,4 @@ tr{
   }
 }
 
+}

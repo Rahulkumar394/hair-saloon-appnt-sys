@@ -33,7 +33,7 @@ export class ShowShopsService {
   //URL for filtering
   filterURL:string = 'http://localhost:8081/customer/filter-shop';
 
-  filterShops(serviceName:any, renge:any, distence:any, city:any){
+  filterShops(serviceName:any, range:any, distance:any, city:any){
 
     //set the token in header
     const token = Cookie.get('token');
@@ -44,15 +44,16 @@ export class ShowShopsService {
     interface filter{
       serviceName:string,
       price:string,
-      distence:string,
-      city:any
+      distance:string,
+      city:any,
+      
     }
 
     //create obj of filter interface type
     const obj: filter={
       serviceName: serviceName,
-      price: renge,
-      distence: distence,
+      price: range,
+      distance: distance,
       city:city
     };
 

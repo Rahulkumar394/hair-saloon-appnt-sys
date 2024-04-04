@@ -18,13 +18,18 @@ import com.SalonSphereServer.dto.PendingShopsDetailsDTO;
 import com.SalonSphereServer.dto.ShopOwnerDTO;
 import com.SalonSphereServer.dto.ShopReviewDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
+import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.entity.Users;
+import com.SalonSphereServer.repository.ShopEmployeeRepository;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
 import com.SalonSphereServer.repository.UserRepository;
 
 @Service
 public class ShopkeeperService {
+
+	@Autowired
+	private ShopEmployeeRepository shopEmployeeRepository;
 
 	@Autowired
 	private ShopkeeperRepository shopkeeperRepository;
@@ -73,6 +78,21 @@ public class ShopkeeperService {
 		return shopkeepers;
 	}
 
+	// call the userRepository method and fetch the Shopkeeper data from
+	public ShopOwnerDTO getShopKeeper(String userId) {
+
+		System.out.println("come inside the services  getAllShopKeepers() method");
+		Users user = userRepository.findByUserId(userId);
+
+		ShopOwnerDTO shopkeeper = new ShopOwnerDTO();
+
+		shopkeeper.setFullName(user.getFirstName()+" "+user.getLastName());
+		shopkeeper.setEmail(user.getEmail());
+		shopkeeper.setContactNumber(user.getContactNumber());
+		
+		return shopkeeper;
+	}
+
 	// Through this method we add shopInformation to the database
 	public boolean addShopInformation(ShopInformation shopInformation) {
 
@@ -96,15 +116,23 @@ public class ShopkeeperService {
 
 			shopInformation.setCreateDate(sqlDate);
 			shopInformation.setModifyDate(sqlDate);
-
+			
 			shopInformation.setCoverImage(shopInformation.getCoverImage());
 			shopInformation.setLicenseDocument(shopInformation.getLicenseDocument());
 
+			System.out.println("licence =>"+shopInformation.getLicenseDocument());
+			System.out.println("cover image =>"+shopInformation.getCoverImage());
 			// This line tell shop is create and its status is pending admin approval
 			// pending means not approved yet
 			shopInformation.setStatus("Pending");
-			// for tempory setting time.
-			shopInformation.setShopTiming("10:00-7:00");
+			shopInformation.setShopCity(shopInformation.getShopCity().trim());
+			System.out.println("licence =>"+shopInformation.getLicenseDocument());
+			System.out.println("cover image =>"+shopInformation.getCoverImage());
+			// This line tell shop is create and its status is pending admin approval
+			// pending means not approved yet
+			shopInformation.setStatus("Pending");
+
+			
 			ShopInformation shopInformation2 = shopkeeperRepository.save(shopInformation);
 
 			// not null then shop added successfully
@@ -141,9 +169,9 @@ public class ShopkeeperService {
 	}
 
 	// Through this method we upadte shopInformation to the database
-	@SuppressWarnings("null")
 	public boolean updateShopInformation(ShopInformation shopInformation) {
 
+		@SuppressWarnings("null")
 		Optional<ShopInformation> existingShopOptional = shopkeeperRepository.findById(shopInformation.getShopId());
 		// Validation
 		if (existingShopOptional.isPresent() && (Validation.emailValidation(shopInformation.getShopEmail())
@@ -174,7 +202,9 @@ public class ShopkeeperService {
 			// Convert java.util.Date to java.sql.Date
 			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 			shopInformation.setModifyDate(sqlDate);
-
+			shopInformation.setCreateDate(existingShop.getCreateDate());
+			shopInformation.setStatus(existingShop.getStatus());
+			shopInformation.setShopTiming(existingShop.getShopTiming());
 			// Cheking cover image and licence document name is null or not if null then set
 			// default name
 			if (shopInformation.getCoverImage() == null && shopInformation.getLicenseDocument() == null) {
@@ -260,6 +290,100 @@ public class ShopkeeperService {
 	@Transactional
 	public void updateStatus(String shopEmail, String status) {
 		shopkeeperRepository.updateStatusByShopEmail(shopEmail, status);
+		return;
+	}
+
+	//this method used for request again to admin from shopkeeper
+	@SuppressWarnings("null")
+	public boolean requestAgain(ShopInformation shopInformation) {
+
+		Optional<ShopInformation> existingShopOptional = shopkeeperRepository.findById(shopInformation.getShopId());
+		// Validation
+		if (existingShopOptional.isPresent() && (Validation.emailValidation(shopInformation.getShopEmail())
+				&& Validation.contactNumberValidation(shopInformation.getShopContactNo())
+				&& Validation.firstNameValidation(shopInformation.getShopName())
+				&& Validation.addressValidation(shopInformation.getAddress())
+				&& Validation.pincodeValidation(shopInformation.getPincode()))) {
+
+			System.out.println("This is shop keeper service inside update service after validation");
+
+			ShopInformation existingShop = existingShopOptional.get();
+			// Update the properties of the existing shop with the new values
+			existingShop.setShopName(shopInformation.getShopName());
+			existingShop.setPincode(shopInformation.getPincode());
+			existingShop.setState(shopInformation.getState());
+			existingShop.setDistrict(shopInformation.getDistrict());
+			existingShop.setLandmark(shopInformation.getLandmark());
+			existingShop.setAddress(shopInformation.getAddress());
+			existingShop.setLicenceNo(shopInformation.getLicenceNo());
+			existingShop.setShopStatus(shopInformation.isShopStatus());
+			existingShop.setShopEmail(shopInformation.getShopEmail());
+			existingShop.setShopContactNo(shopInformation.getShopContactNo());
+			existingShop.setShopCity(shopInformation.getShopCity().trim());
+
+			// Create a java.util.Date object
+			java.util.Date utilDate = new java.util.Date();
+
+			// Convert java.util.Date to java.sql.Date
+			java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+			shopInformation.setModifyDate(sqlDate);
+			shopInformation.setCreateDate(existingShop.getCreateDate());
+
+			// Cheking licence document name is null or not if null then set
+			 if (shopInformation.getLicenseDocument() == null) {
+				shopInformation.setLicenseDocument(shopInformation.getShopId() + shopInformation.getLicenseDocument());
+			}
+
+			shopInformation.setStatus("Pending");
+			shopInformation.setShopTiming(existingShop.getShopTiming());
+			ShopInformation shopInformation2 = shopkeeperRepository.save(shopInformation);
+			// shopInformation equal to null that means shop not add successfull if it is
+			// not null then shop added successfully
+			return shopInformation2 != null;
+		}
+		return false;
+	}
+	// Deleting shop after 30 days automatically Don't remove this method 
+	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // Scheduled to run every 24 hours
+    // public void deleteMarkedRows() {
+    //     Date month = new Date(System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000));
+    //     shopkeeperRepository.deleteByIsDeleteAndCreateDateBefore(true, month);
+    // }
+
+	// Through this method we upadte shopEmployee to the database
+	public boolean updateEmployeeService(ShopEmployees shopEmployees) {
+
+		@SuppressWarnings("null")
+		Optional<ShopEmployees> existingEmpOptional = shopEmployeeRepository.findById(shopEmployees.getEmployeeId());
+		// Validation
+		if (existingEmpOptional.isPresent() && (Validation.emailValidation(shopEmployees.getEmail())
+				&& Validation.contactNumberValidation(shopEmployees.getContactNumber())
+				&& Validation.firstNameValidation(shopEmployees.getEmployeeName())
+				&& Validation.addressValidation(shopEmployees.getAddress()) )){
+
+			System.out.println("This is shop keeper service inside update service after validation");
+
+			ShopEmployees existingEmp = existingEmpOptional.get();
+			// Update the properties of the existing shop with the new values
+			existingEmp.setEmployeeName(shopEmployees.getEmployeeName());
+			existingEmp.setEmail(shopEmployees.getEmail());
+			existingEmp.setContactNumber(shopEmployees.getContactNumber());
+			existingEmp.setAddress(shopEmployees.getAddress());
+			existingEmp.setGender(shopEmployees.getGender());
+			existingEmp.setSalary(shopEmployees.getSalary());
+			existingEmp.setServices(shopEmployees.getServices());
+
+			ShopEmployees shopEmployees2 = shopEmployeeRepository.save(shopEmployees);
+			// shopInformation equal to null that means shop not add successfull if it is
+			// not null then shop added successfully
+			return shopEmployees2 != null;
+		}
+		return false;
+	}
+
+	@Transactional
+	public void deleteEmployee(String id) {
+		shopEmployeeRepository.DeleteByEmployeeId(id);
 		return;
 	}
 

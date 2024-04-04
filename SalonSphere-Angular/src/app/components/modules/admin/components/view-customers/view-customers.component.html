@@ -1,30 +1,28 @@
-<div class="right">
-  <div
-    class="table-container customer-table"
-    *ngIf="customers && customers.length">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Customer Name</th>
-          <th scope="col">Contact Number</th>
-          <th scope="col">Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- @for (customer of customers; track customer.fullName) { -->
+<div class="customerContainer">
+
+  <div class="main">
+  <mat-card style="justify-content: center; align-items: center; display: flex; padding: 10px;">
+    <h1><b>Customers</b></h1>
+  </mat-card>
+
+  <div class="tablecon">
+
+   <table class="table">
+     <thead>
+      <tr>
+        <th scope="col">Customer Name</th>
+        <th scope="col">Contact Number</th>
+        <th scope="col">Email</th>
+      </tr>
+     </thead>
+     <tbody>
         <tr  *ngFor="let customer of customers">
           <td scope="row">{{ customer.fullName }}</td>
           <td>{{ customer.contactNumber }}</td>
           <td>{{ customer.email }}</td>
         </tr>
-      <!-- } -->
-      </tbody>
-    </table>
+       
+     </tbody>
+   </table>
+
   </div>
-</div>
-
-
-<div class="spinner-border text-success spinner disable" role="status">
-  <span class="sr-only"></span>
-</div>
-

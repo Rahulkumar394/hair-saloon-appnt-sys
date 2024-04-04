@@ -1,150 +1,25 @@
-<div class="main-container">
-  <div class="navcontainer">
-    <nav class="nav">
-      <div class="nav-upper-options">
-        <!-- 1st -->
-
-        <mat-form-field>
-          <mat-label>Select Services</mat-label>
-          <mat-select>
-            <mat-option *ngFor="let service of services" [value]="service">
-              {{ service }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <!-- 2st -->
-        <div class="priceRange">
-
-          <label for=""><h3>Enter Range:</h3></label>
-          <input type="number" style="background-color: rgb(236, 236, 236)" />
-          <p>--</p>
-          <input type="number" style="background-color: rgb(236, 236, 236)" />
-        </div>
-        <!-- 3rd -->
-
-
-
-        <div class="priceRange">
-
-          <label for=""><h3>Distance:</h3></label>
-          <input type="number" style="background-color: rgb(236, 236, 236)" />
-          <p>KM</p>
-          <input type="number" style="background-color: rgb(236, 236, 236)" />
-          <p>KM</p>
-        </div>
-
-        <div class="select-box" (click)="showDistenceDropdown()">
-          <div class="options-container distence active">
-            <div class="option distence-option">
-              <input
-                type="radio"
-                class="radio"
-                id="100m-500m"
-                name="category"
-              />
-              <label for="100m-500m">100m - 500m</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="500m-1km" name="category" />
-              <label for="500m-1km">500m - 1 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="1km-2km" name="category" />
-              <label for="1km-2km">1 Km - 2 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input
-                type="radio"
-                class="radio"
-                id="2k3km-4km"
-                name="category"
-              />
-              <label for="2km-3km">2 Km - 3 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="3km-4km" name="category" />
-              <label for="3km-4km">3 Km - 4 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="4km-5km" name="category" />
-              <label for="4km-5km">4 Km - 5 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="5km-6km" name="category" />
-              <label for="5km-6km">5 Km - 6 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="6km-7km" name="category" />
-              <label for="6km-7km">6 Km - 7 Km</label>
-            </div>
-
-            <div class="option distence-option">
-              <input type="radio" class="radio" id="7km-8km" name="category" />
-              <label for="7km-8km">7 Km - 8 Km</label>
-            </div>
-          </div>
-
-          <div class="selected distence-selected">Distance</div>
-        </div>
-      </div>
-    </nav>
-  </div>
-
+<div class="shopContainer">
   <div class="main">
-    <div class="cards">
-      <ng-container *ngIf="shops && shops.length">
-        <div class="card" *ngFor="let shop of shops">
-          <h2>{{ shop.shopName }}</h2>
+    <mat-card
+      style="
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding: 10px;
+      "
+    >
+      <h1><b>View Bookings</b></h1>
+    </mat-card>
 
-          <div class="content">
-            <div class="left">
-              <div class="pera">
-                <p class="location">location : {{ shop.location }}</p>
-                <p *ngIf="shop.price != 0" class="price">
-                  Price : {{ shop.price }} Rs
-                </p>
-                <p *ngIf="shop.timeDuration != ''" class="time">
-                  Time-Duration: {{ shop.timeDuration }}
-                </p>
-              </div>
+    <full-calendar
+      [options]="calendarOptions"
+    ></full-calendar>
 
-              <div class="offers">
-                <strong>Special Offers:</strong>
-                <div class="offer">
-                  <p>- 20% off on first visit</p>
-                  <p>- Free nail art with every pedicure</p>
-                </div>
-              </div>
-              <button
-                routerLink="/customer/add-service-to-card"
-                class="book-btn"
-              >
-                Book Now
-              </button>
-            </div>
-
-            <div class="right">
-              <div class="img-div">
-                <img id="img" src="{{ shop.coverImage }}" alt="img" />
-              </div>
-              <strong class="rating">Review/Ratings: <span>4.5/5</span></strong>
-              <a href="#" class="btn btn-reviews">Read Reviews</a>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <ng-template #noShopsFound>
-        <div class="no-shops" *ngIf="!shops || !shops.length">
-          <h1>Helloooooooooooooooooooooo</h1>
-        </div>
-      </ng-template>
+    <div class="add-shop" *ngIf="!slots || !slots.length">
+      <h2>No Slots Booked</h2>
+      <button class="button" routerLink="/shopkeeper/add-shop">
+        <span class="button-content">Add Shop</span>
+      </button>
     </div>
   </div>
 </div>

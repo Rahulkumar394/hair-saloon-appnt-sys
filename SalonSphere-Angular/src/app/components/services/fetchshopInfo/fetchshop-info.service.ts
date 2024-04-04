@@ -15,4 +15,6 @@ export class FetchshopInfoService {
 
     return this.http.post(`${this.baseURL}`,shopEmail,{ headers });
   }
+
+  
 }

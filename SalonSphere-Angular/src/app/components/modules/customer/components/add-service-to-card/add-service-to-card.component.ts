@@ -11,6 +11,7 @@ interface Service {
   servicePrice: number;
   serviceDuration: number;
   description: string;
+  priceImageUrl: string;
   imageUrl: string;
 }
 
@@ -36,7 +37,6 @@ export class AddServiceToCardComponent implements OnInit {
   services: Service[] = [];
 
   serviceCountMap: Map<Service, number> = new Map<Service, number>();
-  
   totalAmount: number = 0;
 
   totalDuration: number = 0;
@@ -64,6 +64,10 @@ export class AddServiceToCardComponent implements OnInit {
       this.services = response;
       console.log(response);
       
+    },
+    (error:any)=>{
+
+      console.log("Why this colaveri di ?",error)
     });
   }
 

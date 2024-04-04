@@ -1,4 +1,5 @@
 h3{
+  display: flex;
   align-items: center ;
   justify-content: center;
 }
@@ -6,7 +7,10 @@ h1{
   font-weight: bold;
   text-align: start;
 }
-
+.logout{
+  display: flex;
+  align-items: center;
+}
 .expansion{
   /* background-color: rgb(218, 218, 218); */
   margin-left: 20px;

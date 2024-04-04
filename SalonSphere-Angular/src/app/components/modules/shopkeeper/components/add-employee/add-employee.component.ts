@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RegisterService } from '../../../../services/register/register.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { AddEmployeeService } from '../../../../services/addEmployee/add-employee.service';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { GetshopService } from '../../../../services/getshop/getshop.service';
+import { GetServiceInfoService } from '../../../../services/fetchShopServices/get-service-info.service';
 
 interface shopData {
   shopName: string;
@@ -10,56 +15,52 @@ interface shopData {
   createdDate: string;
 }
 
-
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
-  styleUrl: './add-employee.component.css'
+  styleUrl: './add-employee.component.css',
 })
-export class AddEmployeeComponent {
-
+export class AddEmployeeComponent implements OnInit {
   selectedServices: string[] = [];
-  services: string[] = ['Service 1', 'Service 2', 'Service 3']; 
-  
+  ServiceList: string[] = ['Service 1', 'Service 2', 'Service 3'];
+  data!: FormArray<any>;
+
   EmpRegister = new FormGroup({
-    Name: new FormControl(''),
+    shopId: new FormControl(localStorage.getItem('shopId')),
+    employeeName: new FormControl(''),
     email: new FormControl(''),
     contactNumber: new FormControl(''),
     salary: new FormControl(''),
     gender: new FormControl(''),
-    selectedServices:new FormControl(''),
-    address: new FormControl('')
+    services: new FormControl(),
+    address: new FormControl(''),
   });
 
- 
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private addEmployeeService: AddEmployeeService,
+    private fetchShopServices:GetServiceInfoService,
 
-  constructor(private formBuilder: FormBuilder, private registerService:RegisterService, private router:Router) { }
+  ) {}
 
-  ngOnInit(): void {
-    this.EmpRegister = this.formBuilder.group({
-      Name: [''],
-      email: [''],
-      contactNumber: [''],
-      salary:[''],
-      gender: ['male'], // Set the default value for gender
-      selectedServices:[''],
-      address:['']
-    });
-  }
+  dropdownList: any = [];
+  dropdownSettings: IDropdownSettings = {};
+  ngOnInit() {
 
-  onServiceSelected(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const value = target.value;
-    if (value && !this.selectedServices.includes(value)) {
-      this.selectedServices.push(value);
-    }
-  }
+    this.fetchShopServices.fetchShopServicesWithServiceId(localStorage.getItem('shopId')).subscribe((data:any)=>{
 
-  removeService(service: string) {
-    const index = this.selectedServices.indexOf(service);
-    if (index !== -1) {
-      this.selectedServices.splice(index, 1);
-    }
+      console.log(data);
+      this.dropdownList = Object.keys(data).map(key => ({
+        serviceId: key, // Assuming key is the service identifier
+        serviceName: data[key] // Assuming data[key] holds the service name
+      }));
+
+    })
+    this.dropdownSettings = {
+      idField: 'serviceId',
+      textField: 'serviceName',
+    };
   }
 
   //Validate the data of the form and send the data to the service
@@ -68,9 +69,7 @@ export class AddEmployeeComponent {
     console.log(this.EmpRegister.value);
 
     //check first name and last name
-    let message = this.validateName(
-      this.EmpRegister.value.Name
-    );
+    let message = this.validateName(this.EmpRegister.value.employeeName);
 
     if (message != '') {
       Swal.fire({
@@ -129,27 +128,30 @@ export class AddEmployeeComponent {
       return;
     }
 
+    this.addEmployeeService
+      .addEmployee(this.EmpRegister.value)
+      .subscribe((data: any) => {
+        console.log(data);
+        Swal.fire({
+          title: 'Done',
+          text: 'Employee Added Successfully',
+          icon: 'success',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Navigate to the desired page
+            this.router.navigate(['/shopkeeper/view-shop']);
+          }
+        });
 
-    // //if everything is okey then call the service method
-    // this.registerService.registerUser(this.EmpRegister.value).subscribe((response) => {
-    //   console.log('Response from server : ', response);
-    //   Swal.fire({
-    //     title: "Register Successfully!!",
-    //     text: "You can login now",
-    //     icon: "success"
-    //   });
-
-    //   //and Navigate to the login page
-    //   this.router.navigate(["/login"]);
-    // },
-    // if any  error occured while registering user 
-    // error=> {
-    //   Swal.fire({
-    //     title: "Server Error",
-    //     text: "There is something wrong please try again",
-    //     icon: "success"
-    //   });
-    // })
+      }),
+      (error: any) => {
+        console.log(error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Error While Adding Employee',
+          icon: 'error',
+        });
+      };
   }
 
   //Validate the name fields
@@ -164,16 +166,7 @@ export class AddEmployeeComponent {
 
     // Check if the first and last names contain at least two characters
     if (Name.length < 2) {
-      message =
-        'Name must contain at least two characters each.';
-      return message;
-    }
-
-    // Check if the first and last names contain only alphabets
-    const nameRegex = /^[A-Za-z]+$/;
-
-    if (!nameRegex.test(Name)) {
-      message = 'Name must contain only alphabets.';
+      message = 'Name must contain at least two characters each.';
       return message;
     }
 
@@ -230,7 +223,7 @@ export class AddEmployeeComponent {
     let message = '';
 
     //check if the contactNumber is empty or not
-    if (salary<0) {
+    if (salary < 0) {
       message = 'Salary can not less than 0';
       return message;
     }
@@ -244,7 +237,7 @@ export class AddEmployeeComponent {
     let message = '';
     address = address.trim();
 
-    // Check if either of the fields is empty
+    // Check if either of the fields is emptyx`
     if (!address) {
       message = 'Please enter the address';
       return message;
@@ -252,8 +245,7 @@ export class AddEmployeeComponent {
 
     // Check if the first and last names contain at least two characters
     if (address.length < 10) {
-      message =
-        'Address must contain at least ten characters each.';
+      message = 'Address must contain at least ten characters each.';
       return message;
     }
 
@@ -263,9 +255,7 @@ export class AddEmployeeComponent {
       return message;
     }
 
-
     // If all validations pass
     return message; // Return an empty string indicating success
   }
-
 }

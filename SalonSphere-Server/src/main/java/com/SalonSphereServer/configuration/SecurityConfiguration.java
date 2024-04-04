@@ -39,7 +39,8 @@ public class SecurityConfiguration {
 
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(requests -> requests.requestMatchers("/login").permitAll()
-						.requestMatchers("/register").permitAll().requestMatchers("/create-order").permitAll().requestMatchers("/customer/filter-by-city/**").permitAll().requestMatchers("/customer/filter-shop").permitAll().requestMatchers("/customer/show-services/**").permitAll()
+						.requestMatchers("/register").permitAll()
+						.requestMatchers("/customer/**").permitAll()
 						.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

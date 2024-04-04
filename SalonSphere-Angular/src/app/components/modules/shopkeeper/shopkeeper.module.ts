@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '../../../app.component';
+import { IDropdownSettings, NgMultiSelectDropDownModule, } from 'ng-multiselect-dropdown';
+
 
 // import { FormGroup,FormControl } from '@angular/forms';
 
@@ -46,8 +48,19 @@ import { ShopDashboardComponent } from './components/shop-dashboard/shop-dashboa
 // import { DurationPipe } from './pipe/duration.pipe';
 import { PhoneNumberPipe } from './pipe/phone-number.pipe';
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
-import { DurationPipe } from './pipe/duration.pipe';
+// import { DurationPipe } from './pipe/duration.pipe';
 import { ShopkeeperDurationPipe } from './pipe/shopkeeper-duration.pipe';
+import { TimeSincePipe } from '../shopkeeper/pipe/time-since.pipe';
+
+
+import { RequestAgainComponent } from './components/request-again/request-again.component';
+import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
+import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
+import { TimeFormatPipe } from './pipe/time-format.pipe';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ShopkeeperProfileComponent } from './components/shopkeeper-profile/shopkeeper-profile.component';
+import { UpdateShopkeeperProfileComponent } from './components/update-shopkeeper-profile/update-shopkeeper-profile/update-shopkeeper-profile.component';
+
 
 
 
@@ -67,7 +80,16 @@ import { ShopkeeperDurationPipe } from './pipe/shopkeeper-duration.pipe';
     PhoneNumberPipe,
     AddEmployeeComponent,
     ShopkeeperDurationPipe,
-    ShopkeeperDurationPipe
+    TimeSincePipe,
+    RequestAgainComponent,
+    UpdateEmployeeComponent,
+    ViewBookingsComponent,
+    TimeFormatPipe,
+    TimeFormatPipe,
+    ShopkeeperProfileComponent,
+    UpdateShopkeeperProfileComponent
+
+
 
   ],
   imports: [
@@ -75,6 +97,7 @@ import { ShopkeeperDurationPipe } from './pipe/shopkeeper-duration.pipe';
     ShopkeeperRoutingModule,
     MatCardModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
     
 
 
@@ -96,6 +119,7 @@ import { ShopkeeperDurationPipe } from './pipe/shopkeeper-duration.pipe';
     MatOption,
     MatSelectModule, 
     MatTabsModule,
+    NgMultiSelectDropDownModule,
     
     
   ]

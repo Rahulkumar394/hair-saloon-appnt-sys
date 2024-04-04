@@ -4,8 +4,6 @@ import { ShopReviewService } from '../../../../services/shop-review/shop-review.
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
-
-
 @Component({
   selector: 'app-review-shop',
   templateUrl: './review-shop.component.html',
@@ -152,8 +150,8 @@ export class ReviewShopComponent implements OnInit {
     const imgURL = this.shopContactNo;
     console.log(imgURL);
     Swal.fire({
-      imageUrl: '../../../../../../assets/images/'+'licence_' + imgURL+'.jpg',
-      imageAlt: "Aman's Image",
+      imageUrl: '../../../../../../assets/userUploadedImages/'+'licence_' + imgURL+'.jpg',
+      imageAlt: "Licence Image Not Available",
       imageHeight: 550,
       imageWidth: 500,
     });

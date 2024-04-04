@@ -39,6 +39,7 @@ export class ViewSlotsComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
+  
     if(localStorage.getItem('date')!=null){
       const date:any = localStorage.getItem('date')
       this.selectedDate = date;
@@ -144,7 +145,10 @@ export class ViewSlotsComponent {
     this.router.navigate(['/customer/payment-method'], navigationExtras);
   }
 
-  dateFormate(dateString: string) {
+    
+    
+
+   dateFormate(dateString: string) {
     const parts = dateString.split('-');
     if (parts.length === 3) {
       const [year, month, day] = parts;

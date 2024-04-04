@@ -1,0 +1,94 @@
+.container {
+  position: absolute;
+  top: 12%;
+  left: 7%;
+}
+.container .upper {
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+}
+.shopInfo {
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+}
+h1 {
+  font-weight: bolder;
+  font-size: 36px;
+  letter-spacing: 3px;
+}
+.reviews {
+  /* background-color: rgba(66, 99, 116, 0.599);margin: 10%; */
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+
+  width: 90%;
+  height: 180px;
+}
+.header {
+  display: flex;
+  flex-direction: column;
+}
+.star {
+  color: rgb(15, 170, 64);
+}
+
+.cards {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.customer-name {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  margin-top: 20px;
+}
+
+.review-date,
+.rating {
+  display: flex;
+  position: absolute;
+  justify-content: end;
+  align-self: flex-end;
+}
+
+.review-message {
+  margin-left: 30px;
+}
+
+.rating {
+  margin-top: 20px;
+}
+.img-div {
+  width: 40%;
+  height: 150px;
+  object-fit: cover;
+  object-position: center;
+}
+#img {
+  width: 100%;
+  height: 100%;
+}
+
+#location-icon {
+  width: 25px;
+}
+.noshopCard{
+    text-align: center;
+    margin-top: 160px;
+  
+}
+
+table{
+  width: 100%;
+  height: 250px;
+}

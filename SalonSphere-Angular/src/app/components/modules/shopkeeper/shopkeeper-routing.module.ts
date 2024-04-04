@@ -12,6 +12,11 @@ import { ViewShopServicesComponent } from './components/view-shop-services/view-
 import { UpdateServiceComponent } from './components/update-service/update-service.component';
 import { ShopDashboardComponent } from './components/shop-dashboard/shop-dashboard.component';
 import { AddEmployeeComponent } from './components/add-employee/add-employee.component';
+import { RequestAgainComponent } from './components/request-again/request-again.component';
+import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
+import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
+import { ShopkeeperProfileComponent } from './components/shopkeeper-profile/shopkeeper-profile.component';
+import { UpdateShopkeeperProfileComponent } from './components/update-shopkeeper-profile/update-shopkeeper-profile/update-shopkeeper-profile.component';
 
 const routes: Routes = [
   {
@@ -27,7 +32,12 @@ const routes: Routes = [
       { path: 'showServices', component: ViewShopServicesComponent },
       { path: 'updateService', component: UpdateServiceComponent },
       { path: 'shopDashboard', component: ShopDashboardComponent },
-      { path: 'addEmployee', component:AddEmployeeComponent}
+      { path: 'addEmployee', component:AddEmployeeComponent },
+      { path: 'updateEmployee' , component:UpdateEmployeeComponent },
+      { path: 'requestAgain', component:RequestAgainComponent },
+      { path: 'viewBookings', component: ViewBookingsComponent },
+      { path: 'shopkeeperProfile', component:ShopkeeperProfileComponent },
+      { path: 'updateShopkeeperProfile' , component:UpdateShopkeeperProfileComponent }
     ],
   },
 ];

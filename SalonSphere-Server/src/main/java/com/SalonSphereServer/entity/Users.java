@@ -1,7 +1,5 @@
 package com.SalonSphereServer.entity;
 
-
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -29,10 +27,10 @@ public class Users implements UserDetails {
 	@Column(name = "last_name")
 	private String lastName;
 
-	@Column(name = "contact_number")
+	@Column(name = "contact_number", unique = true, nullable = false)
 	private String contactNumber;
 
-	@Column(name = "email")
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
 	@Column(name = "user_role")
@@ -40,18 +38,20 @@ public class Users implements UserDetails {
 
 	@Column(name = "password")
 	private String password;
-	
+
 	@Column(name = "date_created")
 	private Date createdDate;
-	
+
 	@Column(name = "date_modify")
 	private Date modifyDate;
-	
+
 	@Column(name = "isdeleted")
 	private boolean isDeleted;
 
-	public Users() {
+	@Column(name = "profile_image")
+	private String profile;
 
+	public Users() {
 	}
 
 	public String getUserId() {
@@ -70,12 +70,20 @@ public class Users implements UserDetails {
 		return role;
 	}
 
+	public String getProfile() {
+		return profile;
+	}
+
+	public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
 	public void setRole(String role) {
 		this.role = role;
 	}
 
 	public Users(String userId, String firstName, String lastName, String contactNumber, String email, String password,
-			Date createdDate, Date modifyDate, boolean isDeleted,String role) {
+			Date createdDate, Date modifyDate, boolean isDeleted, String role,String profile) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -87,6 +95,7 @@ public class Users implements UserDetails {
 		this.modifyDate = modifyDate;
 		this.isDeleted = isDeleted;
 		this.role = role;
+		this.profile = profile;
 	}
 
 	public void setFirstName(String firstName) {
@@ -129,7 +138,6 @@ public class Users implements UserDetails {
 		return createdDate;
 	}
 
-
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
@@ -137,7 +145,6 @@ public class Users implements UserDetails {
 	public Date getModifyDate() {
 		return modifyDate;
 	}
-
 
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
@@ -151,11 +158,14 @@ public class Users implements UserDetails {
 		this.isDeleted = isDeleted;
 	}
 
+	
+
 	@Override
 	public String toString() {
 		return "Users [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", contactNumber="
-				+ contactNumber + ", email=" + email + ", password=" + password + ", createdDate=" + createdDate
-				+ ", modifyDate=" + modifyDate + ", isDeleted=" + isDeleted + ", role =" + role + "]";
+				+ contactNumber + ", email=" + email + ", role=" + role + ", password=" + password + ", createdDate="
+				+ createdDate + ", modifyDate=" + modifyDate + ", isDeleted=" + isDeleted + ", profile=" + profile
+				+ "]";
 	}
 
 	@Override

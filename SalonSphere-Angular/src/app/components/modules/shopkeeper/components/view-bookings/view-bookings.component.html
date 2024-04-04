@@ -1,0 +1,50 @@
+<div class="shopContainer">
+  <div class="main">
+    <mat-card
+      style="
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        padding: 10px;
+      "
+    >
+      <h1><b>View Bookings</b></h1>
+    </mat-card>
+
+    <div class="tablecon">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Slot Duration</th>
+            <th scope="col">Slot Timing</th>
+            <th scope="col">Booking Id</th>
+            <th scope="col">Service Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let slot of slots">
+            <td scope="row">
+              <b>{{ slot.employeeName }}</b>
+            </td>
+            <td>{{ slot.slotDuration | shopkeeperDuration }}</td>
+            <td>{{ slot.slotTime |timeFormat }}</td>
+            <td>{{ slot.bookingId }}</td>
+            <td>{{ slot.serviceName }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="add-shop">
+      <h2 *ngIf="!slots || !slots.length">No Slots Booked</h2>
+      <button class="button" routerLink="/shopkeeper/add-shop">
+        <span class="button-content">Add Shop</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+

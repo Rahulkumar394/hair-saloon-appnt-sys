@@ -1,8 +1,11 @@
 <div class="container" *ngIf="shopData">
-  <mat-card class="header">
-
-    <!-- <img src="D:\\SalonSphere\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\images\\${{shopData.coverImage}}" alt="Oh"> -->
-
+  <mat-card
+    class="header"
+    style="background-image: url(assets/userUploadedImages/{{shopData.coverImage}}); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 20px;"
+  >
     <div class="btnclass">
       <button
         class="edit"
@@ -19,11 +22,20 @@
         <mat-icon>add</mat-icon> Add Emp
       </button>
     </div>
-    <h1>{{ shopData.shopName }}</h1>
-    <p>{{ shopData.address }}</p>
-    <p>{{ shopData.shopCity }}, {{ shopData.district }}</p>
+    <h1 style="margin-left: 15vw">{{ shopData.shopName }}</h1>
+    <p style="margin-left: 15vw">{{ shopData.address }}</p>
+    <p style="margin-left: 15vw">
+      {{ shopData.shopCity }} {{ shopData.district }}
+    </p>
   </mat-card>
   <mat-tab-group>
+
+    <!-- 
+      =================================================================================
+      ********************************* SHOW SERVICES *********************************
+      =================================================================================
+    -->
+
     <mat-tab label="Services">
       <div class="cards">
         <table class="table" *ngIf="data && data.length">
@@ -51,7 +63,7 @@
                 >
               </td>
               <td>
-                <a mat-button color="warn" (click)="deleteService()"
+                <a mat-button color="warn"  (click)="saveId(shop.serviceId)" (click)="deleteService()"
                   ><mat-icon>delete</mat-icon></a
                 >
               </td>
@@ -71,7 +83,7 @@
       </div>
 
       <div class="add-shop">
-        <h2 *ngIf="!data || !data.length">No Shops Added</h2>
+        <h2 *ngIf="!data || !data.length">No Services Found</h2>
         <button
           mat-raised-button
           class="button"
@@ -82,8 +94,141 @@
       </div>
     </mat-tab>
 
-    <mat-tab label="Employees"> </mat-tab>
-    <mat-tab label="Stats"> </mat-tab>
+    <!-- 
+      =================================================================================
+      ********************************* SHOW REVIEWS **********************************
+      =================================================================================
+    -->
+
+    <mat-tab label="Reviews" class="reviewContainer">
+      <mat-card class="reviews" *ngFor="let review of reviews">
+        <mat-card-content>
+          <div class="header_review">
+            <h5 class="review-date">{{ review.reviewDate | timeSince }} ago</h5>
+            <h3 class="customer-name">
+              <mat-icon>account_circle</mat-icon>&nbsp;{{ review.customerName }}
+            </h3>
+            <div class="rating">
+              <!-- Display filled stars based on review.rating -->
+              <mat-icon
+                class="star"
+                *ngFor="let star of getFilledStars(review.rating)"
+                >star</mat-icon
+              >
+              <!-- Display empty stars for remaining rating -->
+              <mat-icon
+                class="star_border"
+                *ngFor="let star of getEmptyStars(review.rating)"
+                >star_border</mat-icon
+              >
+            </div>
+          </div>
+          <h3 class="review-message">
+            <i>{{ review.reviewMessage }}</i>
+          </h3>
+
+          <div class="likes">
+            <button mat-icon-button (click)="toggleLike(review)">
+              <mat-icon>{{
+                review.liked ? "thumb_up" : "thumb_up_off_alt"
+              }}</mat-icon>
+            </button>
+            <span>{{ review.likes }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+
+      <div class="add-shop">
+        <h2 *ngIf="!reviews || !reviews.length">No Reviews Found <mat-icon>sentiment_content</mat-icon></h2>
+        <button
+          mat-raised-button
+          class="button"
+          routerLink="/shopkeeper/addservice"
+        >
+          <span>Add Service</span>
+        </button>
+      </div>
+
+    </mat-tab>
+
+    <mat-tab label="Employees">
+      <div class="cards">
+        <table class="table" *ngIf="employeeInfo && employeeInfo.length">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Contact No</th>
+              <th scope="col">Salary</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Services</th>
+              <th scope="col">Address</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let Emp of employeeInfo">
+              <td scope="row">{{ Emp.employeeName }}</td>
+              <td scope="row">{{ Emp.email }}</td>
+              <td scope="row">{{ Emp.contactNumber }}</td>
+              <td scope="row">{{ Emp.salary | currency : "INR" }}</td>
+              <td scope="row">{{ Emp.gender }}</td>
+              <td scope="row" style="padding-left: 0">
+                <ol style="list-style-type: circle; padding-left: 1.5rem">
+                  <li *ngFor="let service of Emp.services">
+                    {{ service.serviceName }}
+                  </li>
+                </ol>
+              </td>
+              <td scope="row">{{ Emp.address }}</td>
+
+              <td>
+                <a
+                  mat-button
+                  color="primary"
+                  (click)="saveEmpId(Emp.employeeId)"
+                  routerLink="/shopkeeper/updateEmployee"
+                  ><mat-icon>edit</mat-icon></a
+                >
+              </td>
+              <td>
+                <a mat-button color="warn" (click)="saveEmpId(Emp.employeeId)" (click)="deleteEmployee()"
+                  ><mat-icon>delete</mat-icon></a
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <ng-template #noShops>
+          <div class="noshopCard">
+            <h2>No Services Added</h2>
+            <br />
+            <button class="button" routerLink="/shopkeeper/addEmployee">
+              <span class="button-content">Add Employee </span>
+            </button>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="add-shop">
+        <h2 *ngIf="!data || !data.length">No Employees Found</h2>
+        <button
+          mat-raised-button
+          class="button"
+          routerLink="/shopkeeper/addEmployee"
+        >
+          <span>Add Employee</span>
+        </button>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Booking">
+        <app-view-bookings class="bookings"></app-view-bookings>
+      
+    </mat-tab>
 
     <!-- Add more mat-tabs if needed -->
   </mat-tab-group>

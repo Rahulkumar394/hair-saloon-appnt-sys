@@ -1,0 +1,106 @@
+<div class="container" *ngIf="shopData">
+  <!-- <mat-card
+    class="header"
+    style="background-image: url(assets/userUploadedImages/{{shopData.coverImage}}); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 50px;"
+  >
+    <div class="shopInfo">
+      <h1>
+        <strong>{{ shopData.shopName }}</strong>
+      </h1>
+      <p>&nbsp;&nbsp;{{ shopData.address }}</p>
+      <p>&nbsp;&nbsp;{{ shopData.district }}</p>
+    </div>
+  </mat-card> -->
+ <div class="upper">
+  <!-- <div class="img-div">
+  <img id="img" [src]="'../../../../../../assets/userUploadedImages/' +shopData.coverImage"/>
+</div> -->
+<div class="shopInfo">
+  <h1>
+    <strong>{{ shopData.shopName }}</strong>
+  </h1>
+  <p><img id="location-icon" src="https://static.vecteezy.com/system/resources/previews/000/583/611/original/location-icon-vector.jpg" alt="">   &nbsp;&nbsp;{{ shopData.address }} , &nbsp;{{ shopData.district }}</p>
+</div>
+
+ </div>
+
+
+  <mat-tab-group>
+
+    <mat-tab label="Reviews" class="reviewContainer">
+      <mat-card class="reviews" *ngFor="let review of reviews">
+        <mat-card-content>
+          <div class="header">
+            <h5 class="review-date">{{ review.reviewDate | timeSince }} ago</h5>
+            <h3 class="customer-name">
+              <mat-icon>account_circle</mat-icon>&nbsp;{{ review.customerName }}
+            </h3>
+            <div class="rating">
+              <!-- Display filled stars based on review.rating -->
+              <mat-icon
+                class="star"
+                *ngFor="let star of getFilledStars(review.rating)"
+                >star</mat-icon
+              >
+              <!-- Display empty stars for remaining rating -->
+              <mat-icon
+                class="star_border"
+                *ngFor="let star of getEmptyStars(review.rating)"
+                >star_border</mat-icon
+              >
+            </div>
+          </div>
+          <h3 class="review-message">
+            <i>{{ review.reviewMessage }}</i>
+          </h3>
+
+           <div class="likes">
+            <button mat-icon-button (click)="toggleLike(review)" >
+              <mat-icon >{{ review.liked ? 'thumb_up' : 'thumb_up_off_alt' }}</mat-icon>
+            </button>
+            <span>{{ review.likes }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <div class="noshopCard" *ngIf="reviews.length==0">
+        <h2>No Review Added Yet</h2>
+        <br />
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Services">
+      <div class="cards">
+        <table class="table table-striped" *ngIf="data && data.length">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Service Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let shop of data">
+              <td scope="row">{{ shop.serviceName }}</td>
+              <td>{{ shop.servicePrice | currency : "INR" }}</td>
+              <td>{{ shop.serviceDuration | duration }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+          <div class="noshopCard" *ngIf="data.length==0">
+            <h2>No Services Added</h2>
+            <br />
+          </div>
+  
+      </div>
+    </mat-tab>
+
+   
+    <!-- <mat-tab label="Stats"> </mat-tab> -->
+
+    <!-- Add more mat-tabs if needed -->
+  </mat-tab-group>
+</div>

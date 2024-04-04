@@ -20,6 +20,14 @@
               <input type="radio" class="radio" />
               <label for="film">Manicure</label>
             </div>
+            <div class="option service-option">
+              <input type="radio" class="radio" />
+              <label for="film">Beard</label>
+            </div>
+            <div class="option service-option">
+              <input type="radio" class="radio" />
+              <label for="film">Hair Coloring</label>
+            </div>
 
             <div class="option service-option">
               <input type="radio" class="radio" />
@@ -105,62 +113,62 @@
 
         <!-- 2st -->
 
-        <div class="select-box" (click)="showRengeDropdown()">
-          <div class="options-container renge active">
-            <div class="option renge-option">
+        <div class="select-box" (click)="showrangeDropdown()">
+          <div class="options-container range active">
+            <div class="option range-option">
               <input type="radio" class="radio" id="100-200" name="category" />
               <label for="100-200">100 - 200</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="200-300" name="category" />
               <label for="200-300">200 - 300</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="200-300" name="category" />
               <label for="200-300">300 - 400 </label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="300-400" name="category" />
               <label for="300-400">400 - 500</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="500-600" name="category" />
               <label for="500-600">500 - 600</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="600-700" name="category" />
               <label for="600-700">600 - 700</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="700-800" name="category" />
               <label for="700-800">700 - 800</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="800-900" name="category" />
               <label for="800-900">800 - 900</label>
             </div>
 
-            <div class="option renge-option">
+            <div class="option range-option">
               <input type="radio" class="radio" id="900-1000" name="category" />
               <label for="900-1000">900 - 1000</label>
             </div>
           </div>
 
-          <div class="selected renge-selected">Price Range</div>
+          <div class="selected range-selected">Price Range</div>
         </div>
 
         <!-- 3rd -->
 
-        <div class="select-box" (click)="showDistenceDropdown()">
-          <div class="options-container distence active">
-            <div class="option distence-option">
+        <div class="select-box" (click)="showdistanceDropdown()">
+          <div class="options-container distance active">
+            <div class="option distance-option">
               <input
                 type="radio"
                 class="radio"
@@ -170,17 +178,17 @@
               <label for="100m-500m">100m - 500m</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="500m-1km" name="category" />
               <label for="500m-1km">500m - 1 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="1km-2km" name="category" />
               <label for="1km-2km">1 Km - 2 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input
                 type="radio"
                 class="radio"
@@ -190,53 +198,54 @@
               <label for="2km-3km">2 Km - 3 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="3km-4km" name="category" />
               <label for="3km-4km">3 Km - 4 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="4km-5km" name="category" />
               <label for="4km-5km">4 Km - 5 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="5km-6km" name="category" />
               <label for="5km-6km">5 Km - 6 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="6km-7km" name="category" />
               <label for="6km-7km">6 Km - 7 Km</label>
             </div>
 
-            <div class="option distence-option">
+            <div class="option distance-option">
               <input type="radio" class="radio" id="7km-8km" name="category" />
               <label for="7km-8km">7 Km - 8 Km</label>
             </div>
           </div>
 
-          <div class="selected distence-selected">Distance</div>
+          <div class="selected distance-selected">Distance</div>
         </div>
       </div>
     </nav>
   </div>
 
   <div class="main">
-    <div class="cards">
+    <div class="cards" routerLink="/customer/shop-info">
       <ng-container *ngIf="shops && shops.length">
         <div class="card" *ngFor="let shop of shops">
+          <div class="viewShop" (click)="getShopId(shop.shopId,shop.shopName,shop.shopTiming,shop.shopEmail)">
           <h2>{{ shop.shopName }}</h2>
 
           <div class="content">
             <div class="left">
               <div class="pera">
                 <p class="location">Address : {{ shop.location }}</p>
-                <p *ngIf="shop.price" class="price">
-                  Price : {{ shop.price }} Rs
+                <p *ngIf="shop.servicePrice" class="price">
+                  Price : <strong>{{ shop.servicePrice | currency: 'INR' }} </strong> 
                 </p>
-                <p *ngIf="shop.timeDuration" class="time">
-                  Time-Duration: {{ shop.timeDuration }}
+                <p *ngIf="shop.serviceDuration" class="time">
+                  Time-Duration: <strong> {{ shop.serviceDuration  }} min </strong>
                 </p>
               </div>
 
@@ -248,8 +257,10 @@
                 </div>
               </div>
               <button
+                routerLink="/customer/add-service-to-card"
                 (click)="navigate(shop)"
                 class="book-btn"
+                (click)="getShopId(shop.shopId,shop.shopName,shop.shopTiming,shop.shopEmail)"
               >
                 Book Now
               </button>
@@ -257,12 +268,16 @@
 
             <div class="right">
               <div class="img-div">
-                <img id="img" [src]="'../../../../../../assets/images/'+shop.coverImage" alt="img" />
+                <img 
+                  id="img"
+                  [src]="'../../../../../../assets/userUploadedImages/' + shop.coverImage"
+                  alt="img"
+                />   
               </div>
-              <strong class="rating">Review/Ratings: <span>4.5/5</span></strong>
-              <a href="#" class="btn btn-reviews">Read Reviews</a>
+              <strong class="rating">Rating: <span>{{shop.rating | number: '1.1-1'}}</span></strong>
             </div>
           </div>
+        </div>
         </div>
       </ng-container>
     </div>

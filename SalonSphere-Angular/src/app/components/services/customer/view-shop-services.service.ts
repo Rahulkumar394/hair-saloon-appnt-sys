@@ -1,17 +1,23 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Cookie } from 'ng2-cookies';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ViewShopServicesService {
-
   //base URL for API calling
-  baseURL:string = 'http://localhost:8081/customer/show-services'
+  baseURL: string = 'http://localhost:8081/shopkeeper/showservices';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  fetchAllServices(shopId:any){
-    return this.httpClient.get(`${this.baseURL}/${shopId}`);
+  fetchAllServices(shopId: any) {
+    const headers = new HttpHeaders().set(
+      'Authorization',
+      'Bearer ' + Cookie.get('token')
+    );
+    console.log("Header Set",headers,shopId)
+
+    return this.httpClient.get(`${this.baseURL}/${shopId}`, { headers });
   }
 }
