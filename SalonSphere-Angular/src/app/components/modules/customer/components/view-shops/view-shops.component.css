@@ -52,12 +52,13 @@
   transition: all 0.4s;
 }
 
-.select-box .options-container.active {
+/* .select-box .options-container.active {
   max-height: 240px;
   opacity: 1;
   overflow-y: scroll;
   display: none;
-}
+  transition: display 0.5s ease;
+} */
 
 .select-box .options-container.active + .selected::after {
   transform: rotateX(180deg);
@@ -475,13 +476,10 @@ select {
   background-color: #050b6a;
 }
 
-.select-box:hover .active{
-  transition: all 0.3s  ease-in-out;
-  /* transform: rotateX(180deg); */
-  top: -6px;
+/* .select-box:hover .active{
   display: block;
 
-}
+} */
 
 .book-btn{
   background-color: #151560;
@@ -497,4 +495,16 @@ select {
 .book-btn:hover{
   background-color: red;
   transition: all 0.3s linear;
+}
+.select-box .options-container.active {
+  max-height: 0;
+  opacity: 0;
+  overflow-y: hidden;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+}
+
+.select-box:hover .options-container.active {
+  max-height: 240px;
+  opacity: 1;
+  overflow-y: scroll;
 }

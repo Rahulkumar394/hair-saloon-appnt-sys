@@ -31,9 +31,12 @@
   }
   
   .img{
-    width: 250px;
-    object-fit: cover;
-    object-position: center;
+    height: 300px;
+    width: 400px;
+  }
+  .header {
+    display: flex;
+    flex-direction: column;
   }
   
   .add-btn{

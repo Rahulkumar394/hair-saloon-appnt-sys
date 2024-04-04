@@ -13,8 +13,19 @@
         </div>
       </div>
       <div class="right">
-        <div class="img">
-          <img [src]="imagePaths[service.serviceName]" alt="img" />
+        <div
+          class="header"
+          style="background-image: url(assets/images/{{service.serviceName}}.jpg); 
+                  background-size: contain;
+                  height: 150px;
+                  width: 200px;
+                  background-repeat: no-repeat;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  background-position: center;
+                  "
+        >
         </div>
         <button class="add-btn" (click)="addToCart(service)">Add</button>
       </div>
@@ -46,12 +57,12 @@
 
     <div class="product-card" *ngIf="!serviceCountMap.size">
       <div class="empty-product">
-        <img src="assets/images/empty product.svg" alt="Error" />
+        <img src="assets/images/empty_product.svg" alt="Error" />
       </div>
       <p>No item in your card</p>
     </div>
 
-    <div  *ngIf="serviceCountMap.size">
+    <div *ngIf="serviceCountMap.size">
       <button (click)="viewSlots()" class="total" *ngIf="serviceCountMap.size">
         <div class="price">
           <p style="color: black">{{ totalAmount | currency : "INR" }}</p>

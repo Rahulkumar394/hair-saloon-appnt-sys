@@ -340,8 +340,12 @@ public class CustomerService {
 			bookingDetailsResponse.setTime((String) result[2]);
 			bookingDetailsResponse.setDate((String) result[3]);
 			bookingDetailsResponse.setServiceName((String) result[4]);
-			bookingDetailsResponse.setAmount((Integer) result[5]);
-			bookingDetailsResponse.setOrderId((String) result[6]);
+			bookingDetailsResponse.setStatus((String) result[5]);
+			bookingDetailsResponse.setAmount((Integer) result[6]);
+			bookingDetailsResponse.setOrderId((String) result[7]);
+			bookingDetailsResponse.setEmpId((String)result[8]);
+			bookingDetailsResponse.setEmpName((String)result[9]);
+			bookingDetailsResponse.setShopId((String)result[10]);
 
 			bookingDetails.add(bookingDetailsResponse);
 

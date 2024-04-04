@@ -21,4 +21,8 @@ public class BookingDetailsResponse {
     private String date;
     private String time;
     private String serviceName;
+    private String status;
+    private String empId;
+    private String shopId;
+    private String empName;
 }

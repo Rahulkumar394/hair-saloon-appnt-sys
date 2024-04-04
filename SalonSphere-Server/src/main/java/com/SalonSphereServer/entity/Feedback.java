@@ -47,5 +47,19 @@ public class Feedback {
 
     @Column(name = "likes")
     private int likes;
+    
+    @Column(name = "employee_name")
+    private String employeeName;
+    
+    @Column(name = "employee_id")
+    private String employeeId;
+    
+    @Column(name = "customer_id")
+    private String customerId;
+    
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "shop_id", referencedColumnName = "shop_id")
+//    private ShopInformation shopInformation;
+		
 
 }

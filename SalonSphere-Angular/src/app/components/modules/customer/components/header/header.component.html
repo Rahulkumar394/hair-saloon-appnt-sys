@@ -3,11 +3,11 @@
     <div class="logo">SalonSphere</div>
   </div>
 
-  <div class="searchbar">
-    <select class="dropdown">
-      <option>Your Location</option>
-    </select>
-  </div>
+    <div class="searchbar"> 
+        <select class="dropdown" (change)="onDropdownChange($event)">
+            <option>Your Location</option>
+        </select>
+    </div> 
 
   <form [formGroup]="searchForm" class="searchForm">
     <div class="searchbar">

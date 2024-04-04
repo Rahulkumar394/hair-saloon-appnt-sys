@@ -39,5 +39,8 @@ public class Slots {
 	
 	@Column(name = "booking_date")
 	private String bookingDate;
+	
+	@Column(name = "status")
+	private String status;
 
 }

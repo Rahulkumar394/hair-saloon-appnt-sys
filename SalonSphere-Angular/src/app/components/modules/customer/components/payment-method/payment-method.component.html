@@ -1,8 +1,9 @@
 
 
   <div class="pay">
-    <button id =date><span>Booking Date -  &nbsp; &nbsp;</span>{{date | date:'dd-MM-yyyy'}}</button>
+    <button id= serviceName><span>Service Name - &nbsp; &nbsp;</span>{{serviceName}}</button>
     <button id =time><span>Slot Timing - &nbsp; &nbsp;</span>{{slotTiming}}</button>
+    <button id =date><span>Booking Date -  &nbsp; &nbsp;</span>{{date | date:'dd-MM-yyyy'}}</button>
     <button id =amount><span>Total Amount - &nbsp; &nbsp;</span>{{serviceCharge | currency : "INR"}}</button>
 
     <button id="payment" (click)="pay()">Pay</button>

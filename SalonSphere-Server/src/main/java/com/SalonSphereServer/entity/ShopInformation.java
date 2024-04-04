@@ -93,11 +93,14 @@ public class ShopInformation {
 
     @OneToMany(mappedBy = "shopId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ServiceInformation> services;
-
+    
+    @OneToMany(mappedBy = "shopId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Feedback> feedbacks;
+    
     public List<ServiceInformation> getServices() {
         return services;
     }
-
+    
     public void setServices(List<ServiceInformation> services) {
         this.services = services;
     }

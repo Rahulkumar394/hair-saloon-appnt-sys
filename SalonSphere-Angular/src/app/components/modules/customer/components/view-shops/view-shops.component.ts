@@ -43,8 +43,17 @@ export class ViewShopsComponent implements OnInit {
     // }
 
 
-    this.city = localStorage.getItem('location');
-    this.showShopByCity(this.city);
+    if(localStorage.getItem('location')==null){
+    setTimeout(() => {
+      this.city = localStorage.getItem('location');
+       this.showShopByCity(this.city);
+    }, 4000);
+    }
+    else {
+      this.city = localStorage.getItem('location');
+       this.showShopByCity(this.city);
+    }
+    
   }
 
   getShopId(shopId:any,shopName:any,shopTiming:any,shopEmail:any){
