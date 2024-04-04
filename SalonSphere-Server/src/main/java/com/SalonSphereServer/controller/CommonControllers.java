@@ -134,14 +134,14 @@ public class CommonControllers {
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping(value = "/uploadImage", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Response> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+	public ResponseEntity<Response> uploadDocument(@RequestParam("file") MultipartFile file) throws IOException {
 
 		System.out.println("================================================come inside the controller");
 		String originalFileName = file.getOriginalFilename();
 		Path fileNameAndPath = Paths.get(uploadDirectory, originalFileName);
 		Files.write(fileNameAndPath, file.getBytes());
 
-		return ResponseEntity.status(HttpStatus.OK).body(new Response("Profile Image Uploaded Successfully"));
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Image Uploaded Successfully"));
 	}
 
 	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
@@ -175,5 +175,33 @@ public class CommonControllers {
 
 		return new ResponseEntity<>("Failure", HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping(value = "/changeProfileName/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Response> changeProfileName(@PathVariable String userId,@RequestBody String profileImage){
+		userService.updateProfileName(userId,profileImage);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully Change ProfileImage Name"));
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/updateUser")
+	public ResponseEntity<Response> editUserInfo(@RequestBody Users userInfo) {
 
+		System.out.println("=======come inside the Shopkeeper contoller editUserInfo======\n" + userInfo);
+		boolean isUpdated = userService.updateUser(userInfo);
+		System.out.println(isUpdated + "888888888888888888888888888888888888888");
+		if (isUpdated)
+			return new ResponseEntity<>(new Response("Success"), HttpStatus.OK);
+		else
+			return new ResponseEntity<>(new Response("Faliure"), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/delete-user/{userId}")
+	public ResponseEntity<Response> deleteUserAccount(@PathVariable String userId) {
+		Boolean isDelete = userService.deleteUser(userId);
+		if (isDelete)
+			return new ResponseEntity<>(new Response("User Deleted Successfully"), HttpStatus.OK);
+		return new ResponseEntity<>(new Response("Unable to delete User"), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

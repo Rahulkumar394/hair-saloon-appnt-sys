@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShowCustomerService } from '../../../../services/show-customer/show-customer.service';
+
 interface customer {
   fullName: string;
   contactNumber: string;

@@ -1,10 +1,27 @@
-
+h3{
+  display: flex;
+  align-items: center ;
+  justify-content: center;
+}
+h1{
+  font-weight: bold;
+  text-align: start;
+}
+.logout{
+  display: flex;
+  align-items: center;
+}
 .expansion{
   /* background-color: rgb(218, 218, 218); */
   margin-left: 20px;
-  margin-top: -62px;
+  margin-top: -10px;
 }
-
+.gradient-text {
+  background: linear-gradient(to right, #e32222, #1979f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+ }
 .box-container {
   display: flex;
   justify-content: space-evenly;
@@ -28,7 +45,7 @@
 }
 .navcontainer {
   height: calc(100vh - 70px);
-  width: 20%;
+  width: 25%;
   position: fixed;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -62,7 +79,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 70px;
+  gap: 30px;
 }
 
 .active {
@@ -265,6 +282,7 @@ a {
     font-size: 15px;
     border: 2px solid #0c007d;
   }
+
 }
 
 @media screen and (max-width: 490px) {

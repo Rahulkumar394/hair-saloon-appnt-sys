@@ -15,6 +15,8 @@ import com.SalonSphereServer.entity.Users;
 @Repository
 public interface UserRepository extends JpaRepository<Users, String> {
 
+    public Users findByUserId(String userId);
+
     @Query("SELECT u FROM Users u WHERE u.email = :email AND u.isDeleted = false")
     Users findByEmail(@Param("email") String email);
 
@@ -31,6 +33,11 @@ public interface UserRepository extends JpaRepository<Users, String> {
 
     @Query("SELECT u FROM Users u WHERE u.userId = ?1")
     Users getUserInfo(String userId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Users u SET u.profile = :profileName WHERE u.userId = :userId")
+    void updateProfileByUserId(@Param("userId") String userId, @Param("profileName") String profileName);
 
     // Marking the user as deleted as soft delete
     @Transactional

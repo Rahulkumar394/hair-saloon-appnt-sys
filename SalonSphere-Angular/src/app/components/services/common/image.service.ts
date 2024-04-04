@@ -15,7 +15,6 @@ export class ImageService {
     return this.http.post("http://localhost:8081/shopkeeper/uploadDocument",data, { headers });
   }
 
-
   uploadProfile(data:any){
 
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
@@ -24,5 +23,10 @@ export class ImageService {
 
   }
 
+  changeProfilename(profileImage:string){
+    const userId=Cookie.get("userId");
+    const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
+    return this.http.post("http://localhost:8081/changeProfileName/"+`${userId}`,profileImage, { headers });
 
+  }
 }

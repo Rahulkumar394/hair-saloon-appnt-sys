@@ -54,10 +54,12 @@ import { TimeSincePipe } from '../shopkeeper/pipe/time-since.pipe';
 
 
 import { RequestAgainComponent } from './components/request-again/request-again.component';
+import { UpdateEmployeeComponent } from './components/update-employee/update-employee.component';
 import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
 import { TimeFormatPipe } from './pipe/time-format.pipe';
-import { FullCalendarModule } from '@fullcalendar/angular';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ShopkeeperProfileComponent } from './components/shopkeeper-profile/shopkeeper-profile.component';
+import { UpdateShopkeeperProfileComponent } from './components/update-shopkeeper-profile/update-shopkeeper-profile/update-shopkeeper-profile.component';
 
 
 
@@ -80,10 +82,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ShopkeeperDurationPipe,
     TimeSincePipe,
     RequestAgainComponent,
+    UpdateEmployeeComponent,
     ViewBookingsComponent,
     TimeFormatPipe,
     TimeFormatPipe,
-    
+    ShopkeeperProfileComponent,
+    UpdateShopkeeperProfileComponent
+
+
 
   ],
   imports: [
@@ -91,7 +97,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ShopkeeperRoutingModule,
     MatCardModule,
     ReactiveFormsModule,
-    FullCalendarModule,
     MatDatepickerModule,
     
 
@@ -114,7 +119,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     MatOption,
     MatSelectModule, 
     MatTabsModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
     
     
   ]

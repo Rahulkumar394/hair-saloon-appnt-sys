@@ -32,7 +32,10 @@ import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.entity.ServiceInformation;
 import com.SalonSphereServer.entity.ShopEmployees;
 import com.SalonSphereServer.entity.ShopInformation;
+import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.ShopkeeperRepository;
+import com.SalonSphereServer.repository.SlotRepository;
+import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.response.Response;
 import com.SalonSphereServer.service.ShopEmployeeService;
 import com.SalonSphereServer.service.ShopServices;
@@ -55,6 +58,8 @@ public class ShopkeeperController {
 	private ShopEmployeeService shopEmployeeService;
 	@Autowired
 	private ShopkeeperRepository shopkeeperRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 	// Through addshop API we can add new salons in the system
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -223,6 +228,7 @@ public class ShopkeeperController {
 	@PostMapping("/getshopbyemail")
 	public ResponseEntity<ShopInformation> getShopByEmail(@RequestBody String shopEmail) {
 		System.out.println("=======GetShopinformation by email=============>" + shopEmail);
+		@SuppressWarnings("null")
 		ShopInformation sDto = shopkeeperService.getShopDetailsByShopEmail2(shopEmail);
 		if (sDto != null) {
 			return new ResponseEntity<>(sDto, HttpStatus.OK);
@@ -301,10 +307,8 @@ public class ShopkeeperController {
 
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER showAllEmpByShopId METHOD=======" + shopId);
 		List<ShopEmployees> listOfEmps = shopEmployeeService.showAllEmpByShopId(shopId);
-		if (!listOfEmps.isEmpty())
 			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
-		else
-			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
+		
 	}
 
 	// Showing all employee in a perticular shop and find all employee by shopId
@@ -321,6 +325,34 @@ public class ShopkeeperController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(emp);
 	}
 
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/updateEmployee")
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> updateShop(@RequestBody ShopEmployees employee) {
+
+		// Call service method to add shop
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  UPDATESHOP METHOD=======");
+		boolean isUpdate = shopkeeperService.updateEmployeeService(employee);
+		if (isUpdate)
+			return ResponseEntity.status(HttpStatus.CREATED).body(new Response("Successfully Updated Employee"));
+		else
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new Response("Error while Updating Employee"));
+	}
+
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/deleteEmployee/{employeeId}")
+	@Secured("shopkeeper")
+	public ResponseEntity<Response> deleteEmployeeService(@PathVariable String employeeId) {
+
+		// Call service method to add shop
+		System.out.println("======THIS IS SHOPKEEPER CONTROLLER  DELETESHOP SERVICE METHOD=======");
+		shopkeeperService.deleteEmployee(employeeId);
+		return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfull Deletion of Employee"));
+
+	}
+
 	// Fetching All the slots for a shop using the shop's Id
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/fetchSlotsByShopId/{shopId}")
@@ -329,6 +361,25 @@ public class ShopkeeperController {
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER viewSlotsBooked METHOD=======" + shopId);
 		List<BookedSlot> slotsBookedList = slotService.findAllBookedSlotsByShopIdSortedByTimeAsc(shopId);
 		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
+	}
+
+	// @CrossOrigin(origins = "http://localhost:4200")
+	// @GetMapping("/get-shopkeeper/{userId}")
+	// public ResponseEntity<ShopOwnerDTO> getShopkeeper(@PathVariable String userId) {
+
+	// 	System.out.println("come inside the Shopkeeper contoller shopKeeper");
+	// 	ShopOwnerDTO shopOwner = shopkeeperService.getShopKeeper(userId);
+	// 	return new ResponseEntity<>(shopOwner, HttpStatus.OK);
+	// }
+
+	//this api for get user by userId
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/userInfo/{userId}")
+	public ResponseEntity<Users> fetchUserInfo(@PathVariable String userId) {
+
+		System.out.println("come inside the Shopkeeper contoller shopKeeper");
+		Users userInfo = userRepository.getUserInfo(userId);
+		return new ResponseEntity<>(userInfo, HttpStatus.OK);
 	}
 
 }

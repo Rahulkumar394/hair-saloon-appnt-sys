@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ViewCustomersComponent } from './components/view-customers/view-customers.component';
 import { ViewShopkeepersComponent } from './components/view-shopkeepers/view-shopkeepers.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { ViewShopkeepersComponent } from './components/view-shopkeepers/view-sho
   imports: [
     CommonModule,
     AdminRoutingModule,
-    MatIconModule
+    MatIconModule,
+    MatCardModule
   ]
 })
 export class AdminModule { }

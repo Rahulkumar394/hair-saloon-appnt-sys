@@ -79,6 +79,7 @@ public class UserService {
 
 	public Boolean updateUser(Users userInfo) {
 
+		@SuppressWarnings("null")
 		Optional<Users> existingUserOptional = userRepository.findById(userInfo.getUserId());
 		if (existingUserOptional.isPresent()) {
 			Users existingUser = existingUserOptional.get();
@@ -94,6 +95,11 @@ public class UserService {
 			return existingUser != null;
 		}
 		return false;
+	}
+
+	public void updateProfileName(String userId, String profileImage){
+		userRepository.updateProfileByUserId(userId,profileImage);
+		return;
 	}
 
 	// Deleting user by his userId

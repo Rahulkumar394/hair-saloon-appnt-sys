@@ -7,6 +7,8 @@ import { FetchReviewsService } from '../../../../services/viewReviews/fetch-revi
 import { LikeService } from '../../../../services/like/like.service';
 import { FetchEmployeeService } from '../../../../services/fetchEmployee/fetch-employee.service';
 import { error } from 'console';
+import { DeleteEmployeeService } from '../../../../services/deleteEmployee/delete-employee.service';
+import { Router } from '@angular/router';
 interface employee {
   employeeName: any;
   email: any;
@@ -29,7 +31,9 @@ export class ShopDashboardComponent implements OnInit {
     private removeService: DeleteServiceService,
     private reviewService: FetchReviewsService,
     private likeService: LikeService,
-    private fetchEmployeeService: FetchEmployeeService
+    private fetchEmployeeService: FetchEmployeeService,
+    private deleteEmployeeService:DeleteEmployeeService,
+    private router:Router,
   ) {}
 
   data: any[] = [];
@@ -43,7 +47,7 @@ export class ShopDashboardComponent implements OnInit {
       .fetchshopInfo(localStorage.getItem('shopEmail'))
       .subscribe((data: any) => {
         this.shopData = data;
-        console.log(this.shopData.coverImage);
+        // console.log(this.shopData.coverImage);
       });
 
     this.getShopServices
@@ -52,13 +56,12 @@ export class ShopDashboardComponent implements OnInit {
         this.data = data;
         this.amount = data.servicePrice;
 
-        console.log('Hello This is get Shop By email', data);
+        // console.log('Hello This is get Shop By email', data);
       });
-
     this.reviewService.getReviews(localStorage.getItem('shopId')).subscribe(
       (data: any) => {
         this.reviews = data;
-        console.log(data);
+        // console.log(data);
       },
       (error: any) => {
         console.log(error);
@@ -154,5 +157,32 @@ export class ShopDashboardComponent implements OnInit {
           Swal.fire('Error', 'Failed to delete the service', 'error');
         }
       );
+  }
+
+  deleteEmployee() {
+    Swal.fire({
+      title: 'Are you sure you want to delete this employee?',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.confirmDeleteEmployee();
+      }
+    });
+  }
+
+  confirmDeleteEmployee() {
+    this.deleteEmployeeService.deleteEmployee(localStorage.getItem('employeeId')).subscribe(
+      (data: any) => {
+        // Handle successful deletion
+        Swal.fire('Employee deleted!', '', 'success');
+        this.router.navigate(['/shopkeeper/shopDashboard']);
+      },
+      (error) => {
+        // Handle error
+        Swal.fire('Error', 'Failed to delete the employee', 'error');
+      }
+    );
   }
 }
