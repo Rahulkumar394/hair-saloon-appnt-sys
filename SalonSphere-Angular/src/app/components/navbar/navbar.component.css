@@ -58,11 +58,8 @@
     text-align: right;
     transition: transform 0.5s ease-out;
     -webkit-transition: transform 0.5s ease-out;
-  } @media(max-width: 640px) {
-      #navbar ul {
-        display: none;
-      }
-    } @media(orientation: landscape) {
+  } 
+   @media(orientation: landscape) {
         #navbar ul {
           display: inline-block;
         }
@@ -138,7 +135,7 @@
   /*======================================================
                       Mobile Menu Menu Icon
     ======================================================*/
-  @media(max-width: 750px) {
+  @media(max-width: 875px) {
     .menuIcon {
       cursor: pointer;
       display: block;
@@ -148,6 +145,9 @@
       height: 23px;
       width: 27px;
       z-index: 12;
+    }
+    #navbar ul {
+      display: none;
     }
   
     /* Icon Bars */

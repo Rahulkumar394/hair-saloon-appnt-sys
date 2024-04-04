@@ -31,6 +31,7 @@ import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.FeedbackService;
 import com.SalonSphereServer.service.UserService;
 import com.SalonSphereServer.service.ShopServices;
+import com.SalonSphereServer.service.SlotBookingService;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -48,9 +49,12 @@ public class CustomerController {
 	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ShopServices shopServices;
+	@Autowired
+	private SlotBookingService slotBookingService;
 
 	// =============CODE FOR FILLTER==============
-	private ShopServices shopServices;
 
 	// Filter shops by given city
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -93,7 +97,7 @@ public class CustomerController {
 		System.out.println("=====INSIDE THE COUSTOMERCONTROLLER ADDFEEDBACK======\n" + feedback);
 		boolean isAdd = feedbackService.addFeedBack(feedback);
 		if (isAdd)
-			return ResponseEntity.ok().body(new Response("Review added Successfully"));
+			return ResponseEntity.ok().body(new Response("success"));
 		else
 			return ResponseEntity.badRequest().body(new Response("Review not added"));
 	}
@@ -157,8 +161,14 @@ public class CustomerController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/book-slot")
 	@Secured("customer")
-	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
-		return new ResponseEntity<>(true, HttpStatus.OK);
+	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
+		System.out.println("=================Customer Controller Book Slot API------------------\n"+slotBookingRequest);
+		String bookingId = slotBookingService.bookSlot(slotBookingRequest);
+
+		if (bookingId != null)
+			return new ResponseEntity<>(new Response(bookingId), HttpStatus.OK);
+
+		return new ResponseEntity<>(new Response("not found"), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	// this api is for filter the shop
@@ -219,10 +229,8 @@ public class CustomerController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/show-services/{shopId}")
 	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
-		System.out.println(
-				"===========================inside shop keeper controllere show services =====================");
+		System.out.println("===========inside customer controller show services ===========\n"+shopId);
 		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
-
 		return new ResponseEntity<>(serviceslist, HttpStatus.OK);
 	}
 }

@@ -214,7 +214,8 @@ public class ShopkeeperController {
 	@GetMapping("/showservices/{shopId}")
 	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
 		System.out.println(
-				"===========================inside shop keeper controllere show services ====================="+shopId);
+				"===========================inside shop keeper controllere show services ====================="
+						+ shopId);
 		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
 		if (serviceslist != null) {
 			return new ResponseEntity<>(serviceslist, HttpStatus.OK);
@@ -227,7 +228,6 @@ public class ShopkeeperController {
 	@PostMapping("/getshopbyemail")
 	public ResponseEntity<ShopInformation> getShopByEmail(@RequestBody String shopEmail) {
 		System.out.println("=======GetShopinformation by email=============>" + shopEmail);
-		@SuppressWarnings("null")
 		ShopInformation sDto = shopkeeperService.getShopDetailsByShopEmail2(shopEmail);
 		if (sDto != null) {
 			return new ResponseEntity<>(sDto, HttpStatus.OK);
@@ -306,8 +306,8 @@ public class ShopkeeperController {
 
 		System.out.println("======THIS IS SHOPKEEPER CONTROLLER showAllEmpByShopId METHOD=======" + shopId);
 		List<ShopEmployees> listOfEmps = shopEmployeeService.showAllEmpByShopId(shopId);
-			return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
-		
+		return ResponseEntity.status(HttpStatus.OK).body(listOfEmps);
+
 	}
 
 	// Showing all employee in a perticular shop and find all employee by shopId
@@ -339,7 +339,6 @@ public class ShopkeeperController {
 					.body(new Response("Error while Updating Employee"));
 	}
 
-
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/deleteEmployee/{employeeId}")
 	@Secured("shopkeeper")
@@ -362,16 +361,7 @@ public class ShopkeeperController {
 		return ResponseEntity.status(HttpStatus.OK).body(slotsBookedList);
 	}
 
-	// @CrossOrigin(origins = "http://localhost:4200")
-	// @GetMapping("/get-shopkeeper/{userId}")
-	// public ResponseEntity<ShopOwnerDTO> getShopkeeper(@PathVariable String userId) {
-
-	// 	System.out.println("come inside the Shopkeeper contoller shopKeeper");
-	// 	ShopOwnerDTO shopOwner = shopkeeperService.getShopKeeper(userId);
-	// 	return new ResponseEntity<>(shopOwner, HttpStatus.OK);
-	// }
-
-	//this api for get user by userId
+	// this api for get user by userId
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/userInfo/{userId}")
 	public ResponseEntity<Users> fetchUserInfo(@PathVariable String userId) {

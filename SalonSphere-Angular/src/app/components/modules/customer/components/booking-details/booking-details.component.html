@@ -1,12 +1,48 @@
-
 <div class="cards">
-    <div *ngFor="let booking of bookings" class="card">
-        <h2>{{ booking.shopName }} </h2>
-        <p><span>Address -</span> {{ booking.shopAddress }}</p>
-        <p class="amount"><span>Amount:</span> {{ booking.amount | currency:'INR' }}</p>
-        <p class="order-id"><span>Order Id:</span> {{ booking.orderId }}</p>
-        <p class="service-name"><span>Service:</span> {{ booking.serviceName }}</p>
-        <p class="slot-time"><span>Slot Time:</span> {{ booking.time }}</p>
-        <p class="slot-date"><span>Slot Date:</span> {{ booking.date | date:'dd-MM-yyyy' }}</p>
-    </div>
+  <div *ngFor="let booking of bookings" class="card">
+    <h2>{{ booking.shopName }}</h2>
+    <p class="div"><span>Address -</span> {{ booking.shopAddress }}</p>
+    <p class="amount div">
+      <span>Amount:</span> {{ booking.amount / 100 | currency : "INR" }}
+    </p>
+    <p class="order-id div"><span>Order Id:</span> {{ booking.orderId }}</p>
+    <p class="service-name div">
+      <span>Service:</span> {{ booking.serviceName }}
+    </p>
+    <p class="slot-time div"><span>Slot Time:</span> {{ booking.time }}</p>
+    <p class="slot-date div">
+      <span>Slot Date:</span> {{ booking.date | date : "dd-MM-yyyy" }}
+    </p>
+    <p class="status div">
+      <span>Status:</span
+      ><strong [ngStyle]="getStatusStyles(booking.status)">{{
+        booking.status
+      }}</strong>
+    </p>
+
+    <button
+      *ngIf="booking.status === 'COMPLETED'"
+      (click)="navigateFeedback(booking)"
+      class="feedback-btn"
+    >
+      Give Feedback
+    </button>
+  </div>
+</div>
+
+<div class="container disable">
+  <button class="close-btn" (click)="closeContainer()">×</button>
+  <h1>How Was Your Experience</h1>
+  <div class="rating"><span id="rating">0</span>/5</div>
+  <div class="stars" id="stars">
+    <span class="star" data-value="1" (click)="getRetting(1)">★</span>
+    <span class="star" data-value="2" (click)="getRetting(2)">★</span>
+    <span class="star" data-value="3" (click)="getRetting(3)">★</span>
+    <span class="star" data-value="4" (click)="getRetting(4)">★</span>
+    <span class="star" data-value="5" (click)="getRetting(5)">★</span>
+  </div>
+  <p>Share your review:</p>
+  <textarea id="review" placeholder="Write your review here"> </textarea>
+  <button id="submit" (click)="sendReview()">Submit Review</button>
+  <div class="reviews" id="reviews"></div>
 </div>

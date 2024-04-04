@@ -4,7 +4,7 @@ import { CreateOrderService } from '../../../../services/payment-integration/cre
 
 import { error } from 'console';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookSlotService } from '../../../../services/slot-booking/book-slot.service';
 import { SaveTransactionService } from '../../../../services/payment-integration/save-transaction.service';
 import { Cookie } from 'ng2-cookies';
@@ -18,24 +18,42 @@ declare var Razorpay: any; // Declare Razorpay as a global variable
 })
 export class PaymentMethodComponent implements OnInit {
   
-  serviceCharge: number = Number(localStorage.getItem('serviceCharge'));
-  date: string|null = localStorage.getItem("date");
-  slotTiming: string | null= localStorage.getItem("slotTime");
-
+  serviceCharge: number = 0;
+  date: string = '';
+  slotTiming: string = '';
   bookingId: string|null = '';
+  serviceTime:string ='';
+  serviceName:string = '';
+  empId:string ='';
+
 
 
   constructor(
     private order: CreateOrderService,
     private router: Router,
     private slotBooking: BookSlotService,
-    private saveTransaction: SaveTransactionService
+    private saveTransaction: SaveTransactionService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    if(this.serviceCharge < 10){
-      this.router.navigate(['/customer/view-shops'])
+
+    if(localStorage.getItem('empId')==null){
+      this.router.navigate(['/customer/view-shops']);
     }
+
+    this.route.paramMap.subscribe(params => {
+      if (window.history.state.serviceTime && window.history.state.serviceName && window.history.state.serviceCharge && window.history.state.empId && window.history.state.date) {
+        this.serviceTime = window.history.state.serviceTime;
+        this.serviceName = window.history.state.serviceName;
+        this.serviceCharge = window.history.state.serviceCharge;
+        this.date = window.history.state.date;
+        this.empId=window.history.state.empId;
+        this.slotTiming= window.history.state.slotTime;
+
+        console.log("Your data is " + this.serviceTime + ", " + this.serviceCharge + ", " + this.serviceName +", "+ this.empId+", "+this.slotTiming+", "+this.date);
+      }
+    });
   }
 
 
@@ -75,20 +93,18 @@ export class PaymentMethodComponent implements OnInit {
             // if the payment is successfully done then
             const slotInfo = {
              // Correct declaration with object literal {}
-              slotTime: localStorage.getItem('slotTime'),
-              empId: localStorage.getItem('empId'), // Use : for assignment
-              serviceName: localStorage.getItem('serviceName'), // Get value from localStorage
-              serviceTime: localStorage.getItem('serviceTime'), // Get value from localStorage
-              date: localStorage.getItem('date'),
+              slotTime: this.slotTiming,
+              empId: this.empId, // Use : for assignment
+              serviceName: this.serviceName, // Get value from localStorage
+              serviceTime: this.serviceTime, // Get value from localStorage
+              date: this.date,
             };
         
             //call the service method to book the slot
             this.slotBooking.bookSlot(slotInfo).subscribe(
               (response: any) => {
                 console.log(response);
-                localStorage.setItem('bookingId', response.status);
-                console.log("your booking id is "+ localStorage.getItem('bookingId'));
-                this.bookingId = localStorage.getItem('bookingId');
+                this.bookingId = response.status;
                 Swal.fire({
                   icon: 'success',
                   title: 'Slot Booked',

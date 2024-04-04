@@ -95,7 +95,6 @@ public class ShopServices {
 
 		List<ShopServiceDTO> serviceList = new ArrayList<>();
 		List<ServiceInformation> sList = servicesRepository.findAllServicesByShopId(shopId);
-
 		for (ServiceInformation s : sList) {
 			ShopServiceDTO temp = new ShopServiceDTO();
 			temp.setServiceId(s.getServiceId());
@@ -105,7 +104,6 @@ public class ShopServices {
 
 			serviceList.add(temp);
 		}
-
 		return serviceList;
 	}
 
@@ -123,15 +121,16 @@ public class ShopServices {
 		return serviceDTO;
 	}
 
-	// Getting all service name alog with service id in particular shop based on shopid.
-	public Map<Integer, String>getAllServiceNameByShopId(String shopId) {		
-        List<Object[]> resultList = servicesRepository.findServiceIdAndNameByShopId(shopId);
-        Map<Integer, String> serviceMap = new HashMap<>();
-        for (Object[] result : resultList) {
-            Integer serviceId = (Integer) result[0];
-            String serviceName = (String) result[1];
-            serviceMap.put(serviceId, serviceName);
-        }
-        return serviceMap;
-    }
+	// Getting all service name alog with service id in particular shop based on
+	// shopid.
+	public Map<Integer, String> getAllServiceNameByShopId(String shopId) {
+		List<Object[]> resultList = servicesRepository.findServiceIdAndNameByShopId(shopId);
+		Map<Integer, String> serviceMap = new HashMap<>();
+		for (Object[] result : resultList) {
+			Integer serviceId = (Integer) result[0];
+			String serviceName = (String) result[1];
+			serviceMap.put(serviceId, serviceName);
+		}
+		return serviceMap;
+	}
 }

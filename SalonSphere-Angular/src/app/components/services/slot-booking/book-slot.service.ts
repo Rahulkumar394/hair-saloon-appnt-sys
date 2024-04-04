@@ -10,7 +10,7 @@ export class BookSlotService {
   constructor(private httpClient:HttpClient) { }
 
   //base URL for the api
-  baseURL:string = 'http://localhost:8081/book-slots';
+  baseURL:string = 'http://localhost:8081/customer/book-slot';
 
   public bookSlot(data:any){
     const token = Cookie.get('token');

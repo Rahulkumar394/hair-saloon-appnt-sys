@@ -5,9 +5,9 @@ import {
   NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { SlotService } from '../../../../services/slots/slot.service';
-import { Router } from '@angular/router';
 import { BookSlotService } from '../../../../services/slot-booking/book-slot.service';
 import Swal from 'sweetalert2';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 
 @Component({
@@ -22,6 +22,9 @@ export class ViewSlotsComponent {
   selectedDate: string;
   minDate: string = '';
   maxDate: string = '';
+  serviceCharge:number=0;
+  serviceTime:number=0;
+  serviceName:string='';
 
   public info = {
     shopId: localStorage.getItem('shopId'),
@@ -36,6 +39,7 @@ export class ViewSlotsComponent {
     private calendar: NgbCalendar,
     private slotService: SlotService,
     private slotBooking: BookSlotService, private router: Router,
+    private route: ActivatedRoute
   ) {
   
     if(localStorage.getItem('date')!=null){
@@ -50,12 +54,23 @@ export class ViewSlotsComponent {
     this.maxDate = this.getMaxDate();
     this.info.date = this.dateFormate(this.selectedDate);
     console.log(this.info);
+
+    console.log("xxxxxx");
+    this.route.paramMap.subscribe(params => {
+      if (window.history.state.serviceTime && window.history.state.serviceName && window.history.state.serviceCharge) {
+        this.serviceTime = window.history.state.serviceTime;
+        this.serviceName = window.history.state.serviceName;
+        this.serviceCharge = window.history.state.serviceCharge;
+        console.log("Your data is " + this.serviceTime + ", " + this.serviceCharge + ", " + this.serviceName);
+      }
+    });
     this.getSlots();
   }
 
   getSlots() {
     //set the date which has choosen by the customer
     this.info.date = this.selectedDate;
+    this.info.serviceDuration = this.serviceTime;
 
     // call the service which will give all the available slots
     this.slotService.getAllAvilableSlots(this.info).subscribe(
@@ -108,19 +123,29 @@ export class ViewSlotsComponent {
   }
 
   bookSlot(slotTime: any, empId: any) {
-    console.log(slotTime);
-    console.log(empId);
-    console.log(localStorage.getItem('serviceName'));
-    console.log(localStorage.getItem('serviceTime'));
-    console.log(this.selectedDate);
-    localStorage.setItem('slotTime', slotTime);
+    // console.log(slotTime);
+    // console.log(empId);
+    // console.log(localStorage.getItem('serviceName'));
+    // console.log(localStorage.getItem('serviceTime'));
+    // console.log(this.selectedDate);
+    // localStorage.setItem('slotTime', slotTime);
     localStorage.setItem('empId',empId);
-    localStorage.setItem('date', this.selectedDate);
+    // localStorage.setItem('date', this.selectedDate);
     
     //navigate user to the payment section
-    localStorage.setItem('date',this.selectedDate);
-    this.router.navigate(['/customer/payment-method']);
-    }
+    const navigationExtras: NavigationExtras = {
+      state: {
+        serviceTime: this.serviceTime,
+        serviceName: this.serviceName,
+        serviceCharge: this.serviceCharge,
+        slotTime:slotTime,
+        empId:empId,
+        date:this.selectedDate,
+      }
+    };
+
+    this.router.navigate(['/customer/payment-method'], navigationExtras);
+  }
 
     
     

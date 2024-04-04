@@ -144,9 +144,10 @@ public class CommonControllers {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Image Uploaded Successfully"));
 	}
 
+
 	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
 
-		System.out.println("++++++++++++++++++++++++++++++++++++hello aman" + slotBookingRequest);
+		System.out.println("+++++++++++Common Controller book slot service" + slotBookingRequest);
 		String bookingId = slotBookingService.bookSlot(slotBookingRequest);
 
 		if (bookingId != null)
