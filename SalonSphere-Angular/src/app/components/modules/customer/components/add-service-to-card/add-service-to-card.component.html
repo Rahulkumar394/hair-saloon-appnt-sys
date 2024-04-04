@@ -5,11 +5,10 @@
         <h1>{{ service.serviceName }}</h1>
         <div class="price-time">
           <div class="time">
-           
             <p>{{ service.servicePrice | currency : "INR" }}</p>
           </div>
           <div class="time">
-            <p>{{ service.serviceDuration | duration}}</p>
+            <p>{{ service.serviceDuration | duration }}</p>
           </div>
         </div>
       </div>
@@ -26,9 +25,12 @@
         <div class="product-details">
           <h3>{{ entry[0].serviceName }}</h3>
           <div class="price">
-            <img src="https://t3.ftcdn.net/jpg/03/32/58/10/360_F_332581030_Mfbe3YYwexIWUZQ3qNrSt0XFP35q6fxI.jpg" alt="" />
-            <p>{{ entry[0].servicePrice| currency : "INR"  }}</p>
-            
+            <img
+              src="https://t3.ftcdn.net/jpg/03/32/58/10/360_F_332581030_Mfbe3YYwexIWUZQ3qNrSt0XFP35q6fxI.jpg"
+              alt=""
+            />
+            <p>{{ entry[0].servicePrice | currency : "INR" }}</p>
+
             <!-- <p>{{ entry[0].price }}</p> -->
           </div>
         </div>
@@ -39,8 +41,14 @@
       </div>
     </div>
 
-    <button
-     *ngIf="serviceCountMap.size">
+    <div class="product-card" *ngIf="!serviceCountMap.size">
+      <div class="empty-product">
+        <img src="../../../../../../assets/images/empty_product.svg" alt="" />
+      </div>
+      <p>No item in your card</p>
+    </div>
+
+    <button *ngIf="serviceCountMap.size">
       <button
         (click)="navigateLogin()"
         class="total"
@@ -51,13 +59,6 @@
         </div>
         <p style="color: black">View Cart</p>
       </button>
-
-      <div class="product-card" *ngIf="!serviceCountMap.size">
-        <div class="empty-product">
-          <img src="../../../../../../assets/images/empty product.svg" alt="" />
-        </div>
-        <p>No item in your card</p>
-      </div>
     </button>
   </div>
 </div>
