@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { GetServiceInfoService } from '../../../../services/fetchShopServices/get-service-info.service';
 import { ViewShopServicesService } from '../../../../services/customer/view-shop-services.service';
@@ -51,10 +51,10 @@ export class AddServiceToCardComponent implements OnInit {
   constructor(private router:Router, private getShopServices:ViewShopServicesService) {}
   ngOnInit(): void {
 
-    //first check the customer already choose the service then naviage to the view slots page
-    // if(localStorage.getItem('serviceTime') != null && localStorage.getItem('serviceName') != null && localStorage.getItem('serviceCharge')!=null && localStorage.getItem('shopName') != null){
-    //   this.router.navigate(['/customer/view-slots']);
-    // }
+    // first check the customer already choose the service then naviage to the view slots page
+    if(localStorage.getItem('shopName') == null){
+      this.router.navigate(['/customer/view-shops']);
+    }
 
     if(localStorage.getItem('shopId')==null){
       this.router.navigate(['/customer/view-shops'])
@@ -127,10 +127,20 @@ export class AddServiceToCardComponent implements OnInit {
       return ;
     }
     else{
-      localStorage.setItem('serviceTime',''+this.totalDuration);
-      localStorage.setItem('serviceName', this.serviceName);
-      localStorage.setItem('serviceCharge',''+this.totalAmount);
-      this.router.navigate(['/customer/view-slots']);
+      // localStorage.setItem('serviceTime',''+this.totalDuration);
+      // localStorage.setItem('serviceName', this.serviceName);
+      // localStorage.setItem('serviceCharge',''+this.totalAmount);
+      // this.router.navigate(['/customer/view-slots']);
+
+      //instent of saving the information in the localstorage send the information usign angular route
+      const navigationExtras: NavigationExtras = {
+        state: {
+          serviceTime: this.totalDuration,
+          serviceName: this.serviceName,
+          serviceCharge: this.totalAmount
+        }
+      };
+      this.router.navigate(['/customer/view-slots'], navigationExtras);
     }
   }
 

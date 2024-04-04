@@ -83,7 +83,7 @@ public class CustomerController {
 		System.out.println("=====INSIDE THE COUSTOMERCONTROLLER ADDFEEDBACK======\n" + feedback);
 		boolean isAdd = feedbackService.addFeedBack(feedback);
 		if (isAdd)
-			return ResponseEntity.ok().body(new Response("Review added Successfully"));
+			return ResponseEntity.ok().body(new Response("success"));
 		else
 			return ResponseEntity.badRequest().body(new Response("Review not added"));
 	}

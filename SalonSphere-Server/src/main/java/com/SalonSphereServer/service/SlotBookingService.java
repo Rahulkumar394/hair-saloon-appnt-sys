@@ -24,6 +24,7 @@ public class SlotBookingService {
 		slot.setServiceName(request.getServiceName());
 		slot.setSlotDuration(request.getServiceTime());
 		slot.setSlotTime(request.getSlotTime());
+		slot.setStatus("NOT COMPLETED");
 		
 		System.out.println("/////////////////////////////////////////////////////"+slot);
 		Slots slots = slotRepository.save(slot);

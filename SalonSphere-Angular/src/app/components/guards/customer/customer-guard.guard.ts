@@ -15,11 +15,21 @@ export const customerGuardGuard: CanActivateFn = (route, state) => {
 
   Swal.fire({
     title: "You are not allowed!",
-    text: "Please Login as Customer to access this feature.",
     icon: "warning",
-  })
-  
+    text: "Please Login as Customer to access this feature.",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, Login !"
+  }).then((result) => {
+
+    //if confirmation is done then navigate login page
+    if (result.isConfirmed) {
+      router.navigate(['/login']);
+    }
+  });
+
   //otherwise  redirect to login page and return false
-  router.navigate(['/login']);
+  // router.navigate(['/login']);
   return false;
 };

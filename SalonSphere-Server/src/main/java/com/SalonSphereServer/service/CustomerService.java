@@ -41,7 +41,7 @@ public class CustomerService {
 	private ShopkeeperRepository shopKeeperRepository;
 	@Autowired
 	private FeedbackRepository feedbackRepository;
-	
+
 	@Autowired
 	private TransactionRepository transactionRepository;
 
@@ -100,28 +100,28 @@ public class CustomerService {
 
 		LocalDate today = LocalDate.now();
 		String todayDate = today.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		
+
 		System.out.println("Come inside this method------------------------------------------------------ aaya hai");
-		
-		//if the date is todays date then give the slot which greater then then current time
-		if(todayDate.equals(date)) {
-			
+
+		// if the date is todays date then give the slot which greater then then current
+		// time
+		if (todayDate.equals(date)) {
+
 			System.out.println("Come inside this method------------------------------------------------------");
-		
+
 			// Set the time zone to Indian Standard Time (IST)
-	        LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
+			LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Kolkata"));
 
-	        // Add 5 minutes to the current time
-	        LocalDateTime futureTime = now.plusMinutes(5);
+			// Add 5 minutes to the current time
+			LocalDateTime futureTime = now.plusMinutes(5);
 
-	        // Format the future time
-	        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-	        String currentTime = dtf.format(futureTime);
-	        openingTime = Integer.parseInt("" + currentTime.charAt(0) + currentTime.charAt(1));
-			startMinute = Integer.parseInt("" + currentTime.charAt(3) + currentTime.charAt(4)); 
+			// Format the future time
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
+			String currentTime = dtf.format(futureTime);
+			openingTime = Integer.parseInt("" + currentTime.charAt(0) + currentTime.charAt(1));
+			startMinute = Integer.parseInt("" + currentTime.charAt(3) + currentTime.charAt(4));
 		}
-		
-		
+
 		// Convert opening time to total minutes
 		int totalMinutes = openingTime * 60 + startMinute;
 
@@ -158,8 +158,8 @@ public class CustomerService {
 
 	// Helper method to check if two time slots overlap
 	public static boolean isOverlap(String slot1, String slot2) {
-		
-		System.out.println(slot1 +"-------------------------------------"+ slot2);
+
+		System.out.println(slot1 + "-------------------------------------" + slot2);
 		String[] parts1 = slot1.split("-");
 		String[] parts2 = slot2.split("-");
 
@@ -259,11 +259,15 @@ public class CustomerService {
 
 		List<FilterResponse> responseList = new ArrayList<>();
 		for (Object[] obj : shops) {
+			String shopId = (String) obj[1]; // Extract shop ID from the fetched data
 			FilterResponse filterResponse = new FilterResponse();
 			filterResponse.setShopName((String) obj[0]);
 			filterResponse.setShopId((String) obj[1]);
 			filterResponse.setShopTiming((String) obj[2]);
-			filterResponse.setLocation((String) obj[3] + ", " + (String) obj[4] + ", " + (String) obj[5]); // Set shop city, district and state
+			filterResponse.setLocation((String) obj[3] + ", " + (String) obj[4] + ", " + (String) obj[5]); // Set shop
+																											// city,
+																											// district
+																											// and state
 			filterResponse.setCoverImage((String) obj[6]);
 			filterResponse.setServiceName((String) obj[7]);
 			double price1 = (double) obj[8];
@@ -271,37 +275,47 @@ public class CustomerService {
 			int roundedPrice = (int) price1;
 			filterResponse.setServicePrice(roundedPrice);
 			filterResponse.setServiceDuration((int) obj[9]);
-			// calculate rating  by adding all the ratings and dividing it with total number of reviews
-			filterResponse.setRating(feedbackRepository.getAverageRatingByShopId(filterResponse.getShopId()));
+			// calculate rating by adding all the ratings and dividing it with total number
+			// of reviews
+			if (feedbackRepository.getAverageRatingByShopId(shopId) != null)
+				filterResponse.setRating(feedbackRepository.getAverageRatingByShopId(shopId));
+
+			else
+				filterResponse.setRating(0);
+
 			responseList.add(filterResponse);
 
-		}		
+		}
 		return responseList;
 	}
-	
-	public List<BookingDetailsResponse> getAllBookingDetails(String userId){
-		
+
+	public List<BookingDetailsResponse> getAllBookingDetails(String userId) {
+
 		List<BookingDetailsResponse> bookingDetails = new ArrayList<BookingDetailsResponse>();
-		
+
 		List<Object[]> objectList = transactionRepository.findBookingDetailsByUserId(userId);
-		
-		for(Object[] result :objectList) {
-			
+
+		for (Object[] result : objectList) {
+
 			BookingDetailsResponse bookingDetailsResponse = new BookingDetailsResponse();
-			bookingDetailsResponse.setShopName((String)result[0]);
-			bookingDetailsResponse.setShopAddress((String)result[1]);
-			bookingDetailsResponse.setTime((String)result[2]);
-			bookingDetailsResponse.setDate((String)result[3]);
-			bookingDetailsResponse.setServiceName((String)result[4]);
-			bookingDetailsResponse.setAmount((Integer)result[5]);
-			bookingDetailsResponse.setOrderId((String)result[6]);
-			
+			bookingDetailsResponse.setShopName((String) result[0]);
+			bookingDetailsResponse.setShopAddress((String) result[1]);
+			bookingDetailsResponse.setTime((String) result[2]);
+			bookingDetailsResponse.setDate((String) result[3]);
+			bookingDetailsResponse.setServiceName((String) result[4]);
+			bookingDetailsResponse.setStatus((String) result[5]);
+			bookingDetailsResponse.setAmount((Integer) result[6]);
+			bookingDetailsResponse.setOrderId((String) result[7]);
+			bookingDetailsResponse.setEmpId((String)result[8]);
+			bookingDetailsResponse.setEmpName((String)result[9]);
+			bookingDetailsResponse.setShopId((String)result[10]);
+
 			bookingDetails.add(bookingDetailsResponse);
-			
-		} 
-		
+
+		}
+
 		return bookingDetails;
-		
+
 	}
 
 }

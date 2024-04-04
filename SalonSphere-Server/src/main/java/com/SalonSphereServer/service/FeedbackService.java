@@ -1,5 +1,7 @@
 package com.SalonSphereServer.service;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,13 @@ public class FeedbackService {
     public boolean addFeedBack(Feedback feedback) {
 
         System.out.println("=====Adding new feedback inside feedback Service:====\n " + feedback);
+        System.out.println((Validation.addressValidation(feedback.getReviewMessage())));
+        System.out.println((feedback.getRating() >= 0 && feedback.getRating() <= 5));
 
         // Validation
         if (Validation.addressValidation(feedback.getReviewMessage())
                 && (feedback.getRating() >= 0 && feedback.getRating() <= 5)) {
+        	
 
             // Setting Defult Value
             // Create a java.util.Date object

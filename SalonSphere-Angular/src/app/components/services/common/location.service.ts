@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { url } from 'inspector';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +14,9 @@ export class LocationService {
 
   getLocation(){
     return this.httpClient.get(`${this.apiURL}`);
+  }
+
+  location(URL:string){
+   return this.httpClient.get(URL);
   }
 }

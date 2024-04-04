@@ -65,7 +65,7 @@ public interface ShopkeeperRepository extends JpaRepository<ShopInformation, Str
 			+
 			"FROM shop_information sh " +
 			"INNER JOIN service_information si ON sh.shop_id = si.shop_id " +
-			"WHERE sh.shop_city = :city AND (:serviceName IS NULL OR si.service_name = :serviceName) " +
+			"WHERE sh.district = :city AND (:serviceName IS NULL OR si.service_name = :serviceName) " +
 			"AND si.service_price BETWEEN :minPrice AND :maxPrice " +
 			"AND si.service_duration BETWEEN :minDistance AND :maxDistance ORDER BY si.service_price ASC", nativeQuery = true)
 	List<Object[]> findShopByCityAndServiceNameAndServicePriceAndDistance(@Param("city") String city,
