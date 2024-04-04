@@ -23,18 +23,14 @@ public class FeedbackService {
                 && (feedback.getRating() >= 0 && feedback.getRating() <= 5)) {
 
             // Setting Defult Value
-            // Create a java.util.Date object
-            java.util.Date utilDate = new java.util.Date();
-
-            // Convert java.util.Date to java.sql.Date
-            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+            java.util.Date utilDate = new java.util.Date();// Create a java.util.Date object
+            java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());// Convert java.util.Date to java.sql.Date
             feedback.setReviewDate(sqlDate);
-
+            
             // setting likes value with Zero '0' at the time of adding feedback
             feedback.setLikes(0);
-            Feedback fb = feedbackRepository.save(feedback);
-
-            if (fb != null)
+            feedback = feedbackRepository.save(feedback);
+            if (feedback != null)
                 return true;
         }
         return false;

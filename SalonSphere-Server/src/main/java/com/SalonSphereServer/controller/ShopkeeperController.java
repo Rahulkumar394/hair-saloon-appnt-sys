@@ -220,6 +220,7 @@ public class ShopkeeperController {
 	public ResponseEntity<ShopInformation> getShopByEmail(@RequestBody String shopEmail) {
 		System.out.println("=======GetShopinformation by email=============>" + shopEmail);
 		ShopInformation sDto = shopkeeperService.getShopDetailsByShopEmail2(shopEmail);
+		System.out.println("Rahul===>"+sDto);
 		if (sDto != null) {
 			return new ResponseEntity<>(sDto, HttpStatus.OK);
 		} else {

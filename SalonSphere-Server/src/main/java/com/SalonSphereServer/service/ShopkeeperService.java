@@ -137,6 +137,7 @@ public class ShopkeeperService {
 	// Through this method we get shop infromation details by shopEmail.
 	public ShopInformation getShopDetailsByShopEmail2(@NonNull String shopEmail) {
 		ShopInformation shopInformation = shopkeeperRepository.findByShopEmail(shopEmail);
+		System.out.println("Mai rahul hu check " + shopInformation.toString() + "==" + shopEmail);
 		return shopInformation;
 	}
 
@@ -263,11 +264,13 @@ public class ShopkeeperService {
 		return;
 	}
 
-	// Deleting shop after 30 days automatically Don't remove this method 
-	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // Scheduled to run every 24 hours
-    // public void deleteMarkedRows() {
-    //     Date month = new Date(System.currentTimeMillis() - (30 * 24 * 60 * 60 * 1000));
-    //     shopkeeperRepository.deleteByIsDeleteAndCreateDateBefore(true, month);
-    // }
+	// Deleting shop after 30 days automatically Don't remove this method
+	// @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // Scheduled to run every 24
+	// hours
+	// public void deleteMarkedRows() {
+	// Date month = new Date(System.currentTimeMillis() - (30 * 24 * 60 * 60 *
+	// 1000));
+	// shopkeeperRepository.deleteByIsDeleteAndCreateDateBefore(true, month);
+	// }
 
 }

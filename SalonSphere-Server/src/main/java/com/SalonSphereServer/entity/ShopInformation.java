@@ -94,6 +94,7 @@ public class ShopInformation {
     @OneToMany(mappedBy = "shopId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ServiceInformation> services;
 
+
     public List<ServiceInformation> getServices() {
         return services;
     }
