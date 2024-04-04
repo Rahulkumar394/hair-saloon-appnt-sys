@@ -1,7 +1,5 @@
 package com.SalonSphereServer.dto;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

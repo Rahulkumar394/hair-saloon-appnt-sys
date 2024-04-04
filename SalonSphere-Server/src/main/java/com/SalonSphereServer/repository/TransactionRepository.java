@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.SalonSphereServer.entity.Transactions;
-import com.SalonSphereServer.response.BookingDetailsResponse;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transactions, String> {

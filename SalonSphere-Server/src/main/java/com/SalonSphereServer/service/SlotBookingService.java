@@ -1,7 +1,6 @@
 package com.SalonSphereServer.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,11 +30,9 @@ public class SlotBookingService {
 
 		System.out.println("/////////////////////////////////////////////////////" + slot);
 		Slots slots = slotRepository.save(slot);
-		if (slots != null) {
-			return slots.getBookingId();
-		}
 
-		return null;
+		return slots.getBookingId();
+		
 	}
 
 	public List<BookedSlot> findAllBookedSlotsByShopIdSortedByTimeAsc(String shopId) {
