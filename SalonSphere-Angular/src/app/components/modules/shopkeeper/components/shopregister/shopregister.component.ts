@@ -85,6 +85,20 @@ export class ShopregisterComponent {
       shopTiming:['']
     });
   }
+
+// Define a loading variable
+isLoading: boolean = false;
+
+  startLoading() {
+    this.isLoading = true;
+  }
+
+  // Function to stop loading
+  stopLoading() {
+    this.isLoading = false;
+  }
+
+
   goBack(){
     window.history.back();
   }
@@ -157,6 +171,7 @@ export class ShopregisterComponent {
   //Validate the data of the form and send the data to the service
   doSubmit() {
     // alert('values comes');
+    this.startLoading();
     
     this.register.value.licenseDocument= 'licence_'+this.register.value.shopContactNo+'.jpg';
     this.register.value.coverImage= 'cover_image_'+this.register.value.shopContactNo+'.jpg';
@@ -218,6 +233,7 @@ export class ShopregisterComponent {
       console.log(data);
     },
     error=>{
+      console.log(error,"Inside Shop Register")
       Swal.fire({
         title: 'Error!',
         text: 'error occured while uploading the image',
@@ -262,6 +278,7 @@ export class ShopregisterComponent {
           text: 'Your Email or Shop is already registered',
           icon: 'error',
         });
+        this.stopLoading();
       }
     );
   }

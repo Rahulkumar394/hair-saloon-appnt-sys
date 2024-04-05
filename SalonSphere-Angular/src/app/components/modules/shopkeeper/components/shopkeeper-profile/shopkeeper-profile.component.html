@@ -1,6 +1,6 @@
 <div class="container">
   <div class="profile-header">
-    <img src="assets\profileImage\{{owner.profile}}" alt="Profile Picture"><br>
+    <img src="assets\profileImage\{{owner.profile || ''}}" alt="Profile Picture"><br>
     <label>Change Profile image
       <mat-icon class="edit">edit</mat-icon>
       <input type="file" name="profile" style="display: none;" (change)="uploadProfile($event)">

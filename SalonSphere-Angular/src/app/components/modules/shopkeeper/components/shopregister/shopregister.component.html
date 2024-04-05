@@ -225,6 +225,15 @@
       <!-- ------------------------------------------------------------------- -->
       <!-- ------------------------------------------------------------------- -->
       <button>Submit</button>
+      <div  *ngIf="isLoading">
+        <div class="loading">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     </form>
   </section>
 </div>

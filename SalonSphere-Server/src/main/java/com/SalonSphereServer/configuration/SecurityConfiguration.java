@@ -41,6 +41,7 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(requests -> requests.requestMatchers("/login").permitAll()
 						.requestMatchers("/register").permitAll()
 						.requestMatchers("/customer/**").permitAll()
+						.requestMatchers("/sendOTP/**").permitAll()
 						.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

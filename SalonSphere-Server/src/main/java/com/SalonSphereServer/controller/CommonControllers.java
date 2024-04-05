@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 
@@ -144,7 +145,6 @@ public class CommonControllers {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Image Uploaded Successfully"));
 	}
 
-
 	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
 
 		System.out.println("+++++++++++Common Controller book slot service" + slotBookingRequest);
@@ -176,14 +176,14 @@ public class CommonControllers {
 
 		return new ResponseEntity<>("Failure", HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping(value = "/changeProfileName/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Response> changeProfileName(@PathVariable String userId,@RequestBody String profileImage){
-		userService.updateProfileName(userId,profileImage);
+	public ResponseEntity<Response> changeProfileName(@PathVariable String userId, @RequestBody String profileImage) {
+		userService.updateProfileName(userId, profileImage);
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Successfully Change ProfileImage Name"));
 	}
-	
+
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/updateUser")
 	public ResponseEntity<Response> editUserInfo(@RequestBody Users userInfo) {
@@ -205,4 +205,37 @@ public class CommonControllers {
 			return new ResponseEntity<>(new Response("User Deleted Successfully"), HttpStatus.OK);
 		return new ResponseEntity<>(new Response("Unable to delete User"), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+	// For sending OTP for Password change
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/sendOTP/{email}")
+	public ResponseEntity<String> sendOTP(@PathVariable String email) {
+
+		// Characters that the OTP can contain
+		final String OTP_CHARS = "0123456789"; // characters to be used for OTP generation
+		final int OTP_LENGTH = 6; // length of the OTP
+
+		// Used for generating Random numbers but securely
+		SecureRandom random = new SecureRandom();
+		StringBuilder otp = new StringBuilder(OTP_LENGTH);
+		for (int i = 0; i < OTP_LENGTH; i++) {
+			int randomIndex = random.nextInt(OTP_CHARS.length());
+			otp.append(OTP_CHARS.charAt(randomIndex));
+		}
+		//
+
+		// Since it is in string builder hence converting it in String
+		String OTP = otp.toString();
+
+		if (!userService.isRegistered(email)) {
+			if (EmailContent.sendOTP(email, OTP)) {
+				return ResponseEntity.status(HttpStatus.OK).body(OTP);
+			}
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Problem while sending OTP");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User Not Found");
+		}
+
+	}
+
 }
