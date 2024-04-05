@@ -42,6 +42,7 @@ public class SecurityConfiguration {
 						.requestMatchers("/register").permitAll()
 						.requestMatchers("/customer/**").permitAll()
 						.requestMatchers("/sendOTP/**").permitAll()
+						.requestMatchers("/update-password/**").permitAll()
 						.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
