@@ -34,6 +34,11 @@
 
   <div class="card">
     <span class="span">{{ shopName }}</span>
+    <br>
+    <span>{{ shopAddress }}</span>
+    <mat-divider></mat-divider>
+    <br>
+    
     <div class="products" *ngIf="serviceCountMap.size">
       <div class="product" *ngFor="let entry of serviceCountMap.entries()">
         <div class="product-details">

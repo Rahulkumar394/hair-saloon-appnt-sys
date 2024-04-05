@@ -109,4 +109,9 @@ public class UserService {
 		return delete==1;
 	}
 
+	public boolean isRegistered(String email) {
+		Users findUser = userRepository.findByEmail(email);
+		return findUser == null;
+	}
+
 }

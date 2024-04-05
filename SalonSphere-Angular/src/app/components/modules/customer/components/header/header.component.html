@@ -3,11 +3,11 @@
     <div class="logo">SalonSphere</div>
   </div>
 
-    <div class="searchbar"> 
-        <select class="dropdown" (change)="onDropdownChange($event)">
-            <option>Your Location</option>
-        </select>
-    </div> 
+  <div class="searchbar">
+    <select class="dropdown" (change)="onDropdownChange($event)">
+      <option>Your Location</option>
+    </select>
+  </div>
 
   <form [formGroup]="searchForm" class="searchForm">
     <div class="searchbar">
@@ -38,18 +38,22 @@
       </div>
     </mat-card>
   </form>
-
-  <div class="profile" mat-button [matMenuTriggerFor]="menu">
+  <div class="message" *ngIf="!isLogin">
+    <button mat-raised-button color="primary" routerLink="/login">Log In</button>
+  </div>
+  <div class="profile" mat-button [matMenuTriggerFor]="menu" *ngIf="isLogin">
     <mat-icon>account_circle</mat-icon>
     <mat-menu #menu="matMenu">
-      <button mat-flat-button style="width: 100%;" routerLink="/customer/dashboard/profile">My Account</button>
-      <div class="message" *ngIf="isLogin">
+      <button
+        mat-flat-button
+        style="width: 100%"
+        routerLink="/customer/dashboard/profile"
+      >
+        My Account
+      </button>
+      <div class="message" >
         <button mat-flat-button (click)="navigateLogout()">Logout</button>
       </div>
-      <div class="message" *ngIf="!isLogin">
-        <button mat-flat-button routerLink="/login">Login</button>
-      </div>
     </mat-menu>
-
   </div>
 </header>
