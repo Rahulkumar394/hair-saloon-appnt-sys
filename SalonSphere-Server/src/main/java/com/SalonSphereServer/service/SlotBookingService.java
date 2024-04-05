@@ -33,11 +33,9 @@ public class SlotBookingService {
 		
 		System.out.println("/////////////////////////////////////////////////////"+slot);
 		Slots slots = slotRepository.save(slot);
-		if (slots != null) {
-			return slots.getBookingId();
-		}
 
-		return null;
+		return slots.getBookingId();
+		
 	}
 
 	public List<BookedSlot> findAllBookedSlotsByShopIdSortedByTimeAsc(String shopId) {
