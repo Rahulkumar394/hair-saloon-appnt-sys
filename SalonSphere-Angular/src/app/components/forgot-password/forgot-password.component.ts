@@ -20,19 +20,11 @@ export class ForgotPasswordComponent {
   forgetPassword = new FormGroup({
     email: new FormControl(''),
     otpclient: new FormControl(''),
-  });
-
-
-
-  setPwd = new FormGroup({
     newPassword: new FormControl(''),
-    comfirmPassword: new FormControl(''),
+    confirmPassword: new FormControl(''),
   });
 
-obj= new FormGroup({
-  email:new FormControl(this.forgetPassword.value.email),
-  password:new FormControl(this.setPwd.value.newPassword)
-});
+obj:any;
 
   form1: boolean = true;
   form2: boolean = false;
@@ -85,8 +77,8 @@ obj= new FormGroup({
   setPassword(){
 
     let message = this.checkPassword(
-      this.setPwd.value.newPassword,
-      this.setPwd.value.comfirmPassword
+      this.forgetPassword.value.newPassword,
+      this.forgetPassword.value.confirmPassword
     );
 
     if (message != '') {
@@ -99,15 +91,16 @@ obj= new FormGroup({
 
     
   }
-if(this.setPwd.value.newPassword==this.setPwd.value.comfirmPassword){
-      this.forgetPass.setPassword(this.obj).subscribe((response:any)=>{
-        console.log(this.obj);
+// if(this.setPwd.value.newPassword===this.setPwd.value.confirmPassword){
+  
+      this.forgetPass.setPassword(this.forgetPassword.value).subscribe((response:any)=>{
+        console.log(this.forgetPassword);
         console.log(response);
       }),
       (error:any)=>{
-        console.log("this is error  while setting password",error);
+        console.log("this is error while setting password",error);
       }
-    }
+    // }
 }
 
 checkPassword(password: any, confirmPassword: any): string {
