@@ -45,4 +45,14 @@ public interface UserRepository extends JpaRepository<Users, String> {
     @Query("UPDATE Users u SET u.isDeleted = :isDelete WHERE u.userId = :userId")
     Integer updateIsDeleteById(@Param("userId") String userId, @Param("isDelete") boolean isDelete);
 
+    // Updating the password of user on verifying the identity by OTP
+    @Transactional
+    @Modifying
+    @Query("UPDATE Users u SET u.password = :password WHERE u.email = :email")
+    int updatePasswordByEmail(@Param("email") String email,@Param("password") String password);
+
+
+
+
+
 }

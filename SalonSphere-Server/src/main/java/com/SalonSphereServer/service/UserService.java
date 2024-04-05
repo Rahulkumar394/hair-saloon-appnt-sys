@@ -11,6 +11,7 @@ import com.SalonSphereServer.common.Validation;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.UserRepository;
 import com.SalonSphereServer.request.LoginRequest;
+import com.SalonSphereServer.request.UpdatePasswordByOTP;
 import com.SalonSphereServer.response.LoginResponse;
 
 @Service
@@ -83,7 +84,7 @@ public class UserService {
 		Optional<Users> existingUserOptional = userRepository.findById(userInfo.getUserId());
 		if (existingUserOptional.isPresent()) {
 			Users existingUser = existingUserOptional.get();
-			
+
 			existingUser.setFirstName(userInfo.getFirstName());
 			existingUser.setLastName(userInfo.getLastName());
 			existingUser.setContactNumber(userInfo.getContactNumber());
@@ -97,21 +98,32 @@ public class UserService {
 		return false;
 	}
 
-	public void updateProfileName(String userId, String profileImage){
-		userRepository.updateProfileByUserId(userId,profileImage);
+	public void updateProfileName(String userId, String profileImage) {
+		userRepository.updateProfileByUserId(userId, profileImage);
 		return;
 	}
 
 	// Deleting user by his userId
 	@org.springframework.transaction.annotation.Transactional
 	public Boolean deleteUser(String userId) {
-		Integer delete = userRepository.updateIsDeleteById(userId,true);
-		return delete==1;
+		Integer delete = userRepository.updateIsDeleteById(userId, true);
+		return delete == 1;
 	}
 
+	// Used to get the status if a email is registered or not in the database
 	public boolean isRegistered(String email) {
 		Users findUser = userRepository.findByEmail(email);
 		return findUser == null;
+	}
+
+	// Updating password of user on verifying valid account by OTP
+	public int updatePasswordByEmail(UpdatePasswordByOTP updatePasswordByOTP) {
+
+		updatePasswordByOTP.setPassword(passwordEncoder.encode(updatePasswordByOTP.getPassword()));
+		 return userRepository.updatePasswordByEmail(updatePasswordByOTP.getEmail(), updatePasswordByOTP
+				.getPassword());
+
+		
 	}
 
 }

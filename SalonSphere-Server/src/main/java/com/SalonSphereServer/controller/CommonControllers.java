@@ -33,6 +33,7 @@ import com.SalonSphereServer.jwtsecurity.JwtHelper;
 import com.SalonSphereServer.request.AppointmentRequest;
 import com.SalonSphereServer.request.LoginRequest;
 import com.SalonSphereServer.request.SlotBookingRequest;
+import com.SalonSphereServer.request.UpdatePasswordByOTP;
 import com.SalonSphereServer.response.LoginResponse;
 import com.SalonSphereServer.response.RegisterResponse;
 import com.SalonSphereServer.response.Response;
@@ -237,5 +238,19 @@ public class CommonControllers {
 		}
 
 	}
+
+
+	@CrossOrigin(origins = "http://localhost:4200")
+	@PostMapping("/update-password")
+	public ResponseEntity<Response> updatePassword(@RequestBody UpdatePasswordByOTP updatePassword) {
+
+		userService.updatePasswordByEmail(updatePassword);
+		
+		return new ResponseEntity<>(new Response("Password Updated Successfully"),HttpStatus.ACCEPTED);
+
+		// return new ResponseEntity<>(new Response("Password not updated"), HttpStatus.INTERNAL_SERVER_ERROR);
+
+	}
+
 
 }
