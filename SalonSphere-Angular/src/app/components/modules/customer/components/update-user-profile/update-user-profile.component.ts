@@ -165,7 +165,7 @@ export class UpdateUserProfileComponent {
 
     this.updateUserProfile.updateProfile(this.userProfile.value).subscribe((response:any)=>{
       console.log(response);
-      this.router.navigate(['/shopkeeper/shopkeeperProfile']);
+      this.router.navigate(['/customer/dashboard/profile']);
     }),
     (error: any) => {
       

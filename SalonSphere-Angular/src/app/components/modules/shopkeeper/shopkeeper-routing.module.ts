@@ -17,6 +17,7 @@ import { UpdateEmployeeComponent } from './components/update-employee/update-emp
 import { ViewBookingsComponent } from './components/view-bookings/view-bookings.component';
 import { ShopkeeperProfileComponent } from './components/shopkeeper-profile/shopkeeper-profile.component';
 import { UpdateShopkeeperProfileComponent } from './components/update-shopkeeper-profile/update-shopkeeper-profile/update-shopkeeper-profile.component';
+import { ForgotPasswordComponent } from '../../forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
       { path: 'requestAgain', component:RequestAgainComponent },
       { path: 'viewBookings', component: ViewBookingsComponent },
       { path: 'shopkeeperProfile', component:ShopkeeperProfileComponent },
-      { path: 'updateShopkeeperProfile' , component:UpdateShopkeeperProfileComponent }
+      { path: 'updateShopkeeperProfile' , component:UpdateShopkeeperProfileComponent },
+      { path: 'forgetPassword', component:ForgotPasswordComponent},
     ],
   },
 ];
