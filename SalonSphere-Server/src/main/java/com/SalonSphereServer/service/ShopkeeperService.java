@@ -171,7 +171,6 @@ public class ShopkeeperService {
 	// Through this method we upadte shopInformation to the database
 	public boolean updateShopInformation(ShopInformation shopInformation) {
 
-		@SuppressWarnings("null")
 		Optional<ShopInformation> existingShopOptional = shopkeeperRepository.findById(shopInformation.getShopId());
 		// Validation
 		if (existingShopOptional.isPresent() && (Validation.emailValidation(shopInformation.getShopEmail())
@@ -294,7 +293,6 @@ public class ShopkeeperService {
 	}
 
 	//this method used for request again to admin from shopkeeper
-	@SuppressWarnings("null")
 	public boolean requestAgain(ShopInformation shopInformation) {
 
 		Optional<ShopInformation> existingShopOptional = shopkeeperRepository.findById(shopInformation.getShopId());
@@ -353,7 +351,6 @@ public class ShopkeeperService {
 	// Through this method we upadte shopEmployee to the database
 	public boolean updateEmployeeService(ShopEmployees shopEmployees) {
 
-		@SuppressWarnings("null")
 		Optional<ShopEmployees> existingEmpOptional = shopEmployeeRepository.findById(shopEmployees.getEmployeeId());
 		// Validation
 		if (existingEmpOptional.isPresent() && (Validation.emailValidation(shopEmployees.getEmail())

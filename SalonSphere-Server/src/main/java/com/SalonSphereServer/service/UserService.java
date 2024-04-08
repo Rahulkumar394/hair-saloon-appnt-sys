@@ -80,7 +80,6 @@ public class UserService {
 
 	public Boolean updateUser(Users userInfo) {
 
-		@SuppressWarnings("null")
 		Optional<Users> existingUserOptional = userRepository.findById(userInfo.getUserId());
 		if (existingUserOptional.isPresent()) {
 			Users existingUser = existingUserOptional.get();

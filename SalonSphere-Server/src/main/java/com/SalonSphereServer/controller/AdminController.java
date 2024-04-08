@@ -59,7 +59,6 @@ public class AdminController {
 	}
 
 	// this delete API for delete the user
-	@SuppressWarnings("null")
 	@PostMapping("/deleteuser/{userId}")
 	public ResponseEntity<String> deleteUser(@PathVariable String userId) {
 		userRepository.deleteById(userId);

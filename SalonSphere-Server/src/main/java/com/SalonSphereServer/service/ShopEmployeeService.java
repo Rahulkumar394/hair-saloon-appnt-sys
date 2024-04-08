@@ -22,7 +22,6 @@ public class ShopEmployeeService {
     private ShopkeeperRepository shopkeeperRepository;
 
     // Through this method we add employee in salon
-    @SuppressWarnings("null")
     public boolean addEmp(ShopEmployees emp) {
         boolean exists = shopkeeperRepository.existsById(emp.getShopId());
         // Validation Employe
@@ -58,7 +57,6 @@ public class ShopEmployeeService {
     }
 
     // This method give  us the details of a specific employee by employeeId
-    @SuppressWarnings("null")
     public ShopEmployees showEmpByEmpId(String empId){
        Optional<ShopEmployees> optional= shopEmployeeRepository.findById(empId);
        ShopEmployees emps=optional.get() ;

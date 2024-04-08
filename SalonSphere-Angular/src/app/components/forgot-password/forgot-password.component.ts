@@ -37,6 +37,7 @@ export class ForgotPasswordComponent {
 
   constructor(private forgetPass: ForgetPasswordService, private router:Router) { }
 
+  //this method for send OTP to User and disabled boolean for on click send otp button disable for 60 secs. 
   sendOTP() {
     this.forgetPass.sendOTP(this.forgetPassword.value.email).subscribe(
       (response: any) => {
@@ -54,8 +55,9 @@ export class ForgotPasswordComponent {
           }
         });
       },
+      //this error occured when user not found
       (error: any) => {
-        console.log('Error in sending otp:', error);
+        console.log('User not found in sending otp:', error);
         Swal.fire({
           title: 'Oops',
           text: 'User Not Found..',
@@ -65,6 +67,7 @@ export class ForgotPasswordComponent {
     );
   }
 
+  //this method for verify the otp send on email of user
   verifyOTP() {
     if (this.otp == this.forgetPassword.value.otpclient) {
       this.form1 = false;
@@ -79,7 +82,9 @@ export class ForgotPasswordComponent {
     }
   }
 
+  //this method for set the password or update password of user
   setPassword() {
+    //check password method for validating password
     let message = this.checkPassword(
       this.forgetPassword.value.newPassword,
       this.forgetPassword.value.confirmPassword
@@ -93,7 +98,10 @@ export class ForgotPasswordComponent {
       });
       return;
     }
-    // if(this.setPwd.value.newPassword===this.setPwd.value.confirmPassword){
+
+    //this if check the both password entered by user is equal or not
+    //if equals then it set the new password
+    if(this.forgetPassword.value.newPassword===this.forgetPassword.value.confirmPassword){
 
     this.forgetPass
       .setPassword(
@@ -108,9 +116,17 @@ export class ForgotPasswordComponent {
       (error: any) => {
         console.log('this is error while setting password', error);
       };
-    // }
+    }
+    else{
+      Swal.fire({
+        title: 'Error!',
+        text: 'Both Password are not matched ',
+        icon: 'error',
+      });
+    }
   }
 
+  //validation of password entered by user
   checkPassword(password: any, confirmPassword: any): string {
     let message = '';
 
