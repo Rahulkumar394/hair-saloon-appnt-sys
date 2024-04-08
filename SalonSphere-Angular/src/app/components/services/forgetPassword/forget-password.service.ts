@@ -14,7 +14,8 @@ export class ForgetPasswordService {
         return this.http.get(`${this.baseURL}/sendOTP/${email}`);
       }
 
-  setPassword(data:any){
-  return this.http.post(`${this.baseURL}/update-password`,data);
-  }    
+      setPassword(email: any, password: any) {
+        const data = { email, password };
+        return this.http.post(`${this.baseURL}/update-password`, data);
+      } 
 }

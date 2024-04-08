@@ -5,6 +5,8 @@ import { response } from 'express';
 import Swal from 'sweetalert2';
 import { timer } from 'rxjs';
 import { error } from 'console';
+import { Cookie } from 'ng2-cookies';
+import { Router } from '@angular/router';
 
 interface otp {
   OTP: String;
@@ -13,10 +15,9 @@ interface otp {
 @Component({
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
-  styleUrl: './forgot-password.component.css'
+  styleUrl: './forgot-password.component.css',
 })
 export class ForgotPasswordComponent {
-
   forgetPassword = new FormGroup({
     email: new FormControl(''),
     otpclient: new FormControl(''),
@@ -24,7 +25,7 @@ export class ForgotPasswordComponent {
     confirmPassword: new FormControl(''),
   });
 
-obj:any;
+  obj: any;
 
   form1: boolean = true;
   form2: boolean = false;
@@ -32,12 +33,11 @@ obj:any;
   disabled: boolean = false;
   remainingTime: number = 60;
 
-  otp: string = "";
+  otp: string = '';
 
-  constructor(private forgetPass: ForgetPasswordService) { }
+  constructor(private forgetPass: ForgetPasswordService, private router:Router) { }
 
   sendOTP() {
-
     this.forgetPass.sendOTP(this.forgetPassword.value.email).subscribe(
       (response: any) => {
         console.log('Response from server : ', response);
@@ -55,11 +55,10 @@ obj:any;
         });
       },
       (error: any) => {
-
-        console.log("Error in sending otp:",error)
+        console.log('Error in sending otp:', error);
         Swal.fire({
           title: 'Oops',
-          text: 'Please Try after 60 sec.',
+          text: 'User Not Found..',
           icon: 'error',
         });
       }
@@ -67,15 +66,20 @@ obj:any;
   }
 
   verifyOTP() {
-
     if (this.otp == this.forgetPassword.value.otpclient) {
       this.form1 = false;
       this.form2 = true;
     }
+    else{
+      Swal.fire({
+        title: 'Error!',
+        text: 'Wrong OTP.',
+        icon: 'error',
+      });
+    }
   }
 
-  setPassword(){
-
+  setPassword() {
     let message = this.checkPassword(
       this.forgetPassword.value.newPassword,
       this.forgetPassword.value.confirmPassword
@@ -88,44 +92,58 @@ obj:any;
         icon: 'error',
       });
       return;
+    }
+    // if(this.setPwd.value.newPassword===this.setPwd.value.confirmPassword){
 
-    
-  }
-// if(this.setPwd.value.newPassword===this.setPwd.value.confirmPassword){
-  
-      this.forgetPass.setPassword(this.forgetPassword.value).subscribe((response:any)=>{
+    this.forgetPass
+      .setPassword(
+        this.forgetPassword.value.email,
+        this.forgetPassword.value.newPassword
+      )
+      .subscribe((response: any) => {
         console.log(this.forgetPassword);
         console.log(response);
+        this.afterSetRedirect();
       }),
-      (error:any)=>{
-        console.log("this is error while setting password",error);
-      }
+      (error: any) => {
+        console.log('this is error while setting password', error);
+      };
     // }
-}
-
-checkPassword(password: any, confirmPassword: any): string {
-  let message = '';
-
-  //check the password empty or not
-  if (!password || !confirmPassword) {
-    message = 'Both fields are required.';
-    return message;
   }
 
-  // Check if the password and retype password match
-  if (password !== confirmPassword) {
-    message = 'Passwords do not match.';
-    return message;
+  checkPassword(password: any, confirmPassword: any): string {
+    let message = '';
+
+    //check the password empty or not
+    if (!password || !confirmPassword) {
+      message = 'Both fields are required.';
+      return message;
+    }
+
+    // Check if the password and retype password match
+    if (password !== confirmPassword) {
+      message = 'Passwords do not match.';
+      return message;
+    }
+
+    // Check if the password is between 8 to 16 characters
+    if (password.length < 8 || confirmPassword.length > 16) {
+      message = 'Password must be between 8 to 16 characters.';
+      return message;
+    }
+
+    // If all validations pass
+    return message; // Return an empty string indicating success
   }
 
-  // Check if the password is between 8 to 16 characters
-  if (password.length < 8 || confirmPassword.length > 16) {
-    message = 'Password must be between 8 to 16 characters.';
-    return message;
+  afterSetRedirect(){
+    const role = Cookie.get('role');
+
+    if(Cookie.get('role')){
+      this.router.navigateByUrl(`/${role}`);
+    }
+    else{
+      this.router.navigateByUrl('/login');
+    }
   }
-
-  // If all validations pass
-  return message; // Return an empty string indicating success
-}
-
 }

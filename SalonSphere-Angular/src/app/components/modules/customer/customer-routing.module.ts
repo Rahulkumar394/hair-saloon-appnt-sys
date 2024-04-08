@@ -12,6 +12,7 @@ import { UpdateUserProfileComponent } from './components/update-user-profile/upd
 import { ViewShopsComponent } from './components/view-shops/view-shops.component';
 import { ViewSlotsComponent } from './components/view-slots/view-slots.component';
 import { ShopInfoComponent } from './components/shop-info/shop-info.component';
+import { ForgotPasswordComponent } from '../../forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,7 @@ const routes: Routes = [
       },
       { path: 'booking-details', canActivate: [customerGuardGuard], component: BookingDetailsComponent },
       { path: '', redirectTo: '/customer/view-shops', pathMatch: 'full' },
+      
     ],
   },
 
@@ -61,6 +63,7 @@ const routes: Routes = [
         path: 'edit-profile',
         component: UpdateUserProfileComponent,
       },
+      { path: 'forgetPassword', component:ForgotPasswordComponent},
     ]
   }
 ];  
