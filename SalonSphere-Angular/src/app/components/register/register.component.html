@@ -1,4 +1,14 @@
-<section class="container">
+<div class="loader" *ngIf="isLoading" style="display: flex; flex-direction: column;">
+  <div class="loading">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <h3><b>Please wait...</b></h3>
+</div>
+<section class="container" *ngIf="!isLoading">
   <header>Registration Form</header>
   <form
     [formGroup]="register"

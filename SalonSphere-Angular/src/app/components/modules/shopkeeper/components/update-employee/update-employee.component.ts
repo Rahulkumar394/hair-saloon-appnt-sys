@@ -46,6 +46,10 @@ export class UpdateEmployeeComponent implements OnInit {
     allowSearchFilter: true
   };
 
+
+  isPreSelected(serviceId: string): boolean {
+  return this.selectedList.includes(serviceId);
+}
   EmpRegister = new FormGroup({
     shopId: new FormControl(localStorage.getItem('shopId')),
     employeeName: new FormControl(''),

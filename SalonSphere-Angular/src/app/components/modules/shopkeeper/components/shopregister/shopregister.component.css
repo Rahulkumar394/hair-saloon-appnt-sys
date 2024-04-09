@@ -5,6 +5,7 @@
   position: absolute;
   right: 0;
 }
+
 .custum-file-upload {
   height: 150px;
   width: 230px;
@@ -123,6 +124,10 @@
   column-gap: 50px;
   flex-wrap: wrap;
 }
+
+.main{
+  overflow: hidden;
+}
 .form .gender,
 .role {
   column-gap: 5px;
@@ -237,4 +242,14 @@
  }
 
 
- 
+ .loader{
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  margin-top:0;
+  align-items: center;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+ }

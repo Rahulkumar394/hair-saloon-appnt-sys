@@ -1,4 +1,15 @@
-<div class="main">
+<div class="loader" *ngIf="isLoading" style="display: flex; flex-direction: column;">
+  <div class="loading">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <h3><b>Please wait...</b></h3>
+</div>
+
+<div class="main" *ngIf="!isLoading">
   <section class="container">
     <button mat-button (click)="goBack()">
       <mat-icon>keyboard_backspace</mat-icon> Back
@@ -225,7 +236,7 @@
       <!-- ------------------------------------------------------------------- -->
       <!-- ------------------------------------------------------------------- -->
       <button>Submit</button>
-      <div  *ngIf="isLoading">
+      <div *ngIf="isLoading">
         <div class="loading">
           <span></span>
           <span></span>

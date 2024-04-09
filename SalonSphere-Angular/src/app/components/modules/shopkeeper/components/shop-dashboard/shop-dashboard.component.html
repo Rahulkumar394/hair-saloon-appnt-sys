@@ -1,11 +1,13 @@
 <div class="container" *ngIf="shopData">
   <mat-card
     class="header"
-    style="background-image: url(assets/userUploadedImages/{{shopData.coverImage}}); 
+    style="background-image: url(/hair-saloon-appnt-sys//SalonSphere-Angular/src/assets/userUploadedImages/); 
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 20px;"
-  >
+   >
+   <!-- <img [src]="'../../../../../../assets/userUploadedImages/'+shopData.coverImage" alt=""> -->
+   <!-- {{shopData.coverImage}} -->
     <div class="btnclass">
       <button
         class="edit"

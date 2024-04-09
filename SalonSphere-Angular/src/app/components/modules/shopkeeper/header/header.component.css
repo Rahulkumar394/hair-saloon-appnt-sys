@@ -10,7 +10,16 @@ header {
     justify-content: space-between;
     align-items: center;
   }
-  
+  img{
+    width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: contain;
+  border-color: #000;
+
+  border-width: 1.5em;
+  /* margin-bottom: 10px; */
+  }
   
   .logo {
     font-size: 27px;
