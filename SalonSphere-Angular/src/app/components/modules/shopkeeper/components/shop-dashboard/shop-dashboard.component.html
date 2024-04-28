@@ -1,7 +1,7 @@
 <div class="container" *ngIf="shopData">
   <mat-card
     class="header"
-    style="background-image: url(/hair-saloon-appnt-sys//SalonSphere-Angular/src/assets/userUploadedImages/); 
+    style="background-image: url(../../../../../../assets/userUploadedImages/{{shopData.coverImage}}); 
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 20px;"
@@ -143,13 +143,6 @@
 
       <div class="add-shop">
         <h2 *ngIf="!reviews || !reviews.length">No Reviews Found <mat-icon>sentiment_content</mat-icon></h2>
-        <button
-          mat-raised-button
-          class="button"
-          routerLink="/shopkeeper/addservice"
-        >
-          <span>Add Service</span>
-        </button>
       </div>
 
     </mat-tab>
