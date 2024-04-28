@@ -14,7 +14,7 @@ export class LogoutService {
     console.log("come inside the logout");
 
     //delete all the information of the current login user
-    Cookie.delete('token','/','localhost');
+    Cookie.delete('token');
     Cookie.delete('name','/','localhost');
     Cookie.delete('role','/','localhost');
 

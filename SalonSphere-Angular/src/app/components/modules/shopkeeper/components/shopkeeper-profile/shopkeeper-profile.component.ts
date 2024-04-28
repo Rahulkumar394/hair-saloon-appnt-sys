@@ -39,6 +39,7 @@ ngOnInit(): void {
 showShopKeeper(){
   this.showShopOwnerService.getShopkeeper().subscribe((data:any)=>{
     this.owner=data;
+    localStorage.setItem('profileImage',data.profile)
     console.log(data);
   }),
   (error:any)=>{

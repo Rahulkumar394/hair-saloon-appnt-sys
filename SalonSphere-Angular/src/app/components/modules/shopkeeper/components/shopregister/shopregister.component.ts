@@ -62,10 +62,17 @@ export class ShopregisterComponent {
     district: new FormControl('', Validators.required),
     state: new FormControl('', Validators.required),
     shopTiming: new FormControl(''),
+
     // country: new FormControl('',Validators.required),
   });
 
   ngOnInit(): void {
+
+    window.scroll({ 
+      top: 0, 
+      left: 0, 
+      behavior: 'smooth' 
+});
     this.register = this.formBuilder.group({
       userId: [Cookie.get('userId')],
       shopName: [''],
@@ -188,6 +195,7 @@ isLoading: boolean = false;
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -200,6 +208,7 @@ isLoading: boolean = false;
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -212,6 +221,7 @@ isLoading: boolean = false;
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -221,6 +231,7 @@ isLoading: boolean = false;
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -239,6 +250,7 @@ isLoading: boolean = false;
         text: 'error occured while uploading the image',
         icon: 'error',
       });
+      this.stopLoading();
   });
 
   //send image to backend for storing in folder structure
@@ -252,6 +264,7 @@ isLoading: boolean = false;
         text: 'error occured while uploading the licence',
         icon: 'error',
       });
+      this.stopLoading();
     });
 
 
@@ -268,6 +281,7 @@ isLoading: boolean = false;
           icon: 'success',
         });
         this.router.navigate(['/shopkeeper/view-shop']);
+        this.stopLoading();
       },
       (
         // if any  error occured while registering user

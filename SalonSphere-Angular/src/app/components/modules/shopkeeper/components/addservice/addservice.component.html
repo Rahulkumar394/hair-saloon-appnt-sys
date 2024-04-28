@@ -4,10 +4,10 @@
   <form [formGroup]="addServiceForm" (ngSubmit)="getFormData()" class="form">
     <div formArrayName="serviceList">
       <div *ngFor="let student of serviceListArray().controls; let i = index">
-        <div [formGroupName]="i" class="input">
+        <div [formGroupName]="i" class="input"(click)="addService()">
           <mat-form-field>
             <br />
-            <mat-select formControlName="serviceName"  (click)="addService()" required>
+            <mat-select formControlName="serviceName"  required>
               <mat-option value="">Select a service</mat-option>
               <mat-option value="Haircut">Haircut</mat-option>
               <mat-option value="Haircut">Beard Grooming</mat-option>

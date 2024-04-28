@@ -80,6 +80,11 @@
               (onSelect)="onItemSelect($event)"
               (onSelectAll)="onSelectAll($event)"
               >
+              <ng-template #itemTemplate let-item>
+                {{ item.serviceName }}
+              </ng-template>
+              <ng-template #selectedItemTemplate let-item>
+                {{ item.serviceName }} (Pre-selected)  </ng-template>
               </ng-multiselect-dropdown>
           </div>
         </div>

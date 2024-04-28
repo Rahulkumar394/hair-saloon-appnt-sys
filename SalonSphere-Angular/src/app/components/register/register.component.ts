@@ -44,10 +44,24 @@ export class RegisterComponent {
       confirmPassword: [''],
     });
   }
+// Define a loading variable
+isLoading: boolean = false;
+
+  startLoading() {
+    this.isLoading = true;
+  }
+
+  // Function to stop loading
+  stopLoading() {
+    this.isLoading = false;
+  }
 
   //Validate the data of the form and send the data to the service
   doSubmit() {
     // alert('values comes');
+    this.startLoading();
+
+
     console.log(this.register.value);
 
     //check first name and last name
@@ -62,6 +76,7 @@ export class RegisterComponent {
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -74,6 +89,7 @@ export class RegisterComponent {
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -86,6 +102,7 @@ export class RegisterComponent {
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -100,6 +117,7 @@ export class RegisterComponent {
         text: message,
         icon: 'error',
       });
+      this.stopLoading();
       return;
     }
 
@@ -115,6 +133,7 @@ export class RegisterComponent {
 
         //and Navigate to the login page
         this.router.navigate(['/login']);
+        this.stopLoading();
       },
       // if any  error occured while registering user
       (error) => {
@@ -123,6 +142,7 @@ export class RegisterComponent {
           text: 'There is something wrong please try again',
           icon: 'success',
         });
+        this.stopLoading();
       }
     );
   }
