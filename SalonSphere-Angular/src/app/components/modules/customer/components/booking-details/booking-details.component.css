@@ -12,7 +12,6 @@
 
 .card{
     width: 45%;
-    height: 400px;
     background-color: #f8f9fa;
     padding: 20px 40px;
 }
@@ -52,6 +51,21 @@ span{
     border-radius: 20px;
     margin-top: 25px;
 }
+.cancel-btn{
+    width: 100%;
+    height: 40px;
+    background: rgb(214, 12, 12);
+    color: white;
+    font-size: large;
+    border-radius: 20px;
+    margin-top: 25px;
+}
+.cancel-btn:hover{
+    background-color: red;
+}
+.feedback-btn:hover{
+    background-color: rgb(2, 117, 2);
+}
 
 .container {
 	background-color: white;
@@ -62,7 +76,7 @@ span{
 	width: 500px;
     height: 400px;
     z-index: 1;
-    position: absolute;
+    position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

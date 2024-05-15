@@ -104,7 +104,6 @@
 }
 
 .main {
-  width: 75%;
   height: 100vh;
   position: absolute;
   right: 0;
@@ -507,4 +506,8 @@ select {
   max-height: 240px;
   opacity: 1;
   overflow-y: scroll;
+}
+#location-icon {
+  width: 25px;
+  mix-blend-mode: color-burn;
 }

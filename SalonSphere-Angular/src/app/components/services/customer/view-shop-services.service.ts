@@ -7,7 +7,7 @@ import { Cookie } from 'ng2-cookies';
 })
 export class ViewShopServicesService {
   //base URL for API calling
-  baseURL: string = 'http://localhost:8081/shopkeeper/showservices';
+  baseURL: string = 'http://localhost:8081/customer/view-services';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -18,6 +18,6 @@ export class ViewShopServicesService {
     );
     console.log("Header Set",headers,shopId)
 
-    return this.httpClient.get(`${this.baseURL}/${shopId}`, { headers });
+    return this.httpClient.get(`${this.baseURL}/${shopId}`);
   }
 }

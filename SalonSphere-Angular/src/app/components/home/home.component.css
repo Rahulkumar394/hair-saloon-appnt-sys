@@ -1,4 +1,27 @@
-.main-div{
-    margin-top: 60px;
+
+
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.div{
+    height: 100vh;
+    overflow: hidden;
 }
   
+/* .carousel-caption{
+    position: absolute;
+    top: 20%;
+    left: 40px;
+} */
+span{
+    position: absolute;
+}
+
+h3{
+    font-size: 26px;
+    font-weight: bold;
+}

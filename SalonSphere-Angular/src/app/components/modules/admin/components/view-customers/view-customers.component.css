@@ -1,8 +1,6 @@
    .customerContainer {
-    width: 75%;
-    height: 100%;
     position: absolute;
-    left: 25%;
+    left: 280px;
     right: 0;
   
   }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 // import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SalonSphereServer.dto.ShowShopDto;
 import com.SalonSphereServer.dto.ShopServiceDTO;
 import com.SalonSphereServer.entity.Feedback;
+import com.SalonSphereServer.entity.ShopInformation;
 import com.SalonSphereServer.entity.Users;
 import com.SalonSphereServer.repository.FeedbackRepository;
 import com.SalonSphereServer.repository.UserRepository;
@@ -31,6 +33,8 @@ import com.SalonSphereServer.service.CustomerService;
 import com.SalonSphereServer.service.FeedbackService;
 import com.SalonSphereServer.service.UserService;
 import com.SalonSphereServer.service.ShopServices;
+import com.SalonSphereServer.service.ShopkeeperService;
+import com.SalonSphereServer.service.SlotBookingService;
 
 // This is Shopkeerper related  controller class  for handling shopkeeper related API
 @RestController
@@ -48,8 +52,14 @@ public class CustomerController {
 	private UserRepository userRepository;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SlotBookingService slotBookingService;
+	
+	@Autowired
+	private ShopkeeperService shopkeeperService;
 
 	// =============CODE FOR FILLTER==============
+	@Autowired
 	private ShopServices shopServices;
 
 	// Filter shops by given city
@@ -157,8 +167,15 @@ public class CustomerController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/book-slot")
 	@Secured("customer")
-	public ResponseEntity<Boolean> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
-		return new ResponseEntity<>(true, HttpStatus.OK);
+	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
+
+		System.out.println("++++++++++++++++++++++++++++++++++++hello aman" + slotBookingRequest);
+		String bookingId = slotBookingService.bookSlot(slotBookingRequest);
+
+		if (bookingId != null)
+			return new ResponseEntity<>(new Response(bookingId), HttpStatus.OK);
+
+		return new ResponseEntity<>(new Response("not found"), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	// this api is for filter the shop
@@ -225,4 +242,41 @@ public class CustomerController {
 
 		return new ResponseEntity<>(serviceslist, HttpStatus.OK);
 	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/cancel-booking/{bookingId}")
+	@Secured("customer")
+	public ResponseEntity<Response> cancleBooking(@PathVariable String bookingId){
+		
+		System.out.println("booking id is =========================="+bookingId);
+		if(customerService.cencelBooking(bookingId)) {
+		return new ResponseEntity<Response>(new Response("success"), HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<>(new Response("faliur"), HttpStatus.OK);
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/view-services/{shopId}")
+	public ResponseEntity<List<ShopServiceDTO>> viewServices(@PathVariable String shopId) {
+		System.out.println(
+				"===========================inside customer controllere show services ====================="+shopId);
+		List<ShopServiceDTO> serviceslist = shopServices.showServices(shopId);
+		System.out.println(serviceslist);
+		if (serviceslist != null) {
+			return new ResponseEntity<>(serviceslist, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(serviceslist, HttpStatus.NOT_FOUND);
+	}
+	
+	@CrossOrigin(origins = "http://localhost:4200")
+	@GetMapping("/get-shop-by-shopId/{shopId}")
+	public ResponseEntity<ShopInformation> shopInfo(@PathVariable String shopId){
+		System.out.println("this is shop id//////////////////////////////////////////////////////////////////"+shopId);
+		ShopInformation shopInformation = customerService.getShopInfo(shopId);
+		return new ResponseEntity<ShopInformation>(shopInformation, HttpStatus.OK);
+		
+	}
+	
 }

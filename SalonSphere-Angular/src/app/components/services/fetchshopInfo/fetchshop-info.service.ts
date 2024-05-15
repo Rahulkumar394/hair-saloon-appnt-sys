@@ -9,11 +9,11 @@ export class FetchshopInfoService {
   baseURL: string = 'http://localhost:8081/shopkeeper/getshopbyemail';
   constructor(private http:HttpClient) { }
 
-  fetchshopInfo(shopEmail:string|null){
+  fetchshopInfo(shopId:string|null){
 
     const headers = new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('token'));
 
-    return this.http.post(`${this.baseURL}`,shopEmail,{ headers });
+    return this.http.post(`${this.baseURL}`,shopId,{ headers });
   }
 
   

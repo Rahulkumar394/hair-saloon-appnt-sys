@@ -18,6 +18,9 @@ interface Service {
 interface ImageMap {
   [imageName: string]: string;
 }
+interface discriptionMap{
+  [imageName:string]:string
+}
 
 @Component({
   selector: 'app-add-service-to-card',
@@ -26,6 +29,7 @@ interface ImageMap {
 })
 export class AddServiceToCardComponent implements OnInit {
 
+  // Define mapping for image path
   public imagePaths: ImageMap= {
     "Hair Coloring": "../../../../../../assets/images/haircoloring.jpg",
     "Haircut": "../../../../../../assets/images/haircut.jpg",
@@ -33,6 +37,16 @@ export class AddServiceToCardComponent implements OnInit {
     "Hair Wash": "../../../../../../assets/images/hairwash.jpg",
     "Massage": "../../../../../../assets/images/massage.jpg"
 };
+
+// Define mapping for image descriptions
+public imageDescriptions: discriptionMap = {
+  "Hair Coloring": "Experience vibrant hair coloring services by our professionals.",
+  "Haircut": "Transform your look with our expert haircutting services.",
+  "Facial Cleansing": "Indulge in refreshing facial cleansing treatments for healthy skin.",
+  "Hair Wash": "Revitalize your hair with our relaxing hair wash services.",
+  "Massage": "Relax and unwind with our rejuvenating massage therapies."
+};
+
   // Define the services array using the Service interface
   services: Service[] = [];
 

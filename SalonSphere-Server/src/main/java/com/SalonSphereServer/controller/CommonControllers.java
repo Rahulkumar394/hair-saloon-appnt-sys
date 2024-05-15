@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -144,16 +145,6 @@ public class CommonControllers {
 		return ResponseEntity.status(HttpStatus.OK).body(new Response("Image Uploaded Successfully"));
 	}
 
-	public ResponseEntity<Response> bookSlot(@RequestBody SlotBookingRequest slotBookingRequest) {
-
-		System.out.println("++++++++++++++++++++++++++++++++++++hello aman" + slotBookingRequest);
-		String bookingId = slotBookingService.bookSlot(slotBookingRequest);
-
-		if (bookingId != null)
-			return new ResponseEntity<>(new Response(bookingId), HttpStatus.OK);
-
-		return new ResponseEntity<>(new Response("not fount"), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/create-order/{value}")
@@ -204,4 +195,5 @@ public class CommonControllers {
 			return new ResponseEntity<>(new Response("User Deleted Successfully"), HttpStatus.OK);
 		return new ResponseEntity<>(new Response("Unable to delete User"), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
 }

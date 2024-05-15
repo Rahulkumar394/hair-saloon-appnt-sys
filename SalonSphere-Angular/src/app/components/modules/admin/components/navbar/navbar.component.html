@@ -1,44 +1,95 @@
-<div class="main-container">
-<div class="navcontainer">
-  <nav class="nav">
-    <div class="nav-upper-options">
-      <div (click)="navigateHome()" class="nav-option option1 active">
-        <mat-icon>dashboard</mat-icon>
-        <h3>Home</h3>
-      </div>
+<header> 
+  <div class="logosec"> 
+    <div class="logo">SalonSphere</div>
+        <i (click)="toggle()" class="fa-solid fa-bars"></i>
+    </div> 
 
-      <!-- Manage Shop Button in the Menu bar -->
-      <div class="nav-option option2" (click)="expansion()">
-        <mat-icon>manage_accounts</mat-icon>
-        <h3>Manage Users</h3>
-      </div>
+  <div class="searchbar"> 
+      <input type="text" 
+             placeholder="Search"> 
+      <div class="searchbtn"> 
+        <img src= 
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
+              class="icn srchicn" 
+              alt="search-icon"> 
+        </div> 
+  </div> 
 
-      <div class="expansion" *ngIf="flag == true">
-        <div routerLink="/admin/viewCustomers" class="nav-option">
-          <mat-icon>visibility</mat-icon>
-          <h3>Customer</h3>
-        </div>
+  <div class="message"> 
 
-        <div routerLink="/admin/viewShopkeepers" class="nav-option">
-          <mat-icon>visibility</mat-icon>
-          <h3>Shopkeeper</h3>
-        </div>
-      </div>
+      <img src= 
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" 
+           class="icn" 
+           alt=""> 
+      <div class="dp"> 
+        <img src= 
+"https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png"
+              class="dpicn" 
+              alt="dp"> 
+        </div> 
+  </div> 
+</header> 
 
-      <div (click)="navigateViewRequests()" class="nav-option option4">
-        <mat-icon>admin_panel_settings</mat-icon>
-        <h3>View Requests</h3>
-      </div>
+<div class="main-div">
+  <div class="sidebar">
 
-      <div (click)="navigateLogout()" class="nav-option option7 logout">
-        <img
-          src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183321/7.png"
-          class="nav-img"
-          alt="logout"
-        />
-        <h3>Logout</h3>
-      </div>
-    </div>
-  </nav>
-</div>
-</div>
+
+    
+    
+    <ul class="nav-links">
+      <li>
+        <a (click)="navigateHome()" class="active common home">
+            <i class="fas fa-home"></i>
+          <span class="link_name">Home</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Home</a></li>
+        </ul>
+      </li>
+      <li>
+        <a (click)="navigateManageShopkeeper()" class = "common manage-shopkeeper">
+          <i class="fas fa-users"></i>
+          <span class="link_name">Manage Shopkeeper</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Manage ShopKeeper</a></li>
+        </ul>
+      </li>
+      <li>
+        <a (click)="navigateManageCustomer()" class="common manage-customer">
+          <i class="fas fa-upload"></i>
+          <span class="link_name">Manage Customer</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Manage Customer</a></li>
+        </ul>
+      </li>
+      <li>
+        <a (click)="navigateViewRequests()" class="common view-request">
+          <i class="fas fa-eye"></i>
+          <span class="link_name">View Requests</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">View Requests</a></li>
+        </ul>
+      </li>
+      <li>
+        <a (click)="navigateAnalytics()" class="common analytics">
+          <i class="fas fa-chart-line"></i>
+          <span class="link_name">Analytics</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Analytics</a></li>
+        </ul>
+      </li>
+      <li>
+        <a  (click)="navigateLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span class="link_name">Logout</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>

@@ -11,6 +11,7 @@
         <p class="status div"> <span>Status:</span><strong [ngStyle]="getStatusStyles(booking.status)">{{ booking.status }}</strong></p>
 
         <button *ngIf="booking.status === 'COMPLETED'" (click)="navigateFeedback(booking)" class="feedback-btn"> Give Feedback</button>
+        <button *ngIf="booking.status == 'NOT COMPLETED'" (click)="cancleBooking(booking)" class="cancel-btn">Cancel Booking</button>
     </div>
 </div>
 

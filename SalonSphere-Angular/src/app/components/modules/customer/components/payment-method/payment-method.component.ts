@@ -17,16 +17,13 @@ declare var Razorpay: any; // Declare Razorpay as a global variable
   styleUrl: './payment-method.component.css',
 })
 export class PaymentMethodComponent implements OnInit {
-  
   serviceCharge: number = 0;
   date: string = '';
   slotTiming: string = '';
-  bookingId: string|null = '';
-  serviceTime:string ='';
-  serviceName:string = '';
-  empId:string ='';
-
-
+  bookingId: string | null = '';
+  serviceTime: string = '';
+  serviceName: string = '';
+  empId: string = '';
 
   constructor(
     private order: CreateOrderService,
@@ -37,26 +34,42 @@ export class PaymentMethodComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-    if(localStorage.getItem('empId')==null){
+    if (localStorage.getItem('empId') == null) {
       this.router.navigate(['/customer/view-shops']);
     }
 
-    this.route.paramMap.subscribe(params => {
-      if (window.history.state.serviceTime && window.history.state.serviceName && window.history.state.serviceCharge && window.history.state.empId && window.history.state.date) {
+    this.route.paramMap.subscribe((params) => {
+      if (
+        window.history.state.serviceTime &&
+        window.history.state.serviceName &&
+        window.history.state.serviceCharge &&
+        window.history.state.empId &&
+        window.history.state.date
+      ) {
         this.serviceTime = window.history.state.serviceTime;
         this.serviceName = window.history.state.serviceName;
         this.serviceCharge = window.history.state.serviceCharge;
         this.date = window.history.state.date;
-        this.empId=window.history.state.empId;
-        this.slotTiming= window.history.state.slotTime;
+        this.empId = window.history.state.empId;
+        this.slotTiming = window.history.state.slotTime;
 
-        console.log("Your data is " + this.serviceTime + ", " + this.serviceCharge + ", " + this.serviceName +", "+ this.empId+", "+this.slotTiming+", "+this.date);
+        console.log(
+          'Your data is ' +
+            this.serviceTime +
+            ', ' +
+            this.serviceCharge +
+            ', ' +
+            this.serviceName +
+            ', ' +
+            this.empId +
+            ', ' +
+            this.slotTiming +
+            ', ' +
+            this.date
+        );
       }
     });
   }
-
-
 
   pay() {
     console.log(this.serviceCharge);
@@ -92,25 +105,47 @@ export class PaymentMethodComponent implements OnInit {
 
             // if the payment is successfully done then
             const slotInfo = {
-             // Correct declaration with object literal {}
+              // Correct declaration with object literal {}
               slotTime: this.slotTiming,
               empId: this.empId, // Use : for assignment
               serviceName: this.serviceName, // Get value from localStorage
               serviceTime: this.serviceTime, // Get value from localStorage
               date: this.date,
             };
-        
+
             //call the service method to book the slot
             this.slotBooking.bookSlot(slotInfo).subscribe(
-              (response: any) => {
-                console.log(response);
-                this.bookingId = response.status;
+              (info: any) => {
+                console.log('this response come');
+                console.log(info);
+                this.bookingId = info.status;
                 Swal.fire({
                   icon: 'success',
                   title: 'Slot Booked',
                   text: 'Your slot has been booked.',
                 });
-                this.saveTransactionDetails(data.id, data.amount,response.razorpay_payment_id, response.razorpay_signature );
+                console.log(
+                  data.id +
+                    ' ' +
+                    data.amount +
+                    ' ' +
+                    response.razorpay_order_id +
+                    ' ' +
+                    response.razorpay_payment_id +
+                    ' ' +
+                    response.razorpay_signature
+                );
+                this.saveTransactionDetails(
+                  data.id,
+                  data.amount,
+                  response.razorpay_payment_id,
+                  response.razorpay_signature
+                );
+                //then navigate to booking detials
+                setTimeout(() => {
+                  this.router.navigate(['/customer/booking-details']);
+                }, 4000);
+                
               },
               (error) => {
                 alert('error occurred');
@@ -136,10 +171,14 @@ export class PaymentMethodComponent implements OnInit {
     );
   }
 
-  saveTransactionDetails(id:string, amount:string, paymentId:string, signature: string){
-
+  saveTransactionDetails(
+    id: string,
+    amount: string,
+    paymentId: string,
+    signature: string
+  ) {
     //create object to save the transactional detail from the database
-    console.log("booking id is"+this.bookingId);
+    console.log('booking id is' + this.bookingId);
     const obj = {
       orderId: id,
       amount: amount,
@@ -147,16 +186,12 @@ export class PaymentMethodComponent implements OnInit {
       paymentSignature: signature,
       userId: Cookie.get('userId'),
       bookingId: this.bookingId,
-    }
+    };
 
-    console.log("object details ------- "+obj);
+    console.log('object details ------- ' + obj);
     //call the service method which will save the transactional details of the customer
-    this.saveTransaction.saveTransaction(obj).subscribe((data:any)=>{
-        console.log(data);
-    })
-
-    //then navigate to booking detials
-    this.router.navigate(['/customer/booking-details']);
+    this.saveTransaction.saveTransaction(obj).subscribe((data: any) => {
+      console.log(data);
+    });
   }
-
 }

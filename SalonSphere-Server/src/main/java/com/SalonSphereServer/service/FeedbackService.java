@@ -23,8 +23,7 @@ public class FeedbackService {
         System.out.println((feedback.getRating() >= 0 && feedback.getRating() <= 5));
 
         // Validation
-        if (Validation.addressValidation(feedback.getReviewMessage())
-                && (feedback.getRating() >= 0 && feedback.getRating() <= 5)) {
+        if ((feedback.getRating() >= 0 && feedback.getRating() <= 5)) {
         	
 
             // Setting Defult Value

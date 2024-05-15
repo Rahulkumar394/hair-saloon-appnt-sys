@@ -3,9 +3,11 @@ package com.SalonSphereServer.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SalonSphereServer.entity.Transactions;
 
@@ -23,7 +25,8 @@ public interface TransactionRepository extends JpaRepository<Transactions, Strin
 	 		+ "    t.order_id AS orderId,\r\n"
 	 		+ "    se.employee_id AS empId,\r\n"
 	 		+ "    se.employee_name AS empName,\r\n"
-	 		+ "    si.shop_id AS shopId\r\n"
+	 		+ "    si.shop_id AS shopId,\r\n"
+	 		+ "    t.booking_id As bookingId\r\n"
 	 		+ "FROM\r\n"
 	 		+ "    salonsphere.shop_employees se\r\n"
 	 		+ "JOIN\r\n"
@@ -35,6 +38,7 @@ public interface TransactionRepository extends JpaRepository<Transactions, Strin
 	 		+ "WHERE\r\n"
 	 		+ "    t.user_id = :userId", nativeQuery = true)
 	    List<Object[]> findBookingDetailsByUserId(@Param("userId") String userId);
+	    
 
 
 	

@@ -40,16 +40,13 @@
   </form>
 
   <div class="profile" mat-button [matMenuTriggerFor]="menu">
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon *ngIf="isLogin" >account_circle</mat-icon>
     <mat-menu #menu="matMenu">
-      <button mat-flat-button style="width: 100%;" routerLink="/customer/dashboard/profile">My Account</button>
+      <button mat-flat-button style="width: 100%;" routerLink="/customer/dashboard/profile" *ngIf="isLogin">My Account</button>
       <div class="message" *ngIf="isLogin">
         <button mat-flat-button (click)="navigateLogout()">Logout</button>
       </div>
-      <div class="message" *ngIf="!isLogin">
-        <button mat-flat-button routerLink="/login">Login</button>
-      </div>
     </mat-menu>
-
   </div>
+  <button *ngIf="!isLogin" class="login" routerLink="/login">Login</button>
 </header>

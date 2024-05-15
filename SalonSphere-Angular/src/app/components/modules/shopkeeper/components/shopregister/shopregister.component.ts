@@ -12,11 +12,21 @@ import { PincodeService } from '../../../../services/common/pincode.service';
 import { ImageService } from '../../../../services/common/image.service';
 import { Cookie } from 'ng2-cookies';
 import { CookieOptions, response } from 'express';
+import { MapService } from '../../../../services/common/map.service';
 
 interface Location {
   city: string;
   district: string;
   state: string;
+}
+
+interface ApiInfo {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+  project_code: string;
+  client_id: string;
 }
 
 @Component({
@@ -31,7 +41,8 @@ export class ShopregisterComponent {
     private shopregisterService: ShopregisterService,
     private postalCodeService: PincodeService,
     private fb: FormBuilder,
-    private upload: ImageService
+    private upload: ImageService,
+    private mapService: MapService
   ) {}
 
   coverImage: any;
@@ -43,6 +54,19 @@ export class ShopregisterComponent {
 
   licenceFile: any;
   licenceName: string='';
+  addresses:any;
+
+
+  //create object for Autosuggestion API
+  apiInfo: ApiInfo = {
+    access_token:'',
+    token_type :'',
+    expires_in :0,
+    scope: '',    
+    project_code: '' ,
+    client_id:''
+  };
+  
 
 
   register = new FormGroup({
@@ -65,7 +89,18 @@ export class ShopregisterComponent {
     // country: new FormControl('',Validators.required),
   });
 
+
+  
+  
+
   ngOnInit(): void {
+
+    //generate the api key
+    this.mapService.generateToken().subscribe((data:any)=>{
+      this.apiInfo = data;
+      console.log(this.apiInfo);
+    })
+
     this.register = this.formBuilder.group({
       userId: [Cookie.get('userId')],
       shopName: [''],
@@ -351,5 +386,21 @@ export class ShopregisterComponent {
     //   return;
     // }
     // const pincode = this.register.get('pincode')?.value;
+  }
+
+  // addressAutosuggestion(event:any){
+  //     console.log(event.target.value);
+  // }
+  onAddressType(){
+    if(this.register.value.address?.length==0){
+      this.addresses = null;
+    }
+    console.log(this.register.value.address);
+    this.mapService.getAddress(this.register.value.address, this.apiInfo).subscribe((res:any)=>{
+      console.log(res);
+      this.addresses=res;
+    },error=>{
+      console.log("error aai hai");
+    })
   }
 }

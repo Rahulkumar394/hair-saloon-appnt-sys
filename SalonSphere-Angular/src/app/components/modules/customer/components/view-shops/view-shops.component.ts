@@ -56,11 +56,12 @@ export class ViewShopsComponent implements OnInit {
     
   }
 
-  getShopId(shopId:any,shopName:any,shopTiming:any,shopEmail:any){
+  getShopDetails(shopId:any,shopName:any,shopTiming:any,shopEmail:any,location:any){
     localStorage.setItem('shopId',shopId);
     localStorage.setItem('shopName',shopName);
     localStorage.setItem('shopTiming',shopTiming);
     localStorage.setItem('shopEmail',shopEmail);
+    this.router.navigate(['/customer/shop-info'])
 
   }
 

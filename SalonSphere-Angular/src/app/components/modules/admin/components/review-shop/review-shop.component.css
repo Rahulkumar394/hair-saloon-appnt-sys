@@ -1,8 +1,7 @@
 .right {
-  width: 75%;
-  height: 100%;
   position: absolute;
   right: 0;
+  left: 280px;
 }
 
 h1 {

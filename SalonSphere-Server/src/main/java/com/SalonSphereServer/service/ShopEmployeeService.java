@@ -26,6 +26,7 @@ public class ShopEmployeeService {
     public boolean addEmp(ShopEmployees emp) {
         boolean exists = shopkeeperRepository.existsById(emp.getShopId());
         // Validation Employe
+        System.out.println(exists + " ////////////////////////"+Validation.firstNameValidation(emp.getEmployeeName()));
         if (exists && Validation.firstNameValidation(emp.getEmployeeName())) {
 
             // Setting random UUid to employee
@@ -44,6 +45,7 @@ public class ShopEmployeeService {
 
             // setting updated service list that contains employeeId
             emp.setServices(empList);
+            System.out.println("edhar aaya hai kay ..............................");
             ShopEmployees isAdd = shopEmployeeRepository.save(emp);
             if (isAdd != null)
                 return true;

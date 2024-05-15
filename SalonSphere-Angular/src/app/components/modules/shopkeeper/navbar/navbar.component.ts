@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { LogoutService } from '../../../services/logout/logout.service';
 import { Cookie } from 'ng2-cookies';
+import { ToggleService } from '../../../services/toggle.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,71 +14,56 @@ export class NavbarComponent {
   shopkeeperName: any = Cookie.get('name').split(' ')[0];
   flag = false;
 
-  constructor(private router: Router, private logoutService: LogoutService) {}
+  constructor(private router: Router, private logoutService: LogoutService, private toggleService:ToggleService) {}
 
   public navigateAddShop() {
-   
+    //add the active class
+    this.addActiveClass('add-shop');
 
     this.router.navigate(['/shopkeeper/add-shop']);
   }
 
-  expansion() {
-     //remove the active class
-     const hover: NodeListOf<Element> = document.querySelectorAll('.nav-option');
-     hover.forEach((element) => {
-       element.classList.remove('active');
-     });
- 
-     //add the active class to current clicked button
-     const home = document.querySelector('.option2');
-     home?.classList.add('active');
-    if (this.flag == false) {
-      this.flag = true;
-      return;
-    } else {
-      this.flag = false;
-      return;
-    }
+  navigateAnalytics() {
+    //add the active class
+    this.addActiveClass("analytics");
+
+  }
+
+  navigateManageBookings() {
+    //add the active class
+    this.addActiveClass('manage-booking');
+
+
   }
 
   public navigateViewShop() {
-    //remove the active class
-    const hover: NodeListOf<Element> = document.querySelectorAll('.nav-option');
-    hover.forEach((element) => {
-      element.classList.remove('active');
-    });
 
-    //add the active class to current clicked button
-    const home = document.querySelector('.option3');
-    home?.classList.add('active');
-
+    //add the active class
+    this.addActiveClass('view-shop');
+    
     this.router.navigate(['/shopkeeper/view-shop']);
   }
 
   public navigateHome() {
-    //remove the active class
-    const hover: NodeListOf<Element> = document.querySelectorAll('.nav-option');
-    hover.forEach((element) => {
-      element.classList.remove('active');
-    });
-
-    //add the active class to current clicked button
-    const home = document.querySelector('.option1');
-    home?.classList.add('active');
-
+    //add the active class
+    this.addActiveClass('home');
     this.router.navigate(['/shopkeeper/home']);
   }
 
-  public navigateLogout() {
-    //remove the active class
-    const hover: NodeListOf<Element> = document.querySelectorAll('.nav-option');
+  //method which add the active class of the current link
+  public addActiveClass(classsName:any) {
+       //remove the active class
+    const hover: NodeListOf<Element> = document.querySelectorAll('.common');
     hover.forEach((element) => {
       element.classList.remove('active');
     });
 
     //add the active class to current clicked button
-    const home = document.querySelector('.option7');
-    home?.classList.add('active');
+    const active = document.querySelector('.'+classsName);
+    active?.classList.add('active');
+  }
+
+  public navigateLogout() {
 
     Swal.fire({
       title: 'Are you sure?',
@@ -98,5 +84,21 @@ export class NavbarComponent {
         return;
       }
     });
+  }
+
+  toggle() {
+    let sidebar = document.querySelector('.sidebar') as HTMLElement;
+
+    if (sidebar.classList.contains('close')) {
+      sidebar.style.width = '290px';
+      this.toggleService.setLeftMargin('290px');
+      this.toggleService.setWidth('86%');
+      sidebar.classList.remove('close');
+    } else {
+      sidebar.style.width = '100px';
+      this.toggleService.setLeftMargin('100px');
+      this.toggleService.setWidth('94%');
+      sidebar.classList.add('close');
+    }
   }
 }

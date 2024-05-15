@@ -14,6 +14,7 @@ import { ViewShopkeepersComponent } from './components/view-shopkeepers/view-sho
 const routes: Routes = [
   {
     path: '',
+    canActivate: [adminGuardGuard],
     component: AdminDashboardComponent,
     children: [{path: 'home', component: HomeComponent},
       { path: 'view-request', component: ViewRequestComponent},

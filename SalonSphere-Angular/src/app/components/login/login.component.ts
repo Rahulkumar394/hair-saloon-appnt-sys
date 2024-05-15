@@ -71,8 +71,8 @@ export class LoginComponent {
       (error) => {
         console.log('Error');
         Swal.fire({
-          title: 'Server Error!',
-          text: 'Some thing wrong in the server',
+          title: 'Error!',
+          text: 'Your email or  password are incorrect',
           icon: 'error',
         });
       }

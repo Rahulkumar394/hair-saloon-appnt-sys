@@ -21,6 +21,7 @@ import { UpdateShopkeeperProfileComponent } from './components/update-shopkeeper
 const routes: Routes = [
   {
     path: '',
+    canActivate: [shopGuardGuard],
     component: ShopkeeperDashboardComponent,
     children: [
       { path: 'view-shop', component: ViewshopsComponent },

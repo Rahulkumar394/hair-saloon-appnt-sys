@@ -231,16 +231,16 @@
   </div>
 
   <div class="main">
-    <div class="cards" routerLink="/customer/shop-info">
+    <div class="cards">
       <ng-container *ngIf="shops && shops.length">
         <div class="card" *ngFor="let shop of shops">
-          <div class="viewShop" (click)="getShopId(shop.shopId,shop.shopName,shop.shopTiming,shop.shopEmail)">
+          <div class="viewShop">
           <h2>{{ shop.shopName }}</h2>
 
           <div class="content">
             <div class="left">
               <div class="pera">
-                <p class="location">Address : {{ shop.location }}</p>
+                <p class="location"><img id="location-icon" src="https://static.vecteezy.com/system/resources/previews/000/583/611/original/location-icon-vector.jpg" alt=""> {{ shop.location }}</p>
                 <p *ngIf="shop.servicePrice" class="price">
                   Price : <strong>{{ shop.servicePrice | currency: 'INR' }} </strong> 
                 </p>
@@ -257,10 +257,8 @@
                 </div>
               </div>
               <button
-                routerLink="/customer/add-service-to-card"
                 (click)="navigate(shop)"
                 class="book-btn"
-                (click)="getShopId(shop.shopId,shop.shopName,shop.shopTiming,shop.shopEmail)"
               >
                 Book Now
               </button>
@@ -270,11 +268,12 @@
               <div class="img-div">
                 <img 
                   id="img"
-                  [src]="'../../../../../../assets/userUploadedImages/' + shop.coverImage"
+                  [src]="'../../../../../../assets/userUploadedImages/' +shop.coverImage"
                   alt="img"
                 />   
               </div>
-              <strong class="rating">Rating: <span>{{shop.rating | number: '1.1-1'}}</span></strong>
+              <strong class="rating">Rating: <span>{{shop.rating| number: '1.1-1'}}/5.0</span></strong>
+              <button class="btn" (click)="getShopDetails(shop.shopId,shop.shopName,shop.shopTiming,shop.shopEmail,shop.location)">View Review</button>
             </div>
           </div>
         </div>

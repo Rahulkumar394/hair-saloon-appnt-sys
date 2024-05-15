@@ -163,7 +163,7 @@ public class ShopkeeperService {
 	}
 
 	// Through this method we get shop infromation details by shopEmail.
-	public ShopInformation getShopDetailsByShopEmail2(@NonNull String shopEmail) {
+	public ShopInformation getShopDetailsByShopEmail2(String shopEmail) {
 		ShopInformation shopInformation = shopkeeperRepository.findByShopEmail(shopEmail);
 		return shopInformation;
 	}

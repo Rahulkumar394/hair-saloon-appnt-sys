@@ -1,0 +1,12 @@
+{
+    "/api/security/oauth/token":{
+        "target": "https://outpost.mapmyindia.com",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/api/places/geocode":{
+        "target": "https://atlas.mapmyindia.com",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

@@ -26,7 +26,9 @@ public interface ShopkeeperRepository extends JpaRepository<ShopInformation, Str
 	@Query("UPDATE ShopInformation s SET s.isDelete = :isDelete WHERE s.shopId = :shopId")
 	void updateIsDeleteById(@Param("shopId") String shopId, @Param("isDelete") boolean isDelete);
 
-	// Through this method we get shop Infromation by shop email
+	// Through this method we get shop Infromation by shop id
+	public ShopInformation findByShopId(String shopId);
+	
 	public ShopInformation findByShopEmail(String shopEmail);
 
 	// Through this method we find all pending shops i.e., those who have not been

@@ -5,6 +5,9 @@ import { GetServiceInfoService } from '../../../../services/fetchShopServices/ge
 import { DeleteServiceService } from '../../../../services/deleteService/delete-service.service';
 import { FetchReviewsService } from '../../../../services/viewReviews/fetch-reviews.service';
 import { LikeService } from '../../../../services/like/like.service';
+import { Router } from '@angular/router';
+import { ShopInfoService } from '../../../../services/customer/shop-info.service';
+import { ShopServiceInfoService } from '../../../../services/customer/shop-service-info.service';
 
 @Component({
   selector: 'app-shop-info',
@@ -13,11 +16,12 @@ import { LikeService } from '../../../../services/like/like.service';
 })
 export class ShopInfoComponent implements OnInit {
   constructor(
-    private fetchshopInfo: FetchshopInfoService,
-    private getShopServices: GetServiceInfoService,
+    private fetchshopInfo: ShopInfoService,
+    private getShopServices: ShopServiceInfoService,
     private removeService: DeleteServiceService,
     private reviewService: FetchReviewsService,
-    private likeService:LikeService
+    private likeService:LikeService,
+    private router:Router
   ) {}
 
   data: any[] = [];
@@ -27,14 +31,13 @@ export class ShopInfoComponent implements OnInit {
   amount: any;
   ngOnInit(): void {
     this.fetchshopInfo
-      .fetchshopInfo(localStorage.getItem('shopEmail'))
+      .fetchshopInfo(localStorage.getItem('shopId'))
       .subscribe((data: any) => {
         this.shopData = data;
         console.log(this.shopData.coverImage);
       });
 
-    this.getShopServices
-      .fetchAllServices(localStorage.getItem('shopId'))
+    this.getShopServices.getShopServiceInfo(localStorage.getItem('shopId'))
       .subscribe((data: any) => {
         this.data = data;
         this.amount = data.servicePrice;
@@ -98,6 +101,15 @@ export class ShopInfoComponent implements OnInit {
   saveId(serviceId: any) {
     console.log(serviceId);
     localStorage.setItem('serviceId', serviceId);
+  }
+
+  navigate(s:any){
+
+    localStorage.setItem('shopId',s.shopId );
+    localStorage.setItem('shopTiming', s.shopTiming);
+    localStorage.setItem('shopName', s.shopName);
+
+    this.router.navigate(['/customer/add-service-to-card']);
   }
 
   

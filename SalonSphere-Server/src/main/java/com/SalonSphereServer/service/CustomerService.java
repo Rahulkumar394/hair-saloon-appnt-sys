@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SalonSphereServer.dto.CustomerDTO;
 import com.SalonSphereServer.dto.ShowShopDto;
@@ -346,6 +347,7 @@ public class CustomerService {
 			bookingDetailsResponse.setEmpId((String)result[8]);
 			bookingDetailsResponse.setEmpName((String)result[9]);
 			bookingDetailsResponse.setShopId((String)result[10]);
+			bookingDetailsResponse.setBookingId((String)result[11]);
 
 			bookingDetails.add(bookingDetailsResponse);
 
@@ -353,6 +355,20 @@ public class CustomerService {
 
 		return bookingDetails;
 
+	}
+	
+	//this service will cancel the booking by bookingId
+	@Transactional
+	public boolean cencelBooking(String bookingId) {
+		
+		//change the status from the slot the table 
+		int isChanged =  slotRepository.updateStatusByBookingId("Cancelled", bookingId);
+		return isChanged > 0;		
+	}
+	
+	public ShopInformation getShopInfo(String shopId) {
+		
+		return shopKeeperRepository.findByShopId(shopId);
 	}
 
 }

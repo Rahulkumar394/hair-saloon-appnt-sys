@@ -1,11 +1,36 @@
 
 
-  <div class="pay">
-    <button id= serviceName><span>Service Name - &nbsp; &nbsp;</span>{{serviceName}}</button>
-    <button id =time><span>Slot Timing - &nbsp; &nbsp;</span>{{slotTiming}}</button>
-    <button id =date><span>Booking Date -  &nbsp; &nbsp;</span>{{date | date:'dd-MM-yyyy'}}</button>
-    <button id =amount><span>Total Amount - &nbsp; &nbsp;</span>{{serviceCharge | currency : "INR"}}</button>
 
-    <button id="payment" (click)="pay()">Pay</button>
-
+  <div class="main-div">
+  <div class="main">
+    <div class="common coupons">
+      <label class="title">Apply coupons</label>
+      <form class="form">
+          <input type="text" placeholder="Apply your coupons here" class="input_field">
+          <button>Apply</button>
+      </form>
+    </div>
+    
+    <div class="common checkout">
+      <label class="title">Checkout</label>
+      <div class="details">
+        <span>Service Name</span>
+        <span>{{serviceName}}</span>
+        <span>Slot Time</span>
+        <span>{{slotTiming}} PM</span>
+        <span>Booking Date</span>
+        <span>{{date | date:'dd-MM-yyyy'}}</span>
+        <span>Service Duration</span>
+        <span>40 Minute</span>
+        <span>Discount through applied coupons:</span>
+        <span>{{0 | currency:'INR'}} </span>
+        <span>Total Amount:</span>
+        <span>{{serviceCharge | currency : "INR"}}</span>
+      </div>
+      <div class="checkout--footer">
+        <label class="price">{{serviceCharge | currency : "INR"}}</label>
+        <button class="checkout-btn" (click)="pay()">Pay</button>
+      </div>
+    </div>
+    </div>
   </div>

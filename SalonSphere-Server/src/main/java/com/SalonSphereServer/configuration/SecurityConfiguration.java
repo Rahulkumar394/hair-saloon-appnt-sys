@@ -40,7 +40,7 @@ public class SecurityConfiguration {
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(requests -> requests.requestMatchers("/login").permitAll()
 						.requestMatchers("/register").permitAll()
-						.requestMatchers("/customer/**").permitAll()
+						.requestMatchers("/customer/filter-by-city/**").permitAll().requestMatchers("/customer/filter-shop").permitAll().requestMatchers("/customer/get-all-feedback/**").permitAll().requestMatchers("/customer/view-services/**").permitAll().requestMatchers("/customer/get-shop-by-shopId/**").permitAll()	
 						.anyRequest().authenticated())
 				.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

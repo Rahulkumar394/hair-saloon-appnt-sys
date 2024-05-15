@@ -129,7 +129,7 @@ public class ShopkeeperController {
 	}
 
 	// Taking Image as multipart input and uploading in the below destination
-	public static String uploadDirectory = "E:\\SalonSphere Project\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\images";
+	public static String uploadDirectory = "E:\\SalonSphere Project\\hair-saloon-appnt-sys\\SalonSphere-Angular\\src\\assets\\userUploadedImagess";
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping(value = "/uploadDocument", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -212,6 +212,7 @@ public class ShopkeeperController {
 
 	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/showservices/{shopId}")
+	@Secured("shopkeeper")
 	public ResponseEntity<List<ShopServiceDTO>> showServices(@PathVariable String shopId) {
 		System.out.println(
 				"===========================inside shop keeper controllere show services ====================="+shopId);
@@ -225,14 +226,15 @@ public class ShopkeeperController {
 	// Through this api we will get shops information through shopEmail
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/getshopbyemail")
-	public ResponseEntity<ShopInformation> getShopByEmail(@RequestBody String shopEmail) {
-		System.out.println("=======GetShopinformation by email=============>" + shopEmail);
+	public ResponseEntity<ShopInformation> getShopByEmail(@RequestBody String shopId) {
+		System.out.println("=======GetShopinformation by email=============>" + shopId);
 		@SuppressWarnings("null")
-		ShopInformation sDto = shopkeeperService.getShopDetailsByShopEmail2(shopEmail);
-		if (sDto != null) {
-			return new ResponseEntity<>(sDto, HttpStatus.OK);
+		ShopInformation shopDto = shopkeeperService.getShopDetailsByShopEmail2(shopId);
+		System.out.println("this is shp DTO ++++++++++++++++++++++++++++====="+shopDto);
+		if (shopDto != null) {
+			return new ResponseEntity<>(shopDto, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(sDto, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(shopDto, HttpStatus.NOT_FOUND);
 		}
 	}
 
@@ -267,7 +269,6 @@ public class ShopkeeperController {
 	// Adding new Emplyee in shop
 	@CrossOrigin(origins = "http://localhost:4200")
 	@PostMapping("/addemp")
-	@Secured("shopkeeper")
 	public ResponseEntity<Response> addEmp(@RequestBody ShopEmployees shopEmployees) {
 
 		// Call service method to add employee

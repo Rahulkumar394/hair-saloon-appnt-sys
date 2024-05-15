@@ -3,9 +3,11 @@ package com.SalonSphereServer.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.SalonSphereServer.entity.Slots;
 
@@ -26,4 +28,14 @@ public interface SlotRepository extends JpaRepository<Slots, String> {
 			"WHERE e.shopId = :shopId " +
 			"ORDER BY s.slotTime ASC")
 	List<Object[]> findAllBookedSlotsByShopIdSortedByTimeAsc(@Param("shopId") String shopId);
+	
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE Slots s SET s.status = ?1 WHERE s.booking_id = ?2", nativeQuery = true)
+	int updateStatusByBookingId(String status, String bookingId);
+
+	//this method find all the record 
+	public List<Slots> findAllByStatus(String status);
+	
 }
+

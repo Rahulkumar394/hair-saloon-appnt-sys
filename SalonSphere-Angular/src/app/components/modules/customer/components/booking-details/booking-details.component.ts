@@ -4,6 +4,7 @@ import { Cookie } from 'ng2-cookies';
 import { error } from 'console';
 import Swal from 'sweetalert2';
 import { AddFeedbackService } from '../../../../services/feedback/add-feedback.service';
+import { CancelBookingService } from '../../../../services/cancel-booking/cancel-booking.service';
 
 interface booking {
   shopName: string;
@@ -27,7 +28,7 @@ interface booking {
 export class BookingDetailsComponent implements OnInit {
   public bookings: booking[] = [];
 
-  constructor(private bookingDetails: GetBookingDetailsService, private feedback:AddFeedbackService) {}
+  constructor(private bookingDetails: GetBookingDetailsService, private feedback:AddFeedbackService, private cancelBooking:CancelBookingService) {}
 
   //create object for sending the review and reting information to the service
    obj:any = {
@@ -41,9 +42,14 @@ export class BookingDetailsComponent implements OnInit {
  };
 
   ngOnInit(): void {
+
     localStorage.clear();
+    this.getBookingDetails();
+  }
+
+  //method which get all the booking details
+  public getBookingDetails(){
     const userId = Cookie.get('userId');
-    console.log(userId);
     this.bookingDetails.getBookingDetails(userId).subscribe(
       (data: any) => {
         console.log(data);
@@ -160,10 +166,55 @@ export class BookingDetailsComponent implements OnInit {
     }
   }
 
-  closeContainer(){
+  closeContainer() {
     let container = document.querySelector('.container');
       if (container) {
         container.classList.add('disable');
       }
   }
+
+  cancleBooking(booking:any) {
+    console.log(booking);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you Want to Cancel This Booking!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Cancel !"
+    }).then((result) => {
+
+      //if confirmation is done then call the logout service
+      if (result.isConfirmed) {
+        //call the service method to cancel the booking
+        this.cancelBooking.cancelBooking(booking.bookingId).subscribe((response:any)=>{
+            console.log(response);
+            if(response.status=='success'){
+              Swal.fire({
+                icon: 'success',
+                text: 'Your Booking has been Canceled Successfully!',
+                title: 'Canceled'
+              });
+            }
+            else{
+              Swal.fire({
+                icon: 'error',
+                text: 'Sorry your  request cannot be processed at the moment!',
+                title: 'Something is wrong'
+              });
+            }
+            this.getBookingDetails();
+        },
+        (error)=>{
+          console.log("error occured");
+        });
+      }
+
+      //else do nothing
+      else{
+        return ;
+      }
+  });
+}
 }

@@ -13,6 +13,7 @@ import { Cookie } from 'ng2-cookies';
   styleUrl: './header.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class HeaderComponent implements OnInit {
   constructor(
     private locationService: LocationService,
@@ -31,6 +32,7 @@ export class HeaderComponent implements OnInit {
   shops: any[] = [];
 
   ngOnInit(): void {
+    
     // Checking if any user is logged in or not ???
     if (!Cookie.get('role')) this.isLogin = false;
     else this.isLogin = true;
@@ -120,7 +122,18 @@ export class HeaderComponent implements OnInit {
       // Open modal using Swal for user to input their city
       Swal.fire({
         title: 'Enter your city',
-        input: 'text',
+        input: 'select',
+        inputOptions: {
+          // Add district suggestions
+          'Bangalore, India': 'Bangalore, India',
+            'Chennai, India': 'Chennai, India',
+            'Kolkata, India': 'Kolkata, India',
+            'Hyderabad, India': 'Hyderabad, India',
+            'Ahmedabad, India': 'Ahmedabad, India',
+            'Pune, India': 'Pune, India',
+            'Surat, India': 'Surat, India',
+            'Jaipur, India': 'Jaipur, India',
+        },
         inputPlaceholder: 'Enter your city',
         showCancelButton: true,
         confirmButtonText: 'Confirm',

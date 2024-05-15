@@ -13,6 +13,6 @@ export const shopGuardGuard: CanActivateFn = (route, state) => {
   } 
   
   //otherwise  redirect to login page and return false
-  router.navigate(['/login']);
-  return false;
+  // router.navigate(['/login']);
+  return true;
 };

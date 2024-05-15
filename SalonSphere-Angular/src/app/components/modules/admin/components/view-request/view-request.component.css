@@ -1,8 +1,7 @@
 .right {
-  width: 75%;
-  height: 100%;
   position: absolute;
   right: 20px;
+  left: 280px;
 }
 a {
   text-decoration: none;

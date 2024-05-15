@@ -11,6 +11,9 @@
             <p>{{ service.serviceDuration | duration }}</p>
           </div>
         </div>
+        <div class="discription">
+          <p>{{ imageDescriptions[service.serviceName] }}</p>
+        </div>
       </div>
       <div class="right">
         <div class="img">
@@ -23,15 +26,12 @@
 
   <div class="card">
     <span class="span">{{ shopName }}</span>
+    <p class="shop-address"><img id="location-icon" src="https://static.vecteezy.com/system/resources/previews/000/583/611/original/location-icon-vector.jpg" alt="">{{shopAddress}}</p>
     <div class="products" *ngIf="serviceCountMap.size">
       <div class="product" *ngFor="let entry of serviceCountMap.entries()">
         <div class="product-details">
           <h3>{{ entry[0].serviceName }}</h3>
           <div class="price">
-            <img
-              src="https://t3.ftcdn.net/jpg/03/32/58/10/360_F_332581030_Mfbe3YYwexIWUZQ3qNrSt0XFP35q6fxI.jpg"
-              alt=""
-            />
             <p>{{ entry[0].servicePrice | currency : "INR" }}</p>
 
             <!-- <p>{{ entry[0].price }}</p> -->
@@ -51,12 +51,12 @@
       <p>No item in your card</p>
     </div>
 
-    <div  *ngIf="serviceCountMap.size">
+    <div class="total-div"  *ngIf="serviceCountMap.size">
       <button (click)="viewSlots()" class="total" *ngIf="serviceCountMap.size">
         <div class="price">
-          <p style="color: black">{{ totalAmount | currency : "INR" }}</p>
+          <p style="color: white">{{ totalAmount | currency : "INR" }}</p>
         </div>
-        <p style="color: black">View Cart</p>
+        <p style="color: white">View Cart</p>
       </button>
     </div>
   </div>

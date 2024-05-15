@@ -25,4 +25,5 @@ public class BookingDetailsResponse {
     private String empId;
     private String shopId;
     private String empName;
+    private String bookingId;
 }

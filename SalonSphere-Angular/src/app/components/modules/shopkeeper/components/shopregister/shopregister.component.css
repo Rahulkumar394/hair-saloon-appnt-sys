@@ -1,9 +1,6 @@
 .main {
   display: flex;
   justify-content: center;
-  width: 75%;
-  position: absolute;
-  right: 0;
 }
 .custum-file-upload {
   height: 150px;
@@ -180,4 +177,22 @@
   .form :where(.gender-option, .gender) {
     row-gap: 15px;
   }
+}
+.location{
+  display: flex;
+  flex-direction: column;
+}
+.lat-long{
+  display: flex;
+  justify-content: space-between;
+}
+.btn2{
+    width: 65px;
+    height: 32px;
+    background: green;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
 }
